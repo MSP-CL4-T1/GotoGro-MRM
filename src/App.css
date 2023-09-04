@@ -1,58 +1,77 @@
-/* App.css */
-
-/* Reset some default styles */
-body, h1, p, button {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 .App {
+  font-family: 'Arial', sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #f4f6f8;
-  color: #333;
 }
 
 .App-header {
-  background-color: #20232a;
-  color: #61dafb;
-  padding: 20px 0;
-  text-align: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    background-color: #282c34;
+    min-height: 10vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    border-radius: 10px;
+    color: white;
+
 }
 
-main {
+.home-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 2rem;
+  background-color: #f4f4f4;
+}
+
+.description {
+  max-width: 800px;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
+.dashboard-button {
+  padding: 0.5rem 1rem;
   border: none;
-  background-color: #61dafb;
-  color: #20232a;
-  font-weight: 600;
-  border-radius: 5px;
+  background-color: #007BFF;
+  color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease-in-out;
 }
 
-button:hover {
-  background-color: #4fa8d4;
+.dashboard-button:hover {
+  background-color: #0056b3;
 }
 
 footer {
-  background-color: #20232a;
-  padding: 10px 0;
-  color: #61dafb;
+  background-color: #282c34;
+  color: white;
+  padding: 1rem 0;
   text-align: center;
 }
 
+/* Media queries for responsiveness */
+
+@media (max-width: 768px) {
+  .description {
+    padding: 0 1rem;
+  }
+}
+
+/* Optional: animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.App-header, .home-content, footer {
+  animation: fadeIn 1s;
+}
