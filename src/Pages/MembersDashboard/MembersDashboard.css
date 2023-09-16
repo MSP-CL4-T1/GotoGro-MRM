@@ -1,0 +1,36 @@
+.card {
+    width: 75%;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.search-input {
+    width: 60%;
+}
+
+.btn-container {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.link-btn {
+    text-decoration: none;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 10pt;
+    margin: 0 10px;
+}
+
+.link-btn:hover, .btn:hover {
+    background-color: var(--dark-secondary-color);
+}
+
+.btn {
+    background-color: var(--secondary-color);
+    margin: 0 10px;
+}
