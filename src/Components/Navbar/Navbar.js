@@ -6,8 +6,10 @@ function Navbar() {
     return (
         <nav className="navbar">
             <ul className="navbar-list">
-                <li className="navbar-item">
-                    <Link to="/" className="navbar-link">Home</Link>
+                <li className="navbar-item logo">
+                    <Link to="/" className="navbar-logo">
+                        <img src="logo.png" alt="GotoGro Logo" />
+                    </Link>
                 </li>
                 <li className="navbar-item">
                     <Link to="/signin" className="navbar-link">Sign In</Link>
