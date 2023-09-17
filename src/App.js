@@ -4,8 +4,8 @@ import Navbar from './Components/Navbar/Navbar';
 import SignIn from './Pages/SignIn/SignIn';
 import SignUp from './Pages/SignUp/SignUp';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import AddMember from './Pages/MembersDashboard/AddMember';
 import MembersDashboard from './Pages/MembersDashboard/MembersDashboard';
+import Member from './Pages/MembersDashboard/Member';
 
 function App() {
     return (
@@ -17,7 +17,7 @@ function App() {
                     <Route path="/signin" element={<SignIn />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/members-dashboard" element={<MembersDashboard />} />
-                    <Route path="/add-member" element={<AddMember />} />
+                    <Route path="/member" element={<Member />} />
                 </Routes>
                 <footer>
                     <p>© 2023 Goto Grocery Inc. All rights reserved.</p>
