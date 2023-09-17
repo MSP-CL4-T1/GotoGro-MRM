@@ -69,6 +69,19 @@ footer {
   padding: 1rem 0;
 }
 
+button {
+  background-color: var(--secondary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--dark-secondary-color);
+}
+
 /* Media queries for responsiveness */
 
 @media (max-width: 768px) {
