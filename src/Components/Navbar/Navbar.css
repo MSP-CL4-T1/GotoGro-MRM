@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #282c34;
+    background-color: var(--primary-color);
     padding: 0.5rem 2rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -26,8 +26,14 @@
 }
 
 .navbar-link:hover {
-    color: #007BFF;
+    color: var(--secondary-color);
     background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.logo img {
+    width: 100px; /* Adjust the width to make the logo smaller */
+    height: auto; /* This maintains the aspect ratio */
 }
 
 /* Media query for responsive design */

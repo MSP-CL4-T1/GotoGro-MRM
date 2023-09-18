@@ -1,3 +1,5 @@
+@import "/src/colors.css";
+
 .App {
   font-family: 'Arial', sans-serif;
   display: flex;
@@ -6,7 +8,7 @@
 }
 
 .App-header {
-    background-color: #282c34;
+    background-color: var(--primary-color);
     min-height: 10vh;
     display: flex;
     flex-direction: row;
@@ -25,7 +27,13 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background-color: #f4f4f4;
+  background-color: var(--lightest-shade);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .description {
@@ -37,21 +45,41 @@
 .dashboard-button {
   padding: 0.5rem 1rem;
   border: none;
-  background-color: #007BFF;
+  background-color: var(--secondary-color);
   color: white;
   cursor: pointer;
+  border-radius: 10px;
+  text-decoration: none;
   transition: background-color 0.3s ease-in-out;
 }
 
 .dashboard-button:hover {
-  background-color: #0056b3;
+  background-color: var(--dark-secondary-color)
 }
 
 footer {
-  background-color: #282c34;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-color);
   color: white;
   padding: 1rem 0;
   text-align: center;
+  padding: 1rem 0;
+}
+
+button {
+  background-color: var(--secondary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--dark-secondary-color);
 }
 
 /* Media queries for responsiveness */

@@ -1,0 +1,66 @@
+.card {
+    width: 75%;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.search-input {
+    width: 60%;
+}
+
+.btn-container {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.link-btn {
+    text-decoration: none;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 10pt;
+    margin: 0 10px;
+}
+
+.link-btn:hover, .btn:hover {
+    background-color: var(--dark-secondary-color);
+}
+
+button {
+    margin: 0 10px;
+}
+
+table {
+    width: 60%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    font-size: 10pt;
+}
+
+th {
+    border: 1px solid #ccc;
+    padding: 8px;
+    background-color: #f2f2f2;
+}
+
+
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+table tbody tr {
+    background-color: white;
+    color: black;
+}
+
+table tbody tr a {
+    display: table-row;
+    text-decoration: none;
+    color: inherit;
+}
