@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Member.css';
 import { softDeleteMember, updateMember } from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
+import TextInputWithValidation from '../../Components/TextInputWithValidation';
 
 /**
  * Member component for displaying member details and allowing edits.
@@ -16,12 +17,12 @@ function Member() {
 
     const navigate = useNavigate();
 
-    // turns the component into editing mode
+// turns the component into editing mode
     const handleEdit = () => {
         setIsEditing(true);
     };
 
-    // cancels the changes and resets the values to original values
+// cancels the changes and resets the values to original values
     const handleCancel = () => {
         setIsEditing(false);
         setEditedFirstName(member.first_name);
@@ -29,7 +30,7 @@ function Member() {
         setEditedEmail(member.email);
     };
 
-    // saves the changes to the member by calling the updateMember function from supabaseService
+// saves the changes to the member by calling the updateMember function from supabaseService
     const handleSave = async () => {
         try {
             const updatedMember = {
@@ -49,7 +50,7 @@ function Member() {
         }
     };
 
-    // soft deletes the member and redirects the user to the MembersDashboard screen
+// soft deletes the member and redirects the user to the MembersDashboard screen
     const handleDelete = async () => {
         try {
             await softDeleteMember(member);
@@ -67,36 +68,40 @@ function Member() {
                 <div>
                     <div className='form-container'>
                         <div className='label-input'>
-                            <strong>First Name:</strong>
-                            <input
-                                type="text"
+                            <strong>First Name:</strong><span className="required-star"> *</span>
+                            <TextInputWithValidation
+                                required={true}
                                 value={editedFirstName}
-                                onChange={(e) => setEditedFirstName(e.target.value)}
+                                regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
+                                regexErrorMsg="Invalid Character"
+                                parentOnChange={setEditedFirstName}
                             />
                         </div>
                         <div className='label-input'>
-                            <strong>Last Name:</strong>
-                            <input
-                                type="text"
+                            <strong>Last Name:</strong><span className="required-star"> *</span>
+                            <TextInputWithValidation
+                                required={true}
                                 value={editedLastName}
-                                onChange={(e) => setEditedLastName(e.target.value)}
+                                regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
+                                regexErrorMsg="Invalid Character"
+                                parentOnChange={setEditedLastName}
                             />
                         </div>
                         <div className='label-input'>
-                            <strong>Email:</strong>
-                            <input
-                                type="text"
+                            <strong>Email:</strong><span className="required-star"> *</span>
+                            <TextInputWithValidation
+                                regex={/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}
+                                regexErrorMsg="Invalid Email"
                                 value={editedEmail}
-                                onChange={(e) => setEditedEmail(e.target.value)}
+                                parentOnChange={setEditedEmail}
+                                required={true}
                             />
                         </div>
                         <div className='label-input'>
                             <strong>Date Joined:</strong>
-                            <input
-                                type="text"
-                                className='input-readonly'
+                            <TextInputWithValidation
                                 value={member.date_joined}
-                                readOnly
+                                readonly={true}
                             />
                         </div>
                     </div>
@@ -106,42 +111,34 @@ function Member() {
                     </div>
                 </div>
             ) : (
-                <div >
+                <div>
                     <div className='form-container'>
                         <div className='label-input'>
                             <strong>First Name:</strong>
-                            <input
-                                type="text"
-                                className='input-readonly'
+                            <TextInputWithValidation
                                 value={member.first_name}
-                                readOnly
+                                readonly={true}
                             />
                         </div>
                         <div className='label-input'>
                             <strong>Last Name:</strong>
-                            <input
-                                type="text"
-                                className='input-readonly'
+                            <TextInputWithValidation
                                 value={member.last_name}
-                                readOnly
+                                readonly={true}
                             />
                         </div>
                         <div className='label-input'>
                             <strong>Email:</strong>
-                            <input
-                                type="text"
-                                className='input-readonly'
+                            <TextInputWithValidation
                                 value={member.email}
-                                readOnly
+                                readonly={true}
                             />
                         </div>
                         <div className='label-input'>
                             <strong>Date Joined:</strong>
-                            <input
-                                type="text"
-                                className='input-readonly'
+                            <TextInputWithValidation
                                 value={member.date_joined}
-                                readOnly
+                                readonly={true}
                             />
                         </div>
                     </div>

@@ -7,22 +7,9 @@
 
 .label-input {
     display: flex;
-    align-items: center;
+    align-items: baseline;
 }
 
-.label-input strong {
-    white-space: nowrap;
+.required-star {
+    color: red
 }
-
-.label-input input[type=text] {
-    margin: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    flex-grow: 1;
-}
-
-.input-readonly {
-    color: grey;
-    pointer-events: none;
-}
-  
