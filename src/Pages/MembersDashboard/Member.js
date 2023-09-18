@@ -65,30 +65,41 @@ function Member() {
             <h2>Member Details</h2>
             {isEditing ? (
                 <div>
-                    <label>
-                        First Name:
-                        <input
-                            type="text"
-                            value={editedFirstName}
-                            onChange={(e) => setEditedFirstName(e.target.value)}
-                        />
-                    </label>
-                    <label>
-                        Last Name:
-                        <input
-                            type="text"
-                            value={editedLastName}
-                            onChange={(e) => setEditedLastName(e.target.value)}
-                        />
-                    </label>
-                    <label>
-                        Email:
-                        <input
-                            type="text"
-                            value={editedEmail}
-                            onChange={(e) => setEditedEmail(e.target.value)}
-                        />
-                    </label>
+                    <div className='form-container'>
+                        <div className='label-input'>
+                            <strong>First Name:</strong>
+                            <input
+                                type="text"
+                                value={editedFirstName}
+                                onChange={(e) => setEditedFirstName(e.target.value)}
+                            />
+                        </div>
+                        <div className='label-input'>
+                            <strong>Last Name:</strong>
+                            <input
+                                type="text"
+                                value={editedLastName}
+                                onChange={(e) => setEditedLastName(e.target.value)}
+                            />
+                        </div>
+                        <div className='label-input'>
+                            <strong>Email:</strong>
+                            <input
+                                type="text"
+                                value={editedEmail}
+                                onChange={(e) => setEditedEmail(e.target.value)}
+                            />
+                        </div>
+                        <div className='label-input'>
+                            <strong>Date Joined:</strong>
+                            <input
+                                type="text"
+                                className='input-readonly'
+                                value={member.date_joined}
+                                readOnly
+                            />
+                        </div>
+                    </div>
                     <div className='btn-container'>
                         <button className='btn' onClick={handleSave}>Save</button>
                         <button className='btn' onClick={handleCancel}>Cancel</button>
@@ -96,23 +107,43 @@ function Member() {
                 </div>
             ) : (
                 <div >
-                    <div className='view-container'>
-                        <p>
+                    <div className='form-container'>
+                        <div className='label-input'>
                             <strong>First Name:</strong>
-                            <span className='view-box'>{member.first_name}</span>
-                        </p>
-                        <p>
+                            <input
+                                type="text"
+                                className='input-readonly'
+                                value={member.first_name}
+                                readOnly
+                            />
+                        </div>
+                        <div className='label-input'>
                             <strong>Last Name:</strong>
-                            <span className='view-box'>{member.last_name}</span>
-                        </p>
-                        <p>
+                            <input
+                                type="text"
+                                className='input-readonly'
+                                value={member.last_name}
+                                readOnly
+                            />
+                        </div>
+                        <div className='label-input'>
                             <strong>Email:</strong>
-                            <span className='view-box'>{member.email}</span>
-                        </p>
-                        <p>
+                            <input
+                                type="text"
+                                className='input-readonly'
+                                value={member.email}
+                                readOnly
+                            />
+                        </div>
+                        <div className='label-input'>
                             <strong>Date Joined:</strong>
-                            <span className='view-box'>{member.date_joined}</span>
-                        </p>
+                            <input
+                                type="text"
+                                className='input-readonly'
+                                value={member.date_joined}
+                                readOnly
+                            />
+                        </div>
                     </div>
                     <div className='btn-container'>
                         <button className='btn' onClick={handleEdit}>Edit</button>

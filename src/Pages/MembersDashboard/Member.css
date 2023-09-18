@@ -1,16 +1,28 @@
-.view-container {
+.form-container {
     display: flex;
     flex-direction: column;
     width: 500px;
     margin: 0 auto;
-    align-items: flex-start;
 }
 
-.view-box {
+.label-input {
+    display: flex;
+    align-items: center;
+}
+
+.label-input strong {
+    white-space: nowrap;
+}
+
+.label-input input[type=text] {
     margin: 10px;
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 5px;
-    color: var(--light-shade);
     flex-grow: 1;
 }
+
+.input-readonly {
+    color: grey;
+    pointer-events: none;
+}
+  
