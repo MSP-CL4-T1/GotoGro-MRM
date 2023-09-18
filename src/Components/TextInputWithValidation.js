@@ -30,6 +30,7 @@ function validateInput(value, required, regex, regexErrorMsg) {
  * @param {function} props.parentOnChange - function to invoke with the input value on change
  * @param {boolean} [props.readonly] - whether the input is read-only or not
  * @param {string} [props.customErrorMsg] - custom error message to display when validation fails
+ * @param {boolean} [props.showError] - whether to show the error message
  * @returns {JSX.Element} - returns JSX that renders the input with validation
  */
 function TextInputWithValidation({
@@ -41,16 +42,19 @@ function TextInputWithValidation({
     regexErrorMsg = "Invalid input",
     parentOnChange,
     readonly = false,
-    customErrorMsg = ""
+    customErrorMsg = "",
+    showError = false // New prop to conditionally show the error message
 }) {
     const [inputValue, setInputValue] = useState(value);
     const [error, setError] = useState("");
 
     useEffect(() => {
-        // Validate input value whenever it changes
-        const errorMessage = validateInput(inputValue, required, regex, regexErrorMsg);
-        setError(errorMessage);
-    }, [inputValue, required, regex, regexErrorMsg]);
+        // Validate input value whenever it changes and showError is true
+        if (showError) {
+            const errorMessage = validateInput(inputValue, required, regex, regexErrorMsg);
+            setError(errorMessage);
+        }
+    }, [inputValue, required, regex, regexErrorMsg, showError]);
 
     const handleChange = (event) => {
         const newInputValue = event.target.value;
@@ -66,6 +70,13 @@ function TextInputWithValidation({
         }
     };
 
+    const handleBlur = () => {
+        // Show the error when the input field is blurred
+        if (required && !inputValue) {
+            setError("Required");
+        }
+    };
+
     return (
         <div className={`input-with-validation ${error || customErrorMsg ? 'has-error' : ''}`}>
             <input
@@ -74,9 +85,10 @@ function TextInputWithValidation({
                 className={`text-input-validation ${readonly ? 'readonly' : ''}`}
                 value={inputValue}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 readOnly={readonly}
             />
-            {(error || customErrorMsg) && <span className="error-message">{error || customErrorMsg}</span>}
+            {(showError && (error || customErrorMsg)) && <span className="error-message">{error || customErrorMsg}</span>}
         </div>
     );
 }

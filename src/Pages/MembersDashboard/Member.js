@@ -17,12 +17,12 @@ function Member() {
 
     const navigate = useNavigate();
 
-// turns the component into editing mode
+    // turns the component into editing mode
     const handleEdit = () => {
         setIsEditing(true);
     };
 
-// cancels the changes and resets the values to original values
+    // cancels the changes and resets the values to original values
     const handleCancel = () => {
         setIsEditing(false);
         setEditedFirstName(member.first_name);
@@ -30,7 +30,7 @@ function Member() {
         setEditedEmail(member.email);
     };
 
-// saves the changes to the member by calling the updateMember function from supabaseService
+    // saves the changes to the member by calling the updateMember function from supabaseService
     const handleSave = async () => {
         try {
             const updatedMember = {
@@ -50,7 +50,7 @@ function Member() {
         }
     };
 
-// soft deletes the member and redirects the user to the MembersDashboard screen
+    // soft deletes the member and redirects the user to the MembersDashboard screen
     const handleDelete = async () => {
         try {
             await softDeleteMember(member);
@@ -106,8 +106,8 @@ function Member() {
                         </div>
                     </div>
                     <div className='btn-container'>
-                        <button className='btn' onClick={handleSave}>Save</button>
-                        <button className='btn' onClick={handleCancel}>Cancel</button>
+                        <button onClick={handleSave}>Save</button>
+                        <button onClick={handleCancel}>Cancel</button>
                     </div>
                 </div>
             ) : (
@@ -143,8 +143,8 @@ function Member() {
                         </div>
                     </div>
                     <div className='btn-container'>
-                        <button className='btn' onClick={handleEdit}>Edit</button>
-                        <button className='btn' onClick={handleDelete}>Delete</button>
+                        <button onClick={handleEdit}>Edit</button>
+                        <button onClick={handleDelete}>Delete</button>
                     </div>
                 </div>
             )}

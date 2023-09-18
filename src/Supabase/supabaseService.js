@@ -53,7 +53,7 @@ export const searchMembersByName = async (name) => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 /**
  * Updates a member's information.
@@ -100,4 +100,38 @@ export const softDeleteMember = async (memberToDelete) => {
     } catch (error) {
         throw error;
     }
-}
+};
+
+export const addMember = async (newMember) => {
+    try {
+        // Get the last ID from the table
+        const { data: lastId } = await supabase
+            .from('Members')
+            .select('member_id')
+            .order('member_id', { ascending: false })
+            .limit(1);
+
+        // Calculate the new ID by incrementing the last ID
+        const newId = lastId[0]?.member_id + 1 || 1; // If no previous records, start from 1
+        // Insert the new member into the database with the calculated ID
+        const { error } = await supabase
+            .from('Members')
+            .insert([
+                {
+                    member_id: newId,
+                    first_name: newMember.first_name,
+                    last_name: newMember.last_name,
+                    email: newMember.email,
+                    date_joined: newMember.date_joined
+                },
+            ]);
+
+        // Check for errors
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        console.error('Error adding member:', error.message);
+        throw error;
+    }
+};
