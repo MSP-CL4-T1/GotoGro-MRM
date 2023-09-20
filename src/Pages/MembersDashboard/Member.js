@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Member.css';
 import { softDeleteMember, updateMember } from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
+import TextInputWithValidation from '../../Components/TextInputWithValidation';
 
 /**
  * Member component for displaying member details and allowing edits.
@@ -65,58 +66,85 @@ function Member() {
             <h2>Member Details</h2>
             {isEditing ? (
                 <div>
-                    <label>
-                        First Name:
-                        <input
-                            type="text"
-                            value={editedFirstName}
-                            onChange={(e) => setEditedFirstName(e.target.value)}
-                        />
-                    </label>
-                    <label>
-                        Last Name:
-                        <input
-                            type="text"
-                            value={editedLastName}
-                            onChange={(e) => setEditedLastName(e.target.value)}
-                        />
-                    </label>
-                    <label>
-                        Email:
-                        <input
-                            type="text"
-                            value={editedEmail}
-                            onChange={(e) => setEditedEmail(e.target.value)}
-                        />
-                    </label>
+                    <div className='form-container'>
+                        <div className='label-input'>
+                            <strong>First Name:</strong><span className="required-star"> *</span>
+                            <TextInputWithValidation
+                                required={true}
+                                value={editedFirstName}
+                                regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
+                                regexErrorMsg="Invalid Character"
+                                parentOnChange={setEditedFirstName}
+                            />
+                        </div>
+                        <div className='label-input'>
+                            <strong>Last Name:</strong><span className="required-star"> *</span>
+                            <TextInputWithValidation
+                                required={true}
+                                value={editedLastName}
+                                regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
+                                regexErrorMsg="Invalid Character"
+                                parentOnChange={setEditedLastName}
+                            />
+                        </div>
+                        <div className='label-input'>
+                            <strong>Email:</strong><span className="required-star"> *</span>
+                            <TextInputWithValidation
+                                regex={/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}
+                                regexErrorMsg="Invalid Email"
+                                value={editedEmail}
+                                parentOnChange={setEditedEmail}
+                                required={true}
+                            />
+                        </div>
+                        <div className='label-input'>
+                            <strong>Date Joined:</strong>
+                            <TextInputWithValidation
+                                value={member.date_joined}
+                                readonly={true}
+                            />
+                        </div>
+                    </div>
                     <div className='btn-container'>
-                        <button className='btn' onClick={handleSave}>Save</button>
-                        <button className='btn' onClick={handleCancel}>Cancel</button>
+                        <button onClick={handleSave}>Save</button>
+                        <button onClick={handleCancel}>Cancel</button>
                     </div>
                 </div>
             ) : (
-                <div >
-                    <div className='view-container'>
-                        <p>
+                <div>
+                    <div className='form-container'>
+                        <div className='label-input'>
                             <strong>First Name:</strong>
-                            <span className='view-box'>{member.first_name}</span>
-                        </p>
-                        <p>
+                            <TextInputWithValidation
+                                value={member.first_name}
+                                readonly={true}
+                            />
+                        </div>
+                        <div className='label-input'>
                             <strong>Last Name:</strong>
-                            <span className='view-box'>{member.last_name}</span>
-                        </p>
-                        <p>
+                            <TextInputWithValidation
+                                value={member.last_name}
+                                readonly={true}
+                            />
+                        </div>
+                        <div className='label-input'>
                             <strong>Email:</strong>
-                            <span className='view-box'>{member.email}</span>
-                        </p>
-                        <p>
+                            <TextInputWithValidation
+                                value={member.email}
+                                readonly={true}
+                            />
+                        </div>
+                        <div className='label-input'>
                             <strong>Date Joined:</strong>
-                            <span className='view-box'>{member.date_joined}</span>
-                        </p>
+                            <TextInputWithValidation
+                                value={member.date_joined}
+                                readonly={true}
+                            />
+                        </div>
                     </div>
                     <div className='btn-container'>
-                        <button className='btn' onClick={handleEdit}>Edit</button>
-                        <button className='btn' onClick={handleDelete}>Delete</button>
+                        <button onClick={handleEdit}>Edit</button>
+                        <button onClick={handleDelete}>Delete</button>
                     </div>
                 </div>
             )}

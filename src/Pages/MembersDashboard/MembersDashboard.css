@@ -26,7 +26,7 @@
     margin: 0 10px;
 }
 
-.link-btn:hover, .btn:hover {
+.link-btn:hover, button:hover {
     background-color: var(--dark-secondary-color);
 }
 

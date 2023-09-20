@@ -1,0 +1,27 @@
+.input-with-validation {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.text-input-validation {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--light-shade);
+}
+
+.error-message {
+    color: red;
+    font-size: small;
+    text-align: start;
+    margin: 0px 0px 5px 10px;
+}
+
+.readonly {
+    color: var(--light-shade)
+}
+
+.has-error input {
+    border-color: red;
+}

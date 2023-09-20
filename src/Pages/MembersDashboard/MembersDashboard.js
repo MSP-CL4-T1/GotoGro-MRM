@@ -63,8 +63,8 @@ function MembersDashboard() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <div className='btn-container'>
-                    <button className='btn' onClick={handleSearch}>Search</button>
-                    <button className='btn' onClick={handleClear}>Clear</button>
+                    <button onClick={handleSearch}>Search</button>
+                    <button onClick={handleClear}>Clear</button>
                     <Link className='link-btn' to="/add-member">Add New Member</Link>
                 </div>
             </div>
