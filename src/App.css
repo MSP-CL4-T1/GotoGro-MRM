@@ -42,8 +42,9 @@ main {
   text-align: center;
 }
 
-.dashboard-button {
+.dashboard-button, .sales-report-button {
   padding: 0.5rem 1rem;
+  margin: 10px;
   border: none;
   background-color: var(--secondary-color);
   color: white;
@@ -53,7 +54,7 @@ main {
   transition: background-color 0.3s ease-in-out;
 }
 
-.dashboard-button:hover {
+.dashboard-button:hover, .sales-report-button:hover {
   background-color: var(--dark-secondary-color)
 }
 

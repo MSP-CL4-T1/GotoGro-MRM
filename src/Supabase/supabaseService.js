@@ -53,7 +53,7 @@ export const searchMembersByName = async (name) => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 /**
  * Updates a member's information.
@@ -100,4 +100,34 @@ export const softDeleteMember = async (memberToDelete) => {
     } catch (error) {
         throw error;
     }
+}
+
+export const fetchSalesByDateRange = async (startDate, endDate) => {
+    try {
+        let query = supabase.from('SaleRecords').select('*');
+        // If startDate is provided, add condition for dates greater than or equal to startDate
+        if (startDate && startDate.trim() !== "") {
+            query = query.gte('sale_date', startDate);
+        }
+        // If endDate is provided, add condition for dates less than or equal to endDate
+        if (endDate && endDate.trim() !== "") {
+            query = query.lte('sale_date', endDate);
+        }
+        const { data, error } = await query;
+
+        if (error) throw error;
+        return data;
+    } catch (error) {
+        console.error("Error fetching sales: ", error);
+        return [];
+    }
+};
+
+
+export async function fetchProducts() {
+    const { data, error } = await supabase.from('Products').select('*');
+    
+    if (error) throw error;
+
+    return data;
 }
