@@ -45,8 +45,8 @@ const HomePage = () => {
                     facing challenges in meeting its members' expectations and satisfying their diverse grocery needs.
                     We're excited to introduce our new digital Members Record Management System.
                 </p>
-                <Link className="dashboard-button" to="/members-dashboard">Go to Members Dashboard</Link>
-                <Link className="reporting-button" to="/reporting">Go to Reporting</Link>
+                <Link className="main-button dashboard-button" to="/members-dashboard">Go to Members Dashboard</Link>
+                <Link className="main-button reporting-button" to="/reporting">Go to Reporting</Link>
             </main>
         </div>
     );

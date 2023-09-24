@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './Reporting.css'; 
 
 function Reporting() {
     return (
@@ -8,8 +9,8 @@ function Reporting() {
                 <h2>Reporting Dashboard</h2>
             </header>
             <main>
-                <Link className="sales-report-button" to="/sales-report">Go to Sales Report</Link>
-                <Link className="inventory-report-button" to="/inventory-report">Go to Inventory Report</Link>
+                <Link className="main-button sales-report-button" to="/sales-report">Go to Sales Report</Link>
+                <Link className="main-button inventory-report-button" to="/inventory-report">Go to Inventory Report</Link>
             </main>
         </div>
     );

@@ -37,15 +37,21 @@ function SalesReport() {
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
 
+    const toggleFilterMenu = () => {
+        setUiState(prev => ({ ...prev, showFilterMenu: !prev.showFilterMenu }));
+    };
+
     const fetchSalesForMonth = async (month, year) => {
         let searchResults;
-    
-        if (month === '00' || !month || !year) {
+        console.log("month: ", month, ", year: ", year)
+        if (month === '00' && year.trim() == "") {
             searchResults = await fetchSalesByDateRange();  // Assuming you have a function to fetch all sales.
+            console.log("all records");
         } else {
+            year = new Date().getFullYear().toString();
             const startDate = `${year}-${month}-01`;
-            const endDate = new Date(year, month, 0).toISOString().split('T')[0]; // Gets the last day of the month
-    
+            const endDate = new Date(year, parseInt(month), 1).toISOString().split('T')[0]; // Gets the last day of the month
+            console.log("start: ", startDate, ", end: ", endDate);
             searchResults = await fetchSalesByDateRange(startDate, endDate);
         }
     
@@ -259,10 +265,13 @@ function SalesReport() {
                     columnVisibility={columnVisibility}
                     handleRowClick={handleRowClick}
                     sortDirection={sortDirection}
-                    setShowFilterMenu={value => setUiState(prev => ({ ...prev, showFilterMenu: value }))}
+                    setShowFilterMenu={toggleFilterMenu}
                     resetFilters={resetFilters}
                     toggleSortDirection={toggleSortDirection}
                     toggleColumnVisibility={toggleColumnVisibility}
+                    uiState={uiState}
+                    filters={filters}
+                    setFilters={setFilters}
                 />
             ) : uiState.showNoSalesFound ? (
                 <p>No Sales Found</p>
@@ -276,10 +285,6 @@ function SalesReport() {
                     setSelectedSale={setSelectedSale}
                 />
             ) : null}
-
-            {uiState.showFilterMenu ? (
-                <FilterMenu filters={filters} setFilters={setFilters} />
-            ) : null}
         </div>
     );
 }
@@ -292,16 +297,24 @@ function SalesTable({
     setShowFilterMenu,
     resetFilters,
     toggleSortDirection,
-    toggleColumnVisibility
+    toggleColumnVisibility,
+    uiState,
+    filters,
+    setFilters
 }) {
     return (
         <div>
-            <button type="button" onClick={() => setShowFilterMenu(prev => !prev)}>
-                Toggle Filter Menu
-            </button>
-            <button type="button" onClick={resetFilters}>
-                Reset Filters
-            </button>
+            <div className="table-top-controls">
+                <button type="button" onClick={() => setShowFilterMenu(prev => !prev)}>
+                    Toggle Filter Menu
+                </button>
+                <button type="button" onClick={resetFilters}>
+                    Reset Filters
+                </button>
+            </div>
+            {uiState.showFilterMenu ? (
+                <FilterMenu filters={filters} setFilters={setFilters} />
+            ) : null}
             <table>
                 <thead>
                     <tr>
