@@ -1,0 +1,136 @@
+.inactive-header {
+    color: grey;
+    cursor: pointer;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    z-index: 1000;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.filter-menu {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Spacing between each filter input */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.filter-menu input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.filter-menu input[type="date"] {
+    font-size: 1rem; /* Adjust as necessary */
+    transition: border 0.3s ease-in-out;
+}
+
+/* Inactive header styling */
+.inactive-header {
+    color: var(--light-shade);
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.inactive-header:hover {
+    color: var(--dark-shade);
+}
+
+.filter-menu:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.filter-menu input:focus {
+    border: 1px solid var(--secondary-color);
+}
+
+/* Button Container styling */
+.btn-container button {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.btn-container button:hover {
+    background-color: var(--dark-secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Card styling for the main container */
+.card {
+    background-color: var(--lightest-shade);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--light-shade);
+}
+
+/* Table header styling */
+thead th {
+    background-color: var(--lighter-shade);
+    padding: 10px;
+    border: 1px solid var(--light-shade);
+    transition: background-color 0.3s ease-in-out;
+}
+
+thead th:hover {
+    background-color: var(--light-shade);
+}
+
+/* Table body styling */
+tbody td {
+    padding: 10px;
+    border: 1px solid var(--light-shade);
+    transition: background-color 0.3s ease-in-out;
+}
+
+tbody tr:hover td {
+    background-color: var(--lighter-shade);
+}
+
+.filter-menu div {
+    margin-bottom: 1rem;  /* Add a 1rem margin to the bottom of each div within filter-menu */
+}
+
+table + .btn-container {
+    margin-top: 2rem;  /* Add a 2rem margin to the top of the btn-container if it directly follows a table */
+}
+
+.btn-container button + button {
+    margin-left: 1rem;  /* Add a 1rem margin to the left of each button that directly follows another button inside .btn-container */
+}
+.table-top-controls {
+    margin-bottom: 20px;
+}
