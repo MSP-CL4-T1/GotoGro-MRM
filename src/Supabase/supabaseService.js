@@ -1,5 +1,10 @@
 import supabase from './supabaseClient';
 
+
+export const signOut = async () => {
+    await supabase.auth.signOut();
+}
+
 /**
  * Signs up a new user with the provided email and password.
  * @param {string} email - The user's email.
