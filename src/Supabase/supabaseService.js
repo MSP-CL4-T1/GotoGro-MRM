@@ -102,6 +102,16 @@ export const softDeleteMember = async (memberToDelete) => {
     }
 };
 
+/**
+ * Adds a new member to the database.
+ *
+ * @param {Object} newMember - The member object to be added.
+ * @param {string} newMember.first_name - The first name of the member.
+ * @param {string} newMember.last_name - The last name of the member.
+ * @param {string} newMember.email - The email address of the member.
+ * @param {string} newMember.date_joined - The date the member joined.
+ * @throws {Error} Throws an error if there is any issue with the database operation.
+ */
 export const addMember = async (newMember) => {
     try {
         // Get the last ID from the table
@@ -135,3 +145,46 @@ export const addMember = async (newMember) => {
         throw error;
     }
 };
+
+/**
+ * Fetches sales records from the database within a specified date range.
+ *
+ * @param {string} startDate - The start date of the date range (optional).
+ * @param {string} endDate - The end date of the date range (optional).
+ * @returns {Array} An array of sales records that match the date range.
+ * @throws {Error} Throws an error if there is any issue with the database operation.
+ */
+export const fetchSalesByDateRange = async (startDate, endDate) => {
+    try {
+        let query = supabase.from('SaleRecords').select('*');
+        // If startDate is provided, add condition for dates greater than or equal to startDate
+        if (startDate && startDate.trim() !== "") {
+            query = query.gte('sale_date', startDate);
+        }
+        // If endDate is provided, add condition for dates less than or equal to endDate
+        if (endDate && endDate.trim() !== "") {
+            query = query.lte('sale_date', endDate);
+        }
+        const { data, error } = await query;
+
+        if (error) throw error;
+        return data;
+    } catch (error) {
+        console.error("Error fetching sales: ", error);
+        return [];
+    }
+};
+
+/**
+ * Fetches all products from the database.
+ *
+ * @returns {Array} An array of all products in the database.
+ * @throws {Error} Throws an error if there is any issue with the database operation.
+ */
+export async function fetchProducts() {
+    const { data, error } = await supabase.from('Products').select('*');
+
+    if (error) throw error;
+
+    return data;
+}
