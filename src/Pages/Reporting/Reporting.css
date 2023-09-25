@@ -1,0 +1,44 @@
+.reporting-content {
+    background-color: var(--lightest-shade);
+    padding: 2rem;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease-in-out; /* Smooth transition for box-shadow */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reporting-content:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Slightly bigger shadow on hover */
+  }
+  
+  /* Existing modern styling for the header within reporting-content */
+  .reporting-content header {
+    text-align: center;
+    margin-bottom: 1rem;
+    background-color: var(--primary-color); /* Stick to primary color for consistency */
+    padding: 1rem;
+    border-radius: 10px;
+    color: white;
+    transition: box-shadow 0.3s ease-in-out; /* Smooth transition for box-shadow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reporting-content header:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly bigger shadow on hover */
+  }
+  
+  .reporting-content header h2 {
+    font-size: 1.8rem;
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+  }
+  
+  /* Maintain the existing colors, but add a subtle hover transition and shadow */
+  .sales-report-button, .inventory-report-button {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Transition for hover effects */
+  }
+  
+  .sales-report-button:hover, .inventory-report-button:hover {
+    transform: translateY(-3px); /* Lift-up effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* deeper shadow on hover */
+  }

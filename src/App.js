@@ -7,6 +7,9 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import AddMember from './Pages/MembersDashboard/AddMember';
 import MembersDashboard from './Pages/MembersDashboard/MembersDashboard';
 import Member from './Pages/MembersDashboard/Member';
+import Reporting from './Pages/Reporting/Reporting';
+import SalesReport from './Pages/Reporting/SalesReport';
+import InventoryReport from './Pages/Reporting/InventoryReport';
 
 function App() {
     return (
@@ -20,6 +23,9 @@ function App() {
                     <Route path="/members-dashboard" element={<MembersDashboard />} />
                     <Route path="/member" element={<Member />} />
                     <Route path="/add-member" element={<AddMember />} />
+                    <Route path="/reporting" element={<Reporting />} />
+                    <Route path="/sales-report" element={<SalesReport />} />
+                    <Route path="/inventory-report" element={<InventoryReport />} />
                 </Routes>
                 <footer>
                     <p>© 2023 Goto Grocery Inc. All rights reserved.</p>
@@ -41,7 +47,8 @@ const HomePage = () => {
                     facing challenges in meeting its members' expectations and satisfying their diverse grocery needs.
                     We're excited to introduce our new digital Members Record Management System.
                 </p>
-                <Link className="dashboard-button" to="/members-dashboard">Go to Members Dashboard</Link>
+                <Link className="main-button dashboard-button" to="/members-dashboard">Go to Members Dashboard</Link>
+                <Link className="main-button reporting-button" to="/reporting">Go to Reporting</Link>
             </main>
         </div>
     );
