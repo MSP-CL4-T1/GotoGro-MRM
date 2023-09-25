@@ -15,12 +15,6 @@ function Navbar() {
                         <img src="images/logo.png" alt="GotoGro Logo" />
                     </Link>
                 </li>
-                <li className="navbar-item">
-                    <Link to="/signin" className="navbar-link">Sign In</Link>
-                </li>
-                <li className="navbar-item">
-                    <Link to="/signup" className="navbar-link">Sign Up</Link>
-                </li>
             </ul>
         </nav>
     );
