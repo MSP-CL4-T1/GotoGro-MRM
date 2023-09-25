@@ -1,11 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import {signOut} from "../../Supabase/supabaseService";
 
-/**
- * Navbar component for navigation.
- * @returns {JSX.Element} The rendered JSX element.
- */
 function Navbar() {
     return (
         <nav className="navbar">
@@ -14,6 +11,12 @@ function Navbar() {
                     <Link to="/" className="navbar-logo">
                         <img src="images/logo.png" alt="GotoGro Logo" />
                     </Link>
+                </li>
+                {/* Add sign-out button */}
+                <li className="navbar-item">
+                    <button onClick={signOut} className="navbar-link">
+                        Sign Out
+                    </button>
                 </li>
             </ul>
         </nav>

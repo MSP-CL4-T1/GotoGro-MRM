@@ -222,8 +222,8 @@ function SalesReport() {
             }}>
                 <div>
                     <label>
-                        Month:
-                        <select value={month} onChange={(e) => setMonth(e.target.value)}>
+                        Month
+                        <select style={{marginBottom: "10px"}} className={"selectDate"} value={month} onChange={(e) => setMonth(e.target.value)}>
                             <option value="00">Select...</option>
                             <option value="01">January</option>
                             <option value="02">February</option>
@@ -241,7 +241,8 @@ function SalesReport() {
                     </label>
                     <label>
                         Year:
-                        <input 
+                        <input
+                            className={"selectDate"}
                             type="number" 
                             value={year}
                             placeholder="YYYY"

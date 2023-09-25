@@ -16,6 +16,14 @@
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
+.selectDate {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
 .filter-menu {
     background-color: #f9f9f9;
     padding: 15px;
