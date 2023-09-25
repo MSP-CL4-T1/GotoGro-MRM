@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
-import SignIn from './Pages/SignIn/SignIn';
-import SignUp from './Pages/SignUp/SignUp';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import AddMember from './Pages/MembersDashboard/AddMember';
 import MembersDashboard from './Pages/MembersDashboard/MembersDashboard';
@@ -10,29 +8,53 @@ import Member from './Pages/MembersDashboard/Member';
 import Reporting from './Pages/Reporting/Reporting';
 import SalesReport from './Pages/Reporting/SalesReport';
 import InventoryReport from './Pages/Reporting/InventoryReport';
+import supabase from "./Supabase/supabaseClient";
+import {Auth} from "@supabase/auth-ui-react";
+import {ThemeSupa} from "@supabase/auth-ui-shared";
 
 function App() {
-    return (
-        <Router>
-            <div className="App">
-                <Navbar />
-                <Routes>
-                    <Route path="/" exact element={<HomePage />} />
-                    <Route path="/signin" element={<SignIn />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/members-dashboard" element={<MembersDashboard />} />
-                    <Route path="/member" element={<Member />} />
-                    <Route path="/add-member" element={<AddMember />} />
-                    <Route path="/reporting" element={<Reporting />} />
-                    <Route path="/sales-report" element={<SalesReport />} />
-                    <Route path="/inventory-report" element={<InventoryReport />} />
-                </Routes>
-                <footer>
-                    <p>© 2023 Goto Grocery Inc. All rights reserved.</p>
-                </footer>
+    const [session, setSession] = useState(null);
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+        });
+
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    if (!session) {
+        return(
+            <div className={"supabaseAuth"}>
+                <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
             </div>
-        </Router>
-    );
+        );
+    } else {
+        return (
+            <Router>
+                <div className="App">
+                    <Navbar />
+                    <Routes>
+                        <Route path="/" exact element={<HomePage />} />
+                        <Route path="/members-dashboard" element={<MembersDashboard />} />
+                        <Route path="/member" element={<Member />} />
+                        <Route path="/add-member" element={<AddMember />} />
+                        <Route path="/reporting" element={<Reporting />} />
+                        <Route path="/sales-report" element={<SalesReport />} />
+                        <Route path="/inventory-report" element={<InventoryReport />} />
+                    </Routes>
+                    <footer>
+                        <p>© 2023 Goto Grocery Inc. All rights reserved.</p>
+                    </footer>
+                </div>
+            </Router>
+        );
+    }
 }
 
 const HomePage = () => {
