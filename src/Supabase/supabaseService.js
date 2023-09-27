@@ -49,12 +49,29 @@ export const searchMembersByName = async (name) => {
         let { data: Members, error } = await supabase
             .from('Members')
             .select('*')
-            .or(`first_name.ilike.%${name}%,last_name.ilike.%${name}%`)
-            .eq('deleted', false);
-
+            .or(`first_name.ilike.%${name}%,last_name.ilike.%${name}%`);
         if (error) throw error;
 
-        return Members;
+        // Filter members based on your criteria
+        const filteredMembers = Members.filter((member) => {
+            if (!member.deleted) {
+                // If not deleted, include the member
+                return true;
+            } else if (member.time_deleted) {
+                // If deleted and time_deleted is available
+                const timeDeleted = new Date(member.time_deleted); // Convert timestamp to Date
+                const currentTime = new Date(); // Get current UTC time
+
+                // Calculate the time difference in milliseconds
+                const timeSinceDeletion = currentTime.getTime() - timeDeleted.getTime();
+
+                const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000;
+                return timeSinceDeletion <= twentyFourHoursInMilliseconds;
+            }
+            return false;
+        });
+
+        return filteredMembers;
     } catch (error) {
         throw error;
     }
@@ -95,9 +112,33 @@ export const softDeleteMember = async (memberToDelete) => {
         const { error } = await supabase
             .from('Members')
             .update({
-                deleted: true
+                deleted: true,
+                time_deleted: new Date()
             })
             .eq('member_id', memberToDelete.member_id);
+
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        throw error;
+    }
+};
+
+/**
+ * Retrieve deleted members by setting the 'deleted' property to false.
+ * @param {object} memberToDelete - The member to be deleted.
+ * @returns {Promise} A promise that resolves when the deletion is successful or rejects with an error.
+ */
+export const retrieveDeletedMember = async (memberToRetrieve) => {
+    try {
+        const { error } = await supabase
+            .from('Members')
+            .update({
+                deleted: false,
+                time_deleted: null
+            })
+            .eq('member_id', memberToRetrieve.member_id);
 
         if (error) {
             throw error;

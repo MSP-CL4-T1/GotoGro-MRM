@@ -21,7 +21,6 @@ function AddMember() {
             return;
         }
 
-        // Get the current date and time (now)
         const currentDate = new Date();
 
         try {
