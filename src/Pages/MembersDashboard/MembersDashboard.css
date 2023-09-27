@@ -1,24 +1,9 @@
-.card {
-    width: 75%;
-    margin: 50px auto;
-    padding: 20px;
-    text-align: center;
-}
-
-
 .search-input {
     width: 80%;
     padding: 10px;
     border: 1px solid #e1e1e1;
     border-radius: 4px;
     font-size: 16px;
-}
-
-.btn-container {
-    margin: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .link-btn {
@@ -28,35 +13,15 @@
     padding: 10px;
     border-radius: 5px;
     font-size: 10pt;
-    margin: 0 10px;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .link-btn:hover, button:hover {
     background-color: var(--dark-secondary-color);
 }
 
-button {
+button, .link-btn {
     margin: 0 10px;
-}
-
-table {
-    width: 60%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    border: 1px solid #ccc;
-    font-size: 10pt;
-}
-
-th {
-    border: 1px solid #ccc;
-    padding: 8px;
-    background-color: #f2f2f2;
-}
-
-
-td {
-    border: 1px solid #ccc;
-    padding: 8px;
 }
 
 table tbody tr {
@@ -68,4 +33,9 @@ table tbody tr a {
     display: table-row;
     text-decoration: none;
     color: inherit;
+}
+
+.search-results-table th,
+.search-results-table td:not(:last-child) {
+    pointer-events: none;
 }
