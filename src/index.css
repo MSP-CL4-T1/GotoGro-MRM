@@ -25,6 +25,11 @@ code {
   margin-top: 10%;
 }
 
+button.supabase-auth-ui_ui-button.c-bOcPnF.c-bOcPnF-cmFMMs-color-primary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
 .c-bOcPnF {
   width: auto !important;
 }
