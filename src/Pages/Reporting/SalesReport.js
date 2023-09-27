@@ -3,14 +3,12 @@ import Papa from 'papaparse';
 import { fetchSalesByDateRange } from '../../Supabase/supabaseService';
 import './SalesReport.css';
 
-
-
 function SalesReport() {
     const [sales, setSales] = useState([]);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [selectedSale, setSelectedSale] = useState(null);
-    const [sortDirection, setSortDirection] = useState('asc'); 
+    const [sortDirection, setSortDirection] = useState('asc');
     const [filters, setFilters] = useState({
         sale_id: { type: 'equal', value: '' },
         member_id: { type: 'equal', value: '' },
@@ -44,19 +42,19 @@ function SalesReport() {
     const fetchSalesForMonth = async (month, year) => {
         let searchResults;
         console.log("month: ", month, ", year: ", year)
-        if (month === '00' && year.trim() == "") {
+        if (month === '00' && year.trim() === "") {
             searchResults = await fetchSalesByDateRange();
             console.log("all records");
         } else {
             year = new Date().getFullYear().toString();
-            const startDate = `${year}-${month}-01`;
-            const endDate = new Date(year, parseInt(month), 1).toISOString().split('T')[0]; // Gets the last day of the month
+            setStartDate(`${year}-${month}-01`);
+            setEndDate(new Date(year, parseInt(month), 1).toISOString().split('T')[0]); // Gets the last day of the month
             console.log("start: ", startDate, ", end: ", endDate);
             searchResults = await fetchSalesByDateRange(startDate, endDate);
         }
-    
+
         setSales(searchResults);
-    
+
         if (searchResults.length === 0) {
             setUiState(prev => ({ ...prev, showNoSalesFound: true }));
         }
@@ -65,12 +63,12 @@ function SalesReport() {
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-    
+
         // Send the updated `selectedSale` to your backend to save the changes
         // For now, just updating the state to reflect the changes
         const updatedSales = sales.map(s => s.sale_id === selectedSale.sale_id ? selectedSale : s);
         setSales(updatedSales);
-        
+
         // Fixing the 'setShowModal' is not defined issue
         setUiState(prev => ({ ...prev, showModal: false }));
     };
@@ -97,11 +95,11 @@ function SalesReport() {
             if (columnVisibility.totalAmount) obj.total_amount = sale.total_amount;
             return obj;
         });
-        
-    
+
+
         // Convert the data to CSV format
         const csv = Papa.unparse(filteredSales);
-    
+
         // Create a blob and download it
         const blob = new Blob([csv], { type: "text/csv" });
         const url = window.URL.createObjectURL(blob);
@@ -147,26 +145,26 @@ function SalesReport() {
         return sales.filter(sale => {
             return Object.keys(filters).every(field => {
                 const filter = filters[field];
-    
+
                 // Check if the filter value is empty or null
                 if (!filter.value || filter.value.trim() === '') {
                     return true;
                 }
-    
+
                 let saleValue = sale[field];
                 let filterValue = filter.value;
-    
+
                 // Convert to number if the sale field is a number
                 if (typeof saleValue === 'number' && !isNaN(Number(filterValue))) {
                     filterValue = Number(filterValue);
                 }
-    
+
                 // Convert to lowercase strings for comparison if both are strings
                 if (typeof saleValue === 'string' && typeof filterValue === 'string') {
                     saleValue = saleValue.toLowerCase().trim();
                     filterValue = filterValue.toLowerCase().trim();
                 }
-    
+
                 switch (filter.type) {
                     case 'equal':
                         return saleValue === filterValue;
@@ -179,14 +177,14 @@ function SalesReport() {
                     case 'range':
                         // Ensure filterValue is a string before splitting
                         if (typeof filterValue === 'string') {
-                            
+
                             const [startStr, endStr] = filterValue.split('-').map(val => val.trim());
                             const start = startStr ? (typeof saleValue === 'number' ? Number(startStr) : startStr) : null;
                             const end = endStr ? (typeof saleValue === 'number' ? Number(endStr) : endStr) : null;
-                            
+
                             console.log("start: ", start);
                             console.log("end: ", end);
-                            
+
                             if (start && end) {
                                 return saleValue >= start && saleValue <= end;
                             } else if (start) {
@@ -200,7 +198,7 @@ function SalesReport() {
                             return false; // Invalid filter value format
                         }
                     default:
-                        return true; 
+                        return true;
                 }
             });
         });
@@ -223,7 +221,7 @@ function SalesReport() {
                 <div>
                     <label>
                         Month
-                        <select style={{marginBottom: "10px"}} className={"selectDate"} value={month} onChange={(e) => setMonth(e.target.value)}>
+                        <select style={{ marginBottom: "10px" }} className={"selectDate"} value={month} onChange={(e) => setMonth(e.target.value)}>
                             <option value="00">Select...</option>
                             <option value="01">January</option>
                             <option value="02">February</option>
@@ -243,7 +241,7 @@ function SalesReport() {
                         Year:
                         <input
                             className={"selectDate"}
-                            type="number" 
+                            type="number"
                             value={year}
                             placeholder="YYYY"
                             onChange={(e) => setYear(e.target.value)}
@@ -324,8 +322,8 @@ function SalesTable({
                                 toggleSortDirection(); // Toggle sort direction when Sale ID header is clicked
                             }}
                             className={columnVisibility.saleId ? '' : 'inactive-header'}>
-                            Sale ID 
-                            {sortDirection === 'asc' ? ' 🔼' : ' 🔽'} 
+                            Sale ID
+                            {sortDirection === 'asc' ? ' 🔼' : ' 🔽'}
                         </th>
                         <th onClick={() => toggleColumnVisibility('memberId')}
                             className={columnVisibility.memberId ? '' : 'inactive-header'}>
@@ -391,10 +389,10 @@ function EditModal({
             <form onSubmit={handleEditSubmit}>
                 <label>
                     {selectedSale.key}:
-                    <input 
-                        type="text" 
-                        value={selectedSale.value} 
-                        onChange={e => setSelectedSale({...selectedSale, value: e.target.value})}
+                    <input
+                        type="text"
+                        value={selectedSale.value}
+                        onChange={e => setSelectedSale({ ...selectedSale, value: e.target.value })}
                     />
                 </label>
                 <div>
@@ -411,7 +409,7 @@ function FilterMenu({ filters, setFilters, onApplyFilters }) {
     const updateFilter = (field, value, rangePart) => {
         const newFilters = { ...filters };
         const [startValue, endValue] = newFilters[field].value.split('-');
-    
+
         if (startValue == null && endValue == null) {
             newFilters[field].value = "";
         } else if (rangePart === 'start') {
@@ -438,7 +436,7 @@ function FilterMenu({ filters, setFilters, onApplyFilters }) {
                                 <select
                                     value={filters[field].type}
                                     onChange={e => {
-                                        const newFilters = {...filters};
+                                        const newFilters = { ...filters };
                                         newFilters[field].type = e.target.value;
                                         setFilters(newFilters);
                                     }}
