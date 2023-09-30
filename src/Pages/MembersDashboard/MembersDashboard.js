@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { searchMembersByName } from '../../Supabase/supabaseService';
+import { searchMembersByName, retrieveDeletedMember } from '../../Supabase/supabaseService';
+import { useNavigate } from 'react-router-dom';
 import './MembersDashboard.css';
 
 /**
@@ -12,6 +13,8 @@ function MembersDashboard() {
     const [searchTerm, setSearchTerm] = useState('');
     const [showNoMembersFound, setShowNoMembersFound] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     /**
      * Handles the search for members.
@@ -38,8 +41,9 @@ function MembersDashboard() {
      * Saves the selected member to local storage to retrieve it later in Member component
      * @param member - The selected Member
      */
-    const saveSelectedMemberToLocalStorage = (member) => {
+    const saveSelectedMemberToLocalStorage = async (member) => {
         localStorage.setItem('selectedMember', JSON.stringify(member));
+        navigate('/member');
     };
 
     /**
@@ -50,6 +54,16 @@ function MembersDashboard() {
         setMembers([]);
         setShowNoMembersFound(false); // Hide "No Members Found" on clear
     };
+
+    const handleRetrieve = async (member) => {
+        try {
+            await retrieveDeletedMember(member);
+            localStorage.setItem('selectedMember', JSON.stringify(member));
+            navigate('/member');
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div className='card'>
@@ -71,38 +85,30 @@ function MembersDashboard() {
             {isLoading ? (
                 <p>Loading...</p>
             ) : members.length > 0 ? (
-                <table>
+                <table className='search-results-table'>
                     <thead>
                         <tr>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Date Joined</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {members.map((member) => (
                             <tr key={member.member_id}>
-                                <td><Link
-                                    key={member.member_id}
-                                    to={'/member'}
-                                    onClick={() => { saveSelectedMemberToLocalStorage(member); }}
-                                >{member.first_name}</Link></td>
-                                <td><Link
-                                    key={member.member_id}
-                                    to={'/member'}
-                                    onClick={() => { saveSelectedMemberToLocalStorage(member); }}
-                                >{member.last_name}</Link></td>
-                                <td><Link
-                                    key={member.member_id}
-                                    to={'/member'}
-                                    onClick={() => { saveSelectedMemberToLocalStorage(member); }}
-                                >{member.email}</Link></td>
-                                <td><Link
-                                    key={member.member_id}
-                                    to={'/member'}
-                                    onClick={() => { saveSelectedMemberToLocalStorage(member); }}
-                                >{member.date_joined}</Link></td>
+                                <td>{member.first_name}</td>
+                                <td>{member.last_name}</td>
+                                <td>{member.email}</td>
+                                <td>{member.date_joined}</td>
+                                <td>
+                                    {member.deleted ?
+                                        (<button onClick={() => { handleRetrieve(member) }}>Retrieve</button>)
+                                        :
+                                        (<button onClick={() => saveSelectedMemberToLocalStorage(member)}>View</button>)
+                                    }
+                                </td>
                             </tr>
                         ))}
                     </tbody>

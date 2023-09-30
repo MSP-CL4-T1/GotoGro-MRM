@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
@@ -9,8 +9,8 @@ import Reporting from './Pages/Reporting/Reporting';
 import SalesReport from './Pages/Reporting/SalesReport';
 import InventoryReport from './Pages/Reporting/InventoryReport';
 import supabase from "./Supabase/supabaseClient";
-import {Auth} from "@supabase/auth-ui-react";
-import {ThemeSupa} from "@supabase/auth-ui-shared";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 function App() {
     const [session, setSession] = useState(null);
@@ -29,8 +29,9 @@ function App() {
     }, []);
 
     if (!session) {
-        return(
+        return (
             <div className={"supabaseAuth"}>
+                <img className='user-auth-logo' src="images/dark-logo.png" alt="GotoGro Logo" />
                 <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
             </div>
         );
