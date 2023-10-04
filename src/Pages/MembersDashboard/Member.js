@@ -75,6 +75,7 @@ function Member() {
                                 regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
                                 regexErrorMsg="Invalid Character"
                                 parentOnChange={setEditedFirstName}
+                                testid="first-name-input"
                             />
                         </div>
                         <div className='label-input'>
@@ -85,6 +86,7 @@ function Member() {
                                 regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
                                 regexErrorMsg="Invalid Character"
                                 parentOnChange={setEditedLastName}
+                                testid="last-name-input"
                             />
                         </div>
                         <div className='label-input'>
@@ -95,6 +97,7 @@ function Member() {
                                 value={editedEmail}
                                 parentOnChange={setEditedEmail}
                                 required={true}
+                                testid="email-input"
                             />
                         </div>
                         <div className='label-input'>
@@ -102,12 +105,13 @@ function Member() {
                             <TextInputWithValidation
                                 value={member.date_joined}
                                 readonly={true}
+                                testid="date-joined-input"
                             />
                         </div>
                     </div>
                     <div className='btn-container'>
-                        <button onClick={handleSave}>Save</button>
-                        <button onClick={handleCancel}>Cancel</button>
+                        <button onClick={handleSave} data-testid="save-button">Save</button>
+                        <button onClick={handleCancel} data-testid="cancel-button">Cancel</button>
                     </div>
                 </div>
             ) : (
@@ -132,6 +136,7 @@ function Member() {
                             <TextInputWithValidation
                                 value={member.email}
                                 readonly={true}
+
                             />
                         </div>
                         <div className='label-input'>
@@ -143,8 +148,8 @@ function Member() {
                         </div>
                     </div>
                     <div className='btn-container'>
-                        <button onClick={handleEdit}>Edit</button>
-                        <button onClick={handleDelete}>Delete</button>
+                        <button onClick={handleEdit} data-testid="edit-button">Edit</button>
+                        <button onClick={handleDelete} data-testid="delete-button">Delete</button>
                     </div>
                 </div>
             )}

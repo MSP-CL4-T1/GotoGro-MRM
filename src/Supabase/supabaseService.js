@@ -1,6 +1,5 @@
 import supabase from './supabaseClient';
 
-
 export const signOut = async () => {
     await supabase.auth.signOut();
 }
@@ -71,6 +70,7 @@ export const searchMembersByName = async (name) => {
             return false;
         });
 
+        console.log(filteredMembers);
         return filteredMembers;
     } catch (error) {
         throw error;
