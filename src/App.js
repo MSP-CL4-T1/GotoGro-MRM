@@ -75,7 +75,7 @@ const HomePage = () => {
                     We're excited to introduce our new digital Members Record Management System.
                 </p>
                 <Link className="main-button dashboard-button" to="/members-dashboard">Go to Members Dashboard</Link>
-                <Link className="main-button dashboard-button" to="/products-dashboard">Go to Products Dashboard</Link>
+                <Link className="main-button dashboard-button" to="/products">Go to Products Home</Link>
                 <Link className="main-button reporting-button" to="/reporting">Go to Reporting</Link>
             </main>
         </div>
