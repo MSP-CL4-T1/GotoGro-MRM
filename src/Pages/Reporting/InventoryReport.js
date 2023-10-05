@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, {useMemo, useState} from 'react';
 import Papa from 'papaparse';
-import { fetchProducts } from '../../Supabase/supabaseService';
+import {fetchProducts, updateProducts} from '../../Supabase/supabaseService';
 import './InventoryReport.css';
+import Fuse from 'fuse.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function InventoryReport() {
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [editedProducts, setEditedProducts] = useState([]);
+    const [selectedDescription, setSelectedDescription] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
     const [sortDirection, setSortDirection] = useState('asc');
     const [filters, setFilters] = useState({
-        product_id: { type: 'equal', value: '' },
-        product_name: { type: 'contains', value: '' },
-        description: { type: 'contains', value: '' },
-        price: { type: 'range', value: '' },
-        stock_quantity: { type: 'range', value: '' },
+        "Product Id": {type: 'equal', value: ''},
+        price: {type: 'range', value: ''},
+        stock_quantity: {type: 'range', value: ''},
     });
     const [uiState, setUiState] = useState({
         isLoading: false,
@@ -30,29 +34,47 @@ function InventoryReport() {
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        const updatedProducts = products.map(p => p.product_id === selectedProduct.product_id ? selectedProduct : p);
-        setProducts(updatedProducts);
-        setUiState(prev => ({ ...prev, showModal: false }));
+
+        const updatedProductsList = products.map(p =>
+            p.product_id === selectedProduct.product_id ? selectedProduct : p
+        );
+        setProducts(updatedProductsList);
+
+        setEditedProducts(prev => [...prev, selectedProduct]);
+
+        setUiState(prev => ({...prev, showModal: false}));
+        toast.success('Product updated successfully!');
     };
 
     const handleRowClick = (product) => {
         setSelectedProduct(product);
-        setUiState(prev => ({ ...prev, showModal: true }));
+        setSelectedDescription(product.description); // You may not need this anymore.
+        setUiState(prev => ({...prev, showModal: true}));
+    };
+
+    const handleBulkSave = async () => {
+        try {
+            await updateProducts(editedProducts);
+            setEditedProducts([]); // Reset edited products
+            toast.success('All edited products updated successfully!');
+        } catch (error) {
+            toast.error('Failed to bulk update products.');
+        }
     };
 
     const fetchInventory = async () => {
         try {
-            setUiState(prev => ({ ...prev, isLoading: true }));
+            setUiState(prev => ({...prev, isLoading: true}));
             const fetchedProducts = await fetchProducts();
             setProducts(fetchedProducts);
 
             if (fetchedProducts.length === 0) {
-                setUiState(prev => ({ ...prev, showNoProductsFound: true }));
+                setUiState(prev => ({...prev, showNoProductsFound: true}));
             }
         } catch (error) {
             console.error(error);
         } finally {
-            setUiState(prev => ({ ...prev, isLoading: false }));
+            setUiState(prev => ({...prev, isLoading: false}));
         }
     };
 
@@ -67,7 +89,7 @@ function InventoryReport() {
             return obj;
         });
         const csv = Papa.unparse(filteredInventory);
-        const blob = new Blob([csv], { type: "text/csv" });
+        const blob = new Blob([csv], {type: "text/csv"});
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.setAttribute("hidden", "");
@@ -87,11 +109,9 @@ function InventoryReport() {
 
     const resetFilters = () => {
         setFilters({
-            product_id: { type: 'equal', value: '' },
-            product_name: { type: 'contains', value: '' },
-            description: { type: 'contains', value: '' },
-            price: { type: 'range', value: '' },
-            stock_quantity: { type: 'range', value: '' },
+            product_id: {type: 'equal', value: ''},
+            price: {type: 'range', value: ''},
+            stock_quantity: {type: 'range', value: ''},
         });
     };
 
@@ -99,16 +119,12 @@ function InventoryReport() {
         return products.filter(product => {
             return Object.keys(filters).every(field => {
                 const filter = filters[field];
+
                 if (!filter.value || filter.value.trim() === '') return true;
-                let productValue = product[field];
-                let filterValue = filter.value;
-                if (typeof productValue === 'number' && !isNaN(Number(filterValue))) {
-                    filterValue = Number(filterValue);
-                }
-                if (typeof productValue === 'string' && typeof filterValue === 'string') {
-                    productValue = productValue.toLowerCase().trim();
-                    filterValue = filterValue.toLowerCase().trim();
-                }
+
+                let productValue = Number(product[field]);
+                let filterValue = Number(filter.value.trim());
+
                 switch (filter.type) {
                     case 'equal':
                         return productValue === filterValue;
@@ -119,17 +135,11 @@ function InventoryReport() {
                     case 'smaller':
                         return productValue < filterValue;
                     case 'range':
-                        if (typeof filterValue === 'string') {
-                            const [startStr, endStr] = filterValue.split('-').map(val => val.trim());
-                            const start = startStr ? (typeof productValue === 'number' ? Number(startStr) : startStr) : null;
-                            const end = endStr ? (typeof productValue === 'number' ? Number(endStr) : endStr) : null;
-                            if (start && end) return productValue >= start && productValue <= end;
-                            else if (start) return productValue >= start;
-                            else if (end) return productValue <= end;
-                            else return productValue;
-                        } else {
-                            return false;
-                        }
+                        const [startStr, endStr] = filter.value.split('-').map(val => Number(val.trim()));
+                        if (startStr && endStr) return productValue >= startStr && productValue <= endStr;
+                        else if (startStr) return productValue >= startStr;
+                        else if (endStr) return productValue <= endStr;
+                        else return true;
                     default:
                         return true;
                 }
@@ -142,13 +152,36 @@ function InventoryReport() {
     };
 
     const toggleColumnVisibility = (columnKey) => {
-        setColumnVisibility(prevState => ({ ...prevState, [columnKey]: !prevState[columnKey] }));
+        setColumnVisibility(prevState => ({...prevState, [columnKey]: !prevState[columnKey]}));
     };
 
-    const displayedProducts = filterInventory(sortProducts(products));
+    const fuse = useMemo(() => {
+        return new Fuse(products, {
+            keys: ['product_id', 'product_name', 'description', 'price', 'stock_quantity'],
+            threshold: 0.3,
+            includeScore: true,
+            location: 0,
+            distance: 100,
+            maxPatternLength: 32,
+            minMatchCharLength: 1,
+            shouldSort: true
+        });
+    }, [products]);
+
+    const searchProducts = (products) => {
+        return searchTerm ? fuse.search(searchTerm).map(result => result.item) : products;
+    };
+
+    const displayedProducts = useMemo(() => {
+        let filteredProducts = products;
+        filteredProducts = searchProducts(filteredProducts); // First, apply search
+        filteredProducts = filterInventory(filteredProducts); // Then, apply filters
+        return sortProducts(filteredProducts); // Finally, sort the products
+    }, [products, searchTerm, filters, sortDirection]);
 
     return (
         <div className="card">
+            <ToastContainer />
             <h2>Inventory Report</h2>
             <div className="btn-container">
                 <button type="button" onClick={fetchInventory}>Load Inventory</button>
@@ -158,46 +191,56 @@ function InventoryReport() {
             {uiState.isLoading ? <p>Loading...</p> : null}
 
             {displayedProducts.length > 0 ? (
+                <>
                 <ProductsTable
                     displayedProducts={displayedProducts}
                     handleRowClick={handleRowClick}
                     sortDirection={sortDirection}
                     columnVisibility={columnVisibility}
-                    setShowFilterMenu={value => setUiState(prev => ({ ...prev, showFilterMenu: value }))}
+                    setShowFilterMenu={value => setUiState(prev => ({...prev, showFilterMenu: value}))}
                     resetFilters={resetFilters}
                     toggleSortDirection={toggleSortDirection}
                     toggleColumnVisibility={toggleColumnVisibility}
+                    uiState={uiState}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
                 />
-            ) : uiState.showNoProductsFound ? (
+                <button type="button" onClick={handleBulkSave} className={"bulk-save"}>Bulk Save</button>
+                </>
+                ) : uiState.showNoProductsFound ? (
                 <p>No Products Found</p>
             ) : null}
 
             {uiState.showModal ? (
                 <EditModal
                     selectedProduct={selectedProduct}
-                    setShowModal={(value) => setUiState(prev => ({ ...prev, showModal: value }))}
                     handleEditSubmit={handleEditSubmit}
-                    setSelectedProduct={setSelectedProduct}
+                    closeModal={() => setUiState(prev => ({...prev, showModal: false}))}
+                    updateSelectedProduct={value => setSelectedProduct(value)}
+                    selectedDescription={selectedDescription}
                 />
             ) : null}
 
             {uiState.showFilterMenu ? (
-                <FilterMenu filters={filters} setFilters={setFilters} />
+                <FilterMenu filters={filters} setFilters={setFilters}/>
             ) : null}
         </div>
     );
 }
 
 function ProductsTable({
-    displayedProducts,
-    columnVisibility,
-    handleRowClick,
-    sortDirection,
-    setShowFilterMenu,
-    resetFilters,
-    toggleSortDirection,
-    toggleColumnVisibility
-}) {
+                           displayedProducts,
+                           columnVisibility,
+                           handleRowClick,
+                           sortDirection,
+                           setShowFilterMenu,
+                           resetFilters,
+                           toggleSortDirection,
+                           toggleColumnVisibility,
+                           uiState,
+                           searchTerm,
+                           setSearchTerm
+                       }) {
     return (
         <div>
             <button type="button" onClick={() => setShowFilterMenu(prev => !prev)}>
@@ -206,52 +249,62 @@ function ProductsTable({
             <button type="button" onClick={resetFilters}>
                 Reset Filters
             </button>
+            {uiState.showFilterMenu ? (
+                <div className="search-bar-container">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
+                </div>
+            ) : null}
             <table>
                 <thead>
-                    <tr>
-                        <th onClick={() => toggleSortDirection()}
-                            className={columnVisibility.productId ? '' : 'inactive-header'}>
-                            Product ID 
-                            {sortDirection === 'asc' ? ' 🔼' : ' 🔽'}
-                        </th>
-                        <th onClick={() => toggleColumnVisibility('productName')}
-                            className={columnVisibility.productName ? '' : 'inactive-header'}>
-                            Product Name
-                        </th>
-                        <th onClick={() => toggleColumnVisibility('description')}
-                            className={columnVisibility.description ? '' : 'inactive-header'}>
-                            Description
-                        </th>
-                        <th onClick={() => toggleColumnVisibility('price')}
-                            className={columnVisibility.price ? '' : 'inactive-header'}>
-                            Price
-                        </th>
-                        <th onClick={() => toggleColumnVisibility('stockQuantity')}
-                            className={columnVisibility.stockQuantity ? '' : 'inactive-header'}>
-                            Stock Quantity
-                        </th>
-                    </tr>
+                <tr>
+                    <th onClick={() => toggleSortDirection()}
+                        className={columnVisibility.productId ? '' : 'inactive-header'}>
+                        Product ID
+                        {sortDirection === 'asc' ? ' 🔼' : ' 🔽'}
+                    </th>
+                    <th onClick={() => toggleColumnVisibility('productName')}
+                        className={columnVisibility.productName ? '' : 'inactive-header'}>
+                        Product Name
+                    </th>
+                    <th onClick={() => toggleColumnVisibility('description')}
+                        className={columnVisibility.description ? '' : 'inactive-header'}>
+                        Description
+                    </th>
+                    <th onClick={() => toggleColumnVisibility('price')}
+                        className={columnVisibility.price ? '' : 'inactive-header'}>
+                        Price
+                    </th>
+                    <th onClick={() => toggleColumnVisibility('stockQuantity')}
+                        className={columnVisibility.stockQuantity ? '' : 'inactive-header'}>
+                        Stock Quantity
+                    </th>
+                </tr>
                 </thead>
                 <tbody>
-                    {displayedProducts.map((product) => (
-                        <tr key={product.product_id}>
-                            <td onClick={() => handleRowClick('product_id', product.product_id)}>
-                                {columnVisibility.productId ? product.product_id : null}
-                            </td>
-                            <td onClick={() => handleRowClick('product_name', product.product_name)}>
-                                {columnVisibility.productName ? product.product_name : null}
-                            </td>
-                            <td onClick={() => handleRowClick('description', product.description)}>
-                                {columnVisibility.description ? product.description : null}
-                            </td>
-                            <td onClick={() => handleRowClick('price', product.price)}>
-                                {columnVisibility.price ? product.price : null}
-                            </td>
-                            <td onClick={() => handleRowClick('stock_quantity', product.stock_quantity)}>
-                                {columnVisibility.stockQuantity ? product.stock_quantity : null}
-                            </td>
-                        </tr>
-                    ))}
+                {displayedProducts.map((product) => (
+                    <tr key={product.product_id}>
+                        <td onClick={() => handleRowClick(product)}>
+                            {columnVisibility.productId ? product.product_id : null}
+                        </td>
+                        <td onClick={() => handleRowClick(product)}>
+                            {columnVisibility.productName ? product.product_name : null}
+                        </td>
+                        <td onClick={() => handleRowClick(product)}>
+                            {columnVisibility.description ? product.description : null}
+                        </td>
+                        <td onClick={() => handleRowClick(product)}>
+                            {columnVisibility.price ? product.price : null}
+                        </td>
+                        <td onClick={() => handleRowClick(product)}>
+                            {columnVisibility.stockQuantity ? product.stock_quantity : null}
+                        </td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
         </div>
@@ -259,37 +312,54 @@ function ProductsTable({
 }
 
 function EditModal({
-    selectedProduct,
-    setShowModal,
-    handleEditSubmit,
-    setSelectedProduct
-}) {
+                       selectedProduct,
+                       closeModal,
+                       handleEditSubmit,
+                       updateSelectedProduct,
+                   }) {
+
+    const handleValueChange = (attribute, value) => {
+        const updatedProduct = {...selectedProduct, [attribute]: value};
+        updateSelectedProduct(updatedProduct);
+    };
+
+    // Helper function to format attribute for display
+    const formatAttribute = (attribute) => {
+        return attribute
+            .split('_') // Split the string on underscore
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
+            .join(' '); // Join the words back together
+    };
+
     return (
-        <div className="modal">
-            <h3>Edit {selectedProduct.key}</h3>
-            <form onSubmit={handleEditSubmit}>
-                <label>
-                    {selectedProduct.key}:
-                    <input 
-                        type="text" 
-                        value={selectedProduct.value} 
-                        onChange={e => setSelectedProduct({...selectedProduct, value: e.target.value})}
-                    />
-                </label>
-                <div>
-                    <button type="submit">Save</button>
-                    <button type="button" onClick={() => setShowModal(false)}>Cancel</button>
+        <div className="edit-modal">
+            <h3 className="edit-modal__title">Edit Product</h3>
+            <form className="edit-modal__form" onSubmit={handleEditSubmit}>
+                {Object.keys(selectedProduct).map(attribute => (
+                    <label className="edit-modal__label" key={attribute}>
+                        {formatAttribute(attribute)}:
+                        <input
+                            className="edit-modal__input"
+                            type="text"
+                            value={selectedProduct[attribute]}
+                            onChange={e => handleValueChange(attribute, e.target.value)}
+                        />
+                    </label>
+                ))}
+                <div className="edit-modal__actions">
+                    <button className="edit-modal__save-btn" type="submit">Save</button>
+                    <button className="edit-modal__cancel-btn" type="button" onClick={closeModal}>Cancel</button>
                 </div>
             </form>
         </div>
     );
 }
 
-function FilterMenu({ filters, setFilters, onApplyFilters }) {
+function FilterMenu({filters, setFilters, onApplyFilters}) {
     const updateFilter = (field, value, rangePart) => {
-        const newFilters = { ...filters };
+        const newFilters = {...filters};
         const [startValue, endValue] = newFilters[field].value.split('-');
-    
+
         if (startValue == null && endValue == null) {
             newFilters[field].value = "";
         } else if (rangePart === 'start') {
@@ -304,15 +374,16 @@ function FilterMenu({ filters, setFilters, onApplyFilters }) {
 
     return (
         <div className="filter-menu">
-            <h3>Filter Menu</h3>
-            <form onSubmit={e => e.preventDefault()}>
+            <h3>Filter Options</h3>
+            <form className={"filter-form"} onSubmit={e => e.preventDefault()}>
                 {Object.keys(filters).map(field => {
                     const isRange = filters[field].type === 'range';
                     return (
-                        <div key={field}>
-                            <label>
-                                Filter by {field}:
+                        <div key={field} className="filter-container">
+                            <fieldset className="filter-fieldset">
+                                <legend>Filter by {field}:</legend>
                                 <select
+                                    className="filter-select"
                                     value={filters[field].type}
                                     onChange={e => {
                                         const newFilters = {...filters};
@@ -327,8 +398,9 @@ function FilterMenu({ filters, setFilters, onApplyFilters }) {
                                     <option value="range">Range</option>
                                 </select>
                                 <input
+                                    className="filter-input"
                                     type="text"
-                                    placeholder={isRange ? "Start value" : ""}
+                                    placeholder={isRange ? "Start" : "Value"}
                                     onChange={e => {
                                         if (isRange) {
                                             updateFilter(field, e.target.value, 'start');
@@ -339,8 +411,9 @@ function FilterMenu({ filters, setFilters, onApplyFilters }) {
                                 />
                                 {isRange && (
                                     <input
+                                        className="filter-input"
                                         type="text"
-                                        placeholder="End value"
+                                        placeholder="End"
                                         onChange={e => {
                                             if (isRange) {
                                                 updateFilter(field, e.target.value, 'end');
@@ -350,14 +423,13 @@ function FilterMenu({ filters, setFilters, onApplyFilters }) {
                                         }}
                                     />
                                 )}
-                            </label>
+                            </fieldset>
                         </div>
                     )
                 })}
-                <button type="button" onClick={onApplyFilters}>
-                    Apply Filters
-                </button>
             </form>
+            <div className="apply-button-container">
+            </div>
         </div>
     );
 }
