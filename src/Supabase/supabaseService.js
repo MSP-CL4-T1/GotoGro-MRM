@@ -234,3 +234,46 @@ export async function fetchProducts() {
 
     return data;
 }
+
+export async function updateProduct(updatedProduct) {
+    if (!updatedProduct.product_id) {
+        throw new Error('Product ID is required for updating.');
+    }
+
+    const { data, error } = await supabase
+        .from('Products')
+        .update({
+            product_name: updatedProduct.product_name,
+            description: updatedProduct.description,
+            price: updatedProduct.price,
+            stock_quantity: updatedProduct.stock_quantity
+        })
+        .eq('product_id', updatedProduct.product_id);
+
+    if (error) throw error;
+
+    return data;
+}
+
+// Inside your supabaseService.js (or wherever you defined the Supabase functions)
+
+export async function updateProducts(updatedProducts) {
+    for (let product of updatedProducts) {
+        if (!product.product_id) {
+            throw new Error('Product ID is required for updating.');
+        }
+
+        const { data, error } = await supabase
+            .from('Products')
+            .update({
+                product_name: product.product_name,
+                description: product.description,
+                price: product.price,
+                stock_quantity: product.stock_quantity
+            })
+            .eq('product_id', product.product_id);
+
+        if (error) throw error;
+    }
+}
+
