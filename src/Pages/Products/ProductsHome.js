@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { searchProductsByName } from '../../Supabase/supabaseService';
 import ProductCard from './ProductCard';
 
-function Products() {
+function ProductsHome() {
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showNoProductsFound, setShowNoProductsFound] = useState(false);
@@ -34,7 +34,7 @@ function Products() {
 
     return (
         <div className='card'>
-            <h2>Products Dashboard</h2>
+            <h2>Products Home</h2>
             <div>
                 <input
                     className='search-input'
@@ -64,4 +64,4 @@ function Products() {
     );
 }
 
-export default Products;
+export default ProductsHome;

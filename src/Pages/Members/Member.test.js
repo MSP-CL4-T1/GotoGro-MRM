@@ -4,7 +4,7 @@ import { searchMembersByName, softDeleteMember, updateMember } from '../../Supab
 import { MemoryRouter } from "react-router-dom";
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { act } from "react-dom/test-utils";
-import MembersDashboard from "./MembersDashboard";
+import MembersHome from "./MembersHome";
 
 jest.mock('../../Supabase/supabaseService', () => ({
     softDeleteMember: jest.fn(),
@@ -32,7 +32,7 @@ beforeEach(async () => {
 
     render(
         <MemoryRouter>
-            <MembersDashboard />
+            <MembersHome />
         </MemoryRouter>
     );
 
