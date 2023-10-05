@@ -56,6 +56,7 @@ function AddMember() {
                         regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
                         regexErrorMsg="Invalid Character"
                         showError={isFormSubmitted}
+                        testid="first-name-input"
                     />
                 </div>
                 <div className="label-input">
@@ -67,6 +68,7 @@ function AddMember() {
                         regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
                         regexErrorMsg="Invalid Character"
                         showError={isFormSubmitted}
+                        testid="last-name-input"
                     />
                 </div>
                 <div className="label-input">
@@ -78,6 +80,7 @@ function AddMember() {
                         regex={/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}
                         regexErrorMsg="Invalid Email"
                         showError={isFormSubmitted}
+                        testid="email-input"
                     />
                 </div>
                 <div className="label-input">
@@ -86,11 +89,12 @@ function AddMember() {
                         type='date'
                         value={dateJoined}
                         parentOnChange={setDateJoined}
+                        testid="date-joined-input"
                     />
                 </div>
                 <div className='btn-container'>
-                    <button type="submit">Add Member</button>
-                    <button type="cancel" onClick={handleCancel}>Cancel</button>
+                    <button type="submit" data-testid="add-button">Add Member</button>
+                    <button type="cancel" data-testid="cancel-button" onClick={handleCancel}>Cancel</button>
                 </div>
             </form>
         </div>

@@ -43,7 +43,8 @@ function TextInputWithValidation({
     parentOnChange,
     readonly = false,
     customErrorMsg = "",
-    showError = false // New prop to conditionally show the error message
+    showError = false, // New prop to conditionally show the error message
+    testid = ''
 }) {
     const [inputValue, setInputValue] = useState(value);
     const [error, setError] = useState("");
@@ -87,6 +88,7 @@ function TextInputWithValidation({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 readOnly={readonly}
+                data-testid={testid}
             />
             {(showError && (error || customErrorMsg)) && <span className="error-message">{error || customErrorMsg}</span>}
         </div>
