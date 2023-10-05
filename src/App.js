@@ -11,6 +11,7 @@ import InventoryReport from './Pages/Reporting/InventoryReport';
 import supabase from "./Supabase/supabaseClient";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import ProductsDashboard from './Pages/ProductsDashboard/ProductsDashboard';
 
 function App() {
     const [session, setSession] = useState(null);
@@ -48,6 +49,7 @@ function App() {
                         <Route path="/reporting" element={<Reporting />} />
                         <Route path="/sales-report" element={<SalesReport />} />
                         <Route path="/inventory-report" element={<InventoryReport />} />
+                        <Route path="/products-dashboard" element={<ProductsDashboard />} />
                     </Routes>
                     <footer>
                         <p>© 2023 Goto Grocery Inc. All rights reserved.</p>
@@ -71,6 +73,7 @@ const HomePage = () => {
                     We're excited to introduce our new digital Members Record Management System.
                 </p>
                 <Link className="main-button dashboard-button" to="/members-dashboard">Go to Members Dashboard</Link>
+                <Link className="main-button dashboard-button" to="/products-dashboard">Go to Products Dashboard</Link>
                 <Link className="main-button reporting-button" to="/reporting">Go to Reporting</Link>
             </main>
         </div>

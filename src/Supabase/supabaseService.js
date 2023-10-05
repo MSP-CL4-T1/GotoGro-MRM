@@ -70,7 +70,6 @@ export const searchMembersByName = async (name) => {
             return false;
         });
 
-        console.log(filteredMembers);
         return filteredMembers;
     } catch (error) {
         throw error;
@@ -233,4 +232,18 @@ export async function fetchProducts() {
     if (error) throw error;
 
     return data;
+}
+
+export async function searchProductsByName(name) {
+    try {
+        let { data: products, error } = await supabase
+            .from('Products')
+            .select('*')
+            .or(`product_name.ilike.%${name}%,description.ilike.%${name}%`);
+        if (error) throw error;
+
+        return products;
+    } catch (error) {
+        throw error;
+    }
 }
