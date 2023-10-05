@@ -516,6 +516,30 @@
       ],
       "value": ""
     }, {
+      "id": "859fc6df-8335-4f68-9601-5af5ad3eedd0",
+      "comment": "",
+      "command": "type",
+      "target": "css=input:nth-child(1)",
+      "targets": [
+        ["css=input:nth-child(1)", "css:finder"],
+        ["xpath=//input[@value='high performace laptop']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[3]/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "high performace laptop"
+    }, {
+      "id": "596ffa84-c87f-4ad2-a14c-98908636b84b",
+      "comment": "",
+      "command": "type",
+      "target": "css=input:nth-child(1)",
+      "targets": [
+        ["css=input:nth-child(1)", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[3]/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
       "id": "180464e6-7dcb-48a1-898e-6c84cce8edbe",
       "comment": "",
       "command": "type",
