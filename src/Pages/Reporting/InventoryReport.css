@@ -28,7 +28,11 @@
 .apply-button-container {
     display: flex;
     justify-content: center;
+}
+
+.bulk-save {
     margin-top: 20px;
+    background-color: #007BFF;
 }
 
 
@@ -104,22 +108,17 @@
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    animation: fadeIn 0.3s forwards;
-    width: 80vw;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 80%;
     max-width: 400px;
 }
 
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
 .edit-modal__title {
+    font-size: 1.5rem;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .edit-modal__form {
@@ -132,47 +131,45 @@
 }
 
 .edit-modal__input {
-    width: 70%;
     padding: 10px;
-    margin-top: 5px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border 0.3s;
-}
-
-.edit-modal__input:focus {
-    border-color: #007BFF;
-    outline: none;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .edit-modal__actions {
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
 }
 
-.edit-modal__save-btn, .edit-modal__cancel-btn {
-    padding: 10px 20px;
+.edit-modal__save-btn,
+.edit-modal__cancel-btn {
+    padding: 10px 15px;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    font-size: 1rem;
 }
 
 .edit-modal__save-btn {
-    background-color: #007BFF;
+    background-color: #4CAF50;
     color: white;
 }
 
-.edit-modal__save-btn:hover {
-    background-color: #0056b3;
-}
-
 .edit-modal__cancel-btn {
-    background-color: #ccc;
-    color: #333;
+    background-color: #f44336;
+    color: white;
 }
 
-.edit-modal__cancel-btn:hover {
-    background-color: #aaa;
+/* Optional: Overlay to darken the rest of the page when modal is open */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
 }

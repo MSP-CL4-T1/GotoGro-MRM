@@ -1,12 +1,16 @@
 import React, {useMemo, useState} from 'react';
 import Papa from 'papaparse';
-import {fetchProducts} from '../../Supabase/supabaseService';
+import {fetchProducts, updateProducts} from '../../Supabase/supabaseService';
 import './InventoryReport.css';
 import Fuse from 'fuse.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function InventoryReport() {
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [editedProducts, setEditedProducts] = useState([]);
+    const [selectedDescription, setSelectedDescription] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [sortDirection, setSortDirection] = useState('asc');
     const [filters, setFilters] = useState({
@@ -30,14 +34,32 @@ function InventoryReport() {
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        const updatedProducts = products.map(p => p.product_id === selectedProduct.product_id ? selectedProduct : p);
-        setProducts(updatedProducts);
+
+        const updatedProductsList = products.map(p =>
+            p.product_id === selectedProduct.product_id ? selectedProduct : p
+        );
+        setProducts(updatedProductsList);
+
+        setEditedProducts(prev => [...prev, selectedProduct]);
+
         setUiState(prev => ({...prev, showModal: false}));
+        toast.success('Product updated successfully!');
     };
 
     const handleRowClick = (product) => {
         setSelectedProduct(product);
+        setSelectedDescription(product.description); // You may not need this anymore.
         setUiState(prev => ({...prev, showModal: true}));
+    };
+
+    const handleBulkSave = async () => {
+        try {
+            await updateProducts(editedProducts);
+            setEditedProducts([]); // Reset edited products
+            toast.success('All edited products updated successfully!');
+        } catch (error) {
+            toast.error('Failed to bulk update products.');
+        }
     };
 
     const fetchInventory = async () => {
@@ -97,16 +119,12 @@ function InventoryReport() {
         return products.filter(product => {
             return Object.keys(filters).every(field => {
                 const filter = filters[field];
+
                 if (!filter.value || filter.value.trim() === '') return true;
-                let productValue = product[field];
-                let filterValue = filter.value;
-                if (typeof productValue === 'number' && !isNaN(Number(filterValue))) {
-                    filterValue = Number(filterValue);
-                }
-                if (typeof productValue === 'string' && typeof filterValue === 'string') {
-                    productValue = productValue.toLowerCase().trim();
-                    filterValue = filterValue.toLowerCase().trim();
-                }
+
+                let productValue = Number(product[field]);
+                let filterValue = Number(filter.value.trim());
+
                 switch (filter.type) {
                     case 'equal':
                         return productValue === filterValue;
@@ -117,17 +135,11 @@ function InventoryReport() {
                     case 'smaller':
                         return productValue < filterValue;
                     case 'range':
-                        if (typeof filterValue === 'string') {
-                            const [startStr, endStr] = filterValue.split('-').map(val => val.trim());
-                            const start = startStr ? (typeof productValue === 'number' ? Number(startStr) : startStr) : null;
-                            const end = endStr ? (typeof productValue === 'number' ? Number(endStr) : endStr) : null;
-                            if (start && end) return productValue >= start && productValue <= end;
-                            else if (start) return productValue >= start;
-                            else if (end) return productValue <= end;
-                            else return productValue;
-                        } else {
-                            return false;
-                        }
+                        const [startStr, endStr] = filter.value.split('-').map(val => Number(val.trim()));
+                        if (startStr && endStr) return productValue >= startStr && productValue <= endStr;
+                        else if (startStr) return productValue >= startStr;
+                        else if (endStr) return productValue <= endStr;
+                        else return true;
                     default:
                         return true;
                 }
@@ -169,6 +181,7 @@ function InventoryReport() {
 
     return (
         <div className="card">
+            <ToastContainer />
             <h2>Inventory Report</h2>
             <div className="btn-container">
                 <button type="button" onClick={fetchInventory}>Load Inventory</button>
@@ -178,6 +191,7 @@ function InventoryReport() {
             {uiState.isLoading ? <p>Loading...</p> : null}
 
             {displayedProducts.length > 0 ? (
+                <>
                 <ProductsTable
                     displayedProducts={displayedProducts}
                     handleRowClick={handleRowClick}
@@ -191,17 +205,19 @@ function InventoryReport() {
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                 />
-            ) : uiState.showNoProductsFound ? (
+                <button type="button" onClick={handleBulkSave} className={"bulk-save"}>Bulk Save</button>
+                </>
+                ) : uiState.showNoProductsFound ? (
                 <p>No Products Found</p>
             ) : null}
 
             {uiState.showModal ? (
                 <EditModal
                     selectedProduct={selectedProduct}
-                    setShowModal={(value) => setUiState(prev => ({...prev, showModal: value}))}
                     handleEditSubmit={handleEditSubmit}
-                    setSelectedProduct={setSelectedProduct}
                     closeModal={() => setUiState(prev => ({...prev, showModal: false}))}
+                    updateSelectedProduct={value => setSelectedProduct(value)}
+                    selectedDescription={selectedDescription}
                 />
             ) : null}
 
@@ -272,19 +288,19 @@ function ProductsTable({
                 <tbody>
                 {displayedProducts.map((product) => (
                     <tr key={product.product_id}>
-                        <td onClick={() => handleRowClick('product_id', product.product_id)}>
+                        <td onClick={() => handleRowClick(product)}>
                             {columnVisibility.productId ? product.product_id : null}
                         </td>
-                        <td onClick={() => handleRowClick('product_name', product.product_name)}>
+                        <td onClick={() => handleRowClick(product)}>
                             {columnVisibility.productName ? product.product_name : null}
                         </td>
-                        <td onClick={() => handleRowClick('description', product.description)}>
+                        <td onClick={() => handleRowClick(product)}>
                             {columnVisibility.description ? product.description : null}
                         </td>
-                        <td onClick={() => handleRowClick('price', product.price)}>
+                        <td onClick={() => handleRowClick(product)}>
                             {columnVisibility.price ? product.price : null}
                         </td>
-                        <td onClick={() => handleRowClick('stock_quantity', product.stock_quantity)}>
+                        <td onClick={() => handleRowClick(product)}>
                             {columnVisibility.stockQuantity ? product.stock_quantity : null}
                         </td>
                     </tr>
@@ -299,29 +315,37 @@ function EditModal({
                        selectedProduct,
                        closeModal,
                        handleEditSubmit,
-                       updateSelectedProduct
+                       updateSelectedProduct,
                    }) {
 
-    const handleValueChange = (e) => {
-        updateSelectedProduct({
-            ...selectedProduct,
-            value: e.target.value
-        });
+    const handleValueChange = (attribute, value) => {
+        const updatedProduct = {...selectedProduct, [attribute]: value};
+        updateSelectedProduct(updatedProduct);
+    };
+
+    // Helper function to format attribute for display
+    const formatAttribute = (attribute) => {
+        return attribute
+            .split('_') // Split the string on underscore
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
+            .join(' '); // Join the words back together
     };
 
     return (
         <div className="edit-modal">
-            <h3 className="edit-modal__title">Edit {selectedProduct.key}</h3>
+            <h3 className="edit-modal__title">Edit Product</h3>
             <form className="edit-modal__form" onSubmit={handleEditSubmit}>
-                <label className="edit-modal__label">
-                    {selectedProduct.key}
-                    <input
-                        className="edit-modal__input"
-                        type="text"
-                        value={selectedProduct.value}
-                        onChange={handleValueChange}
-                    />
-                </label>
+                {Object.keys(selectedProduct).map(attribute => (
+                    <label className="edit-modal__label" key={attribute}>
+                        {formatAttribute(attribute)}:
+                        <input
+                            className="edit-modal__input"
+                            type="text"
+                            value={selectedProduct[attribute]}
+                            onChange={e => handleValueChange(attribute, e.target.value)}
+                        />
+                    </label>
+                ))}
                 <div className="edit-modal__actions">
                     <button className="edit-modal__save-btn" type="submit">Save</button>
                     <button className="edit-modal__cancel-btn" type="button" onClick={closeModal}>Cancel</button>
@@ -330,7 +354,6 @@ function EditModal({
         </div>
     );
 }
-
 
 function FilterMenu({filters, setFilters, onApplyFilters}) {
     const updateFilter = (field, value, rangePart) => {
