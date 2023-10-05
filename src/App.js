@@ -11,6 +11,7 @@ import InventoryReport from './Pages/Reporting/InventoryReport';
 import supabase from "./Supabase/supabaseClient";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import ProductsDashboard from "./Pages/ProductsDashboard/ProductsDashboard";
 
 function App() {
     const [session, setSession] = useState(null);
@@ -43,6 +44,7 @@ function App() {
                     <Routes>
                         <Route path="/" exact element={<HomePage />} />
                         <Route path="/members-dashboard" element={<MembersDashboard />} />
+                        <Route path="/products-dashboard" element={<ProductsDashboard />} />
                         <Route path="/member" element={<Member />} />
                         <Route path="/add-member" element={<AddMember />} />
                         <Route path="/reporting" element={<Reporting />} />
@@ -72,6 +74,7 @@ const HomePage = () => {
                 </p>
                 <Link className="main-button dashboard-button" to="/members-dashboard">Go to Members Dashboard</Link>
                 <Link className="main-button reporting-button" to="/reporting">Go to Reporting</Link>
+                <Link className="main-button dashboard-button" to="/products-dashboard">Go to Products Dashboard</Link>
             </main>
         </div>
     );
