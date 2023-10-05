@@ -11,8 +11,8 @@ import InventoryReport from './Pages/Reporting/InventoryReport';
 import supabase from "./Supabase/supabaseClient";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import ProductsDashboard from './Pages/ProductsDashboard/ProductsDashboard';
-import AddProduct from './Pages/ProductsDashboard/AddProduct';
+import Products from './Pages/Products/Products';
+import AddProduct from './Pages/Products/AddProduct';
 
 function App() {
     const [session, setSession] = useState(null);
@@ -50,7 +50,7 @@ function App() {
                         <Route path="/reporting" element={<Reporting />} />
                         <Route path="/sales-report" element={<SalesReport />} />
                         <Route path="/inventory-report" element={<InventoryReport />} />
-                        <Route path="/products-dashboard" element={<ProductsDashboard />} />
+                        <Route path="/products" element={<Products />} />
                         <Route path="/add-product" element={<AddProduct />} />
                     </Routes>
                     <footer>

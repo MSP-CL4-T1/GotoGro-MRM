@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { searchProductsByName } from '../../Supabase/supabaseService';
 import ProductCard from './ProductCard';
 
-function ProductsDashboard() {
+function Products() {
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showNoProductsFound, setShowNoProductsFound] = useState(false);
@@ -64,4 +64,4 @@ function ProductsDashboard() {
     );
 }
 
-export default ProductsDashboard;
+export default Products;
