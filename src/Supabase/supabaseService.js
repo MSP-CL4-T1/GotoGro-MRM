@@ -70,7 +70,6 @@ export const searchMembersByName = async (name) => {
             return false;
         });
 
-        console.log(filteredMembers);
         return filteredMembers;
     } catch (error) {
         throw error;
@@ -255,15 +254,13 @@ export async function updateProduct(updatedProduct) {
     return data;
 }
 
-// Inside your supabaseService.js (or wherever you defined the Supabase functions)
-
 export async function updateProducts(updatedProducts) {
     for (let product of updatedProducts) {
         if (!product.product_id) {
             throw new Error('Product ID is required for updating.');
         }
 
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('Products')
             .update({
                 product_name: product.product_name,
@@ -277,3 +274,51 @@ export async function updateProducts(updatedProducts) {
     }
 }
 
+export async function searchProductsByName(name) {
+    try {
+        let { data: products, error } = await supabase
+            .from('Products')
+            .select('*')
+            .or(`product_name.ilike.%${name}%,description.ilike.%${name}%`);
+        if (error) throw error;
+
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function addProduct(newProduct) {
+    try {
+        // Get the last ID from the table
+        const { data: lastId } = await supabase
+            .from('Products')
+            .select('product_id')
+            .order('product_id', { ascending: false })
+            .limit(1);
+
+        // Calculate the new ID by incrementing the last ID
+        const newId = lastId[0]?.product_id + 1 || 1; // If no previous records, start from 1
+        // Insert the new product into the database with the calculated ID
+        const { error } = await supabase
+            .from('Products')
+            .insert([
+                {
+                    product_id: newId,
+                    product_name: newProduct.product_name,
+                    description: newProduct.description,
+                    price: newProduct.price,
+                    stock_quantity: newProduct.stock_quantity,
+                    image: newProduct.image
+                },
+            ]);
+
+        // Check for errors
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        console.error('Error adding product:', error.message);
+        throw error;
+    }
+}
