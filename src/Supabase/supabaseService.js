@@ -254,15 +254,13 @@ export async function updateProduct(updatedProduct) {
     return data;
 }
 
-// Inside your supabaseService.js (or wherever you defined the Supabase functions)
-
 export async function updateProducts(updatedProducts) {
     for (let product of updatedProducts) {
         if (!product.product_id) {
             throw new Error('Product ID is required for updating.');
         }
 
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('Products')
             .update({
                 product_name: product.product_name,
