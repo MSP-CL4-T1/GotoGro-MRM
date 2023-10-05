@@ -8,19 +8,171 @@
     border-radius: 5px;
     box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
     z-index: 1000;
+    display: flex;
 }
-  
+
+.filter-form {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+}
+
+.filter-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.apply-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
 .filter-menu {
-    background-color: #fff;
+    background-color: #f6f8fa;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.05);
     margin-top: 20px;
     overflow-y: auto;
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 120px);
 }
+
+.filter-fieldset {
+    border: 1px solid #d0d6dc;
+    padding: 10px 20px;
+    border-radius: 7px;
+    margin-bottom: 20px;
+}
+
+.filter-fieldset:last-child {
+    margin-bottom: 0;
+}
+
+.filter-select,
+.filter-input {
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d0d6dc;
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.apply-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.apply-button:hover {
+    background-color: #0056b3;
+}
+
 
 .inactive-header {
     opacity: 0.5;
 }
-  
+
+.search-bar-container {
+    margin: 20px 0;
+    padding: 0 20px;
+}
+
+.search-bar-container input {
+    width: 20%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.edit-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+    width: 80vw;
+    max-width: 400px;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.edit-modal__title {
+    margin-bottom: 20px;
+}
+
+.edit-modal__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-modal__label {
+    margin-bottom: 10px;
+}
+
+.edit-modal__input {
+    width: 70%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border 0.3s;
+}
+
+.edit-modal__input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.edit-modal__actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.edit-modal__save-btn, .edit-modal__cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.edit-modal__save-btn {
+    background-color: #007BFF;
+    color: white;
+}
+
+.edit-modal__save-btn:hover {
+    background-color: #0056b3;
+}
+
+.edit-modal__cancel-btn {
+    background-color: #ccc;
+    color: #333;
+}
+
+.edit-modal__cancel-btn:hover {
+    background-color: #aaa;
+}
