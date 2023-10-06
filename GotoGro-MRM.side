@@ -555,7 +555,7 @@
       ],
       "value": "50"
     }, {
-      "id": "1555bb86-c4dc-49ff-81e7-9e1e24edaf65",
+      "id": "4a0a71f7-fcec-4ed9-bc60-344d9e06cfef",
       "comment": "",
       "command": "type",
       "target": "css=.filter-container:nth-child(2) .filter-input:nth-child(4)",
@@ -566,6 +566,30 @@
         ["xpath=//input[2]", "xpath:position"]
       ],
       "value": "100"
+    }, {
+      "id": "6e894fe2-c848-4ad3-bfcb-90d059bfd9f9",
+      "comment": "",
+      "command": "type",
+      "target": "css=.filter-container:nth-child(2) .filter-input:nth-child(3)",
+      "targets": [
+        ["css=.filter-container:nth-child(2) .filter-input:nth-child(4)", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[4]/form/div[2]/fieldset/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1555bb86-c4dc-49ff-81e7-9e1e24edaf65",
+      "comment": "",
+      "command": "type",
+      "target": "css=.filter-container:nth-child(2) .filter-input:nth-child(4)",
+      "targets": [
+        ["css=.filter-container:nth-child(2) .filter-input:nth-child(4)", "css:finder"],
+        ["xpath=(//input[@type='text'])[4]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[4]/form/div[2]/fieldset/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
     }, {
       "id": "04b88e98-3dc5-426d-b360-9600109901d6",
       "comment": "",
