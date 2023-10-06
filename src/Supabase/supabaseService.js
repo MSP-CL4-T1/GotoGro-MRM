@@ -279,7 +279,8 @@ export async function searchProductsByName(name) {
         let { data: products, error } = await supabase
             .from('Products')
             .select('*')
-            .or(`product_name.ilike.%${name}%,description.ilike.%${name}%`);
+            .or(`product_name.ilike.%${name}%,description.ilike.%${name}%`)
+            .eq('deleted', false);
         if (error) throw error;
 
         return products;
@@ -319,6 +320,22 @@ export async function addProduct(newProduct) {
         }
     } catch (error) {
         console.error('Error adding product:', error.message);
+        throw error;
+    }
+}
+
+export async function softDeleteProduct(productToDelete) {
+    try {
+        const { error } = await supabase
+            .from('Products')
+            .update({
+                deleted: true
+            })
+            .eq('product_id', productToDelete.product_id);
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
         throw error;
     }
 }

@@ -300,10 +300,10 @@
       "target": "//*[@id=\"root\"]/div/div/main/a[1]",
       "targets": [
         ["linkText=Go to Members Dashboard", "linkText"],
-        ["css=.dashboard-button", "css:finder"],
+        ["css=.home-button", "css:finder"],
         ["xpath=//a[contains(text(),'Go to Members Dashboard')]", "xpath:link"],
         ["xpath=//div[@id='root']/div/div/main/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/members-dashboard')]", "xpath:href"],
+        ["xpath=//a[contains(@href, '/members-home')]", "xpath:href"],
         ["xpath=//main/a", "xpath:position"],
         ["xpath=//a[contains(.,'Go to Members Dashboard')]", "xpath:innerText"]
       ],
