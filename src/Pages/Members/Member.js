@@ -50,12 +50,12 @@ function Member() {
         }
     };
 
-    // soft deletes the member and redirects the user to the MembersDashboard screen
+    // soft deletes the member and redirects the user to the MembersHome screen
     const handleDelete = async () => {
         try {
             await softDeleteMember(member);
             localStorage.removeItem('selectedMember');
-            navigate('/members-dashboard');
+            navigate('/members-home');
         } catch (error) {
             console.error(error)
         }

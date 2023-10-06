@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { searchMembersByName, retrieveDeletedMember } from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
-import './MembersDashboard.css';
+import './MembersHome.css';
 
 /**
- * MembersDashboard component for displaying and searching members.
+ * MembersHome component for displaying and searching members.
  * @returns {JSX.Element} The rendered JSX element.
  */
-function MembersDashboard() {
+function MembersHome() {
     const [members, setMembers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showNoMembersFound, setShowNoMembersFound] = useState(false);
@@ -67,7 +67,7 @@ function MembersDashboard() {
 
     return (
         <div className='card'>
-            <h2>Members Dashboard</h2>
+            <h2>Members Home</h2>
             <div>
                 <input
                     className='search-input'
@@ -120,4 +120,4 @@ function MembersDashboard() {
     );
 }
 
-export default MembersDashboard;
+export default MembersHome;

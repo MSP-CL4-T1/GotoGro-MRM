@@ -40,7 +40,7 @@ function AddMember() {
     };
 
     const handleCancel = () => {
-        navigate('/members-dashboard');
+        navigate('/members-home');
     }
 
     return (
