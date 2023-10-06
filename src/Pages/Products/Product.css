@@ -47,3 +47,9 @@ img {
     width: 160px;
     object-fit: contain;
 }
+
+.data-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

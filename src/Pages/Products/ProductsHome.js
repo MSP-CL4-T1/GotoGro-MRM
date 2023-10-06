@@ -54,7 +54,7 @@ function ProductsHome() {
             ) : products.length > 0 ? (
                 <div className="products-container">
                     {products.map((product, index) => (
-                        <ProductCard key={index} product={product} />
+                        <ProductCard key={index} product={product} disabled={false} />
                     ))}
                 </div>
             ) : showNoProductsFound ? (
