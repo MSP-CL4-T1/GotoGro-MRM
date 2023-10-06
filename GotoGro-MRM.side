@@ -14,19 +14,12 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "47fc5c38-af9d-40cd-9a3a-e302a656879e",
-      "comment": "",
-      "command": "executeScript",
-      "target": "return window.location.href",
-      "targets": [],
-      "value": "currentURL"
-    }, {
       "id": "3ddc643c-4128-4c51-a629-5d325b2dec33",
       "comment": "",
       "command": "if",
-      "target": "${currentURL} != 'https://msp-cl4-t1.ts.r.appspot.com/'",
+      "target": "document.querySelector('.navbar-link') !== null",
       "targets": [],
-      "value": ""
+      "value": "true"
     }, {
       "id": "40900b84-7d5f-4a67-8ff0-607f0967bc1f",
       "comment": "",
@@ -105,19 +98,12 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "0fa0f90d-15b6-470a-b8dc-d50c8ef490d9",
-      "comment": "",
-      "command": "executeScript",
-      "target": "return window.location.href",
-      "targets": [],
-      "value": "currentURL"
-    }, {
       "id": "b5a74421-0214-4b26-825f-03a891ba30c8",
       "comment": "",
       "command": "if",
-      "target": "${currentURL} != 'https://msp-cl4-t1.ts.r.appspot.com/'",
+      "target": "document.querySelector('.navbar-link') !== null",
       "targets": [],
-      "value": ""
+      "value": "true"
     }, {
       "id": "9d04a923-3af6-46d0-a1e6-311a23363589",
       "comment": "",
@@ -201,18 +187,18 @@
       ],
       "value": ""
     }, {
-      "id": "00b6dad7-025b-46dd-8bdc-8ce32b64208e",
+      "id": "906dbfbe-0672-4760-9633-94b6d88ba92b",
       "comment": "",
       "command": "click",
-      "target": "linkText=Go to Members Dashboard",
+      "target": "linkText=Go to Members Home",
       "targets": [
-        ["linkText=Go to Members Dashboard", "linkText"],
-        ["css=.dashboard-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Go to Members Dashboard')]", "xpath:link"],
+        ["linkText=Go to Members Home", "linkText"],
+        ["css=.main-button:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Go to Members Home')]", "xpath:link"],
         ["xpath=//div[@id='root']/div/div/main/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/members-dashboard')]", "xpath:href"],
+        ["xpath=//a[contains(@href, '/members-home')]", "xpath:href"],
         ["xpath=//main/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Go to Members Dashboard')]", "xpath:innerText"]
+        ["xpath=//a[contains(.,'Go to Members Home')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -379,19 +365,12 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "56e01aa0-a743-437a-ac11-e06bdc893ed3",
-      "comment": "",
-      "command": "executeScript",
-      "target": "return window.location.href",
-      "targets": [],
-      "value": "currentURL"
-    }, {
       "id": "9a4edfc0-ee59-4377-add6-d09034d3ce25",
       "comment": "",
       "command": "if",
-      "target": "${currentURL} != 'https://msp-cl4-t1.ts.r.appspot.com/'",
+      "target": "document.querySelector('.navbar-link') !== null",
       "targets": [],
-      "value": ""
+      "value": "true"
     }, {
       "id": "950ca70b-e7a8-421a-8e63-c30599414535",
       "comment": "",
@@ -660,7 +639,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["8fb1d2d1-2126-487c-bca0-f675f0833621", "6869db90-159d-4020-bfa0-bbe2191e3438"]
+    "tests": ["8fb1d2d1-2126-487c-bca0-f675f0833621", "6869db90-159d-4020-bfa0-bbe2191e3438", "0cc85418-a663-4e80-939e-89b08c896c5c"]
   }],
   "urls": ["https://msp-cl4-t1.ts.r.appspot.com/", "http://localhost:3000/"],
   "plugins": []
