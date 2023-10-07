@@ -1,0 +1,81 @@
+.products-dashboard {
+    padding: 20px;
+    background-color: #f8f8f8;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.info-cards {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.info-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.info-card:hover {
+    transform: translateY(-10px);
+}
+
+.info-card h2 {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.info-card p {
+    font-size: 1.5em;
+}
+
+.charts {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    margin-top: 5vh;
+}
+
+.chart-container {
+    width: 100%;
+    align-content: center;
+    margin-bottom: 20px;
+}
+
+.low-stock h2 {
+    margin-bottom: 10px;
+}
+
+.low-stock ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.low-stock li {
+    background-color: #ffe0e0;
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.low-stock li:hover {
+    background-color: #ffcccc;
+}

@@ -11,6 +11,7 @@ import InventoryReport from './Pages/Reporting/InventoryReport';
 import supabase from "./Supabase/supabaseClient";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import ProductsDashboard from "./Pages/ProductsDashboard/ProductsDashboard";
 import ProductsHome from './Pages/Products/ProductsHome';
 import AddProduct from './Pages/Products/AddProduct';
 import Product from './Pages/Products/Product';
@@ -45,6 +46,8 @@ function App() {
                     <Navbar />
                     <Routes>
                         <Route path="/" exact element={<HomePage />} />
+                        <Route path="/members-dashboard" element={<MembersDashboard />} />
+                        <Route path="/products-dashboard" element={<ProductsDashboard />} />
                         <Route path="/members-home" element={<MembersHome />} />
                         <Route path="/member" element={<Member />} />
                         <Route path="/add-member" element={<AddMember />} />
@@ -81,6 +84,7 @@ const HomePage = () => {
                     <Link className="main-button home-button" to="/products-home">Go to Products Home</Link>
                 </div>
                 <Link className="main-button reporting-button" to="/reporting">Go to Reporting</Link>
+                <Link className="main-button dashboard-button" to="/products-dashboard">Go to Products Dashboard</Link>
             </main>
         </div>
     );
