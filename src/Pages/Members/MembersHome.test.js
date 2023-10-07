@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { searchMembersByName, retrieveDeletedMember } from '../../Supabase/supabaseService';
 import { MemoryRouter } from 'react-router-dom';
-import MembersDashboard from './MembersDashboard';
+import MembersHome from './MembersHome';
 import { act } from "react-dom/test-utils";
 import Member from './Member';
 
@@ -15,13 +15,13 @@ afterEach(() => {
     jest.clearAllMocks();
 });
 
-test('renders MembersDashboard component', () => {
+test('renders MembersHome component', () => {
     render(
         <MemoryRouter>
-            <MembersDashboard />
+            <MembersHome />
         </MemoryRouter>
     );
-    const titleElement = screen.getByText(/Members Dashboard/i);
+    const titleElement = screen.getByText(/Members Home/i);
     expect(titleElement).toBeInTheDocument();
     const searchBar = screen.getByPlaceholderText('Search members...');
     expect(searchBar).toBeInTheDocument();
@@ -52,7 +52,7 @@ test('searches for members', async () => {
 
     render(
         <MemoryRouter>
-            <MembersDashboard />
+            <MembersHome />
         </MemoryRouter>
     );
 
@@ -68,7 +68,7 @@ test('searches for members', async () => {
 test('isLoading is true after handleSearch', async () => {
     render(
         <MemoryRouter>
-            <MembersDashboard />
+            <MembersHome />
         </MemoryRouter>
     );
 
@@ -96,7 +96,7 @@ test('saves selected member to local storage and navigates to the member page', 
 
     render(
         <MemoryRouter>
-            <MembersDashboard />
+            <MembersHome />
         </MemoryRouter>
     );
 
@@ -154,7 +154,7 @@ test('retrieve recently deleted member (before 24 hours have passed)', async () 
 
     render(
         <MemoryRouter>
-            <MembersDashboard />
+            <MembersHome />
         </MemoryRouter>
     );
 

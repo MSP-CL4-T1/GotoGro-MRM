@@ -40,6 +40,10 @@ main {
   align-items: center;
 }
 
+.grouped-buttons {
+  margin-bottom: 10px;
+}
+
 .description {
   max-width: 800px;
   margin-bottom: 2rem;

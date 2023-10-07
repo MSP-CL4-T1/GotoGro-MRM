@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import AddMember from './Pages/MembersDashboard/AddMember';
-import MembersDashboard from './Pages/MembersDashboard/MembersDashboard';
-import Member from './Pages/MembersDashboard/Member';
+import AddMember from './Pages/Members/AddMember';
+import MembersHome from './Pages/Members/MembersHome';
+import Member from './Pages/Members/Member';
 import Reporting from './Pages/Reporting/Reporting';
 import SalesReport from './Pages/Reporting/SalesReport';
 import InventoryReport from './Pages/Reporting/InventoryReport';
@@ -12,6 +12,9 @@ import supabase from "./Supabase/supabaseClient";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import ProductsDashboard from "./Pages/ProductsDashboard/ProductsDashboard";
+import ProductsHome from './Pages/Products/ProductsHome';
+import AddProduct from './Pages/Products/AddProduct';
+import Product from './Pages/Products/Product';
 
 function App() {
     const [session, setSession] = useState(null);
@@ -45,11 +48,15 @@ function App() {
                         <Route path="/" exact element={<HomePage />} />
                         <Route path="/members-dashboard" element={<MembersDashboard />} />
                         <Route path="/products-dashboard" element={<ProductsDashboard />} />
+                        <Route path="/members-home" element={<MembersHome />} />
                         <Route path="/member" element={<Member />} />
                         <Route path="/add-member" element={<AddMember />} />
                         <Route path="/reporting" element={<Reporting />} />
                         <Route path="/sales-report" element={<SalesReport />} />
                         <Route path="/inventory-report" element={<InventoryReport />} />
+                        <Route path="/products-home" element={<ProductsHome />} />
+                        <Route path="/add-product" element={<AddProduct />} />
+                        <Route path="/product" element={<Product />} />
                     </Routes>
                     <footer>
                         <p>© 2023 Goto Grocery Inc. All rights reserved.</p>
@@ -72,7 +79,10 @@ const HomePage = () => {
                     facing challenges in meeting its members' expectations and satisfying their diverse grocery needs.
                     We're excited to introduce our new digital Members Record Management System.
                 </p>
-                <Link className="main-button dashboard-button" to="/members-dashboard">Go to Members Dashboard</Link>
+                <div className='grouped-buttons'>
+                    <Link className="main-button home-button" to="/members-home">Go to Members Home</Link>
+                    <Link className="main-button home-button" to="/products-home">Go to Products Home</Link>
+                </div>
                 <Link className="main-button reporting-button" to="/reporting">Go to Reporting</Link>
                 <Link className="main-button dashboard-button" to="/products-dashboard">Go to Products Dashboard</Link>
             </main>
