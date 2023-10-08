@@ -66,9 +66,8 @@ h2 {
 }
 
 .chart-container {
-    align-content: center;
     margin-bottom: 20px;
-    width: inherit;
+    width: 100%;
     padding: 20px;
 }
 
