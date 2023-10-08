@@ -234,6 +234,78 @@ export async function fetchProducts() {
     return data;
 }
 
+export async function getSalesDataForProduct(productId) {
+    const { data, error } = await supabase
+        .from('SaleRecords')
+        .select('*')
+        .eq('product_id', productId);
+
+    if (error) throw error;
+
+    return data;
+}
+
+export async function addRandomSaleRecords(productId) {
+    // Fetch the price of the product
+    const { data: productData, error: productError } = await supabase
+        .from('Products')
+        .select('price')
+        .eq('product_id', productId)
+        .single(); // Assuming product_id is unique and will return a single record
+
+    if (productError) throw productError;
+
+    const productPrice = productData.price;
+
+    const randomSales = Array.from({ length: 50 }, () => {
+        const quantity = Math.floor(Math.random() * 100) + 1;
+        return {
+            product_id: productId,
+            sale_date: new Date(new Date().getTime() - (Math.random() * 10000000000)).toISOString(),
+            quantity: quantity,
+            total_amount: quantity * productPrice // Calculating total amount based on quantity and product price
+        };
+    });
+
+    const { error: insertError } = await supabase
+        .from('SaleRecords')
+        .insert(randomSales);
+
+    if (insertError) throw insertError;
+}
+
+export async function fetchHotProductsFromDB() {
+    try {
+        const { data: saleRecords, error: saleError } = await supabase
+            .from('SaleRecords')
+            .select('product_id, quantity');
+
+        if (saleError) throw saleError;
+
+        const aggregatedSales = saleRecords.reduce((acc, sale) => {
+            acc[sale.product_id] = (acc[sale.product_id] || 0) + sale.quantity;
+            return acc;
+        }, {});
+
+        const { data: productNames, error: nameError } = await supabase
+            .from('Products')
+            .select('product_id, product_name');
+
+        if (nameError) throw nameError;
+
+        const hotProducts = productNames.map(product => ({
+            ...product,
+            totalSold: aggregatedSales[product.product_id] || 0
+        })).sort((a, b) => b.totalSold - a.totalSold); // Sort by totalSold in descending order
+
+        return hotProducts;
+
+    } catch (error) {
+        console.error("Error fetching hot products:", error);
+        throw error;
+    }
+}
+
 export async function updateProduct(updatedProduct) {
     if (!updatedProduct.product_id) {
         throw new Error('Product ID is required for updating.');

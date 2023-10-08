@@ -38,22 +38,24 @@ const ProductsDashboard = () => {
     }, []);
 
     const handleReorderStockClick = async () => {
-        products.forEach((product) => {
+        const updatePromises = products.map(product => {
             if (product.stock_quantity <= LOW_STOCK_THRESHOLD) {
-                reorderStock(product);
+                return reorderStock(product);
             }
         });
 
-        await getProducts();
+        await Promise.all(updatePromises); // Await all update operations to complete
+        await getProducts(); // Get the updated list of products
     };
 
-    const reorderStock = (product) => {
+    const reorderStock = async (product) => {
         const reorderedProduct = {
             ...product,
             stock_quantity: product.stock_quantity + 10,
         };
-        updateProduct(reorderedProduct);
+        await updateProduct(reorderedProduct);
     };
+
 
     const dataBar = {
         labels: products.map((p) => p.product_name),
@@ -118,7 +120,6 @@ const ProductsDashboard = () => {
     const optionsPieDoughnut = {
         plugins: {
             legend: {
-                display: false,
                 position: 'bottom',
             },
         },
@@ -127,6 +128,9 @@ const ProductsDashboard = () => {
             animateRotate: true,
             duration: 1000,
         },
+        borderWidth: 5,
+        hoverBorderWidth: 15,
+
     };
 
     return (
@@ -139,7 +143,10 @@ const ProductsDashboard = () => {
                         {lowStockProducts.map((p) => (
                             <li key={p.product_id}>
                                 {p.product_name} - Only {p.stock_quantity} left in stock!
-                                <button onClick={() => reorderStock(p)}>Reorder {p.product_name}</button>
+                                <button onClick={async () => {
+                                    await reorderStock(p);
+                                    await getProducts();
+                                }}>Reorder {p.product_name}</button>
                             </li>
                         ))}
                     </ul>
