@@ -2,6 +2,7 @@
     padding: 20px;
     background-color: #f8f8f8;
     animation: fadeIn 1s ease-in;
+    margin-bottom: 100px;
 }
 
 @keyframes fadeIn {
