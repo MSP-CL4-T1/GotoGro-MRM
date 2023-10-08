@@ -237,20 +237,23 @@ tbody tr:hover td {
   flex: 1;
   min-width: 200px; /* Adjust button width as needed */
   padding: 1.5rem 2rem;
-  background-color: rgba(0, 0, 0, 0.1); /* Set background opacity to 40% */
+  background: linear-gradient(45deg, rgba(255, 153, 102, 0.1), rgba(255, 94, 98, 0.1));
   text-decoration: none;
   border-radius: 10px;
   text-align: center;
   margin: 3px; /* Add space between buttons */
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   color: rgba(255, 255, 255, 1); /* Set text color to 100% opacity */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
+  backdrop-filter: blur(7px); /* Add a blur effect to the background */
 }
 
 .dashboard-button:hover {
-  background-color: rgba(0, 0, 0, 0.6); /* Set hover background opacity to 60% */
   transform: scale(1.02); /* Slightly expand on hover */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Add a subtle shadow on hover */
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  background: linear-gradient(45deg, rgba(255, 153, 102, 0.2), rgba(255, 94, 98, 0.2));
+  backdrop-filter: none; /* Remove the blur effect on hover */
+  box-shadow: 0 9px 20px rgba(0, 0, 0, 0.4); /* Add a subtle shadow on hover */
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out, box-shadow 0.01s;
 }
 
 .dashboard-button:not(:hover) {
@@ -265,16 +268,6 @@ tbody tr:hover td {
   justify-content: center;
 }
 
-.dashboard-button h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.dashboard-button p {
-  font-size: 1rem;
-  opacity: 0.8;
-}
-
 .button-content {
   display: flex;
   flex-direction: column;
@@ -285,7 +278,7 @@ tbody tr:hover td {
 }
 
 .button-content h2 {
-  font-size: 3.5rem; /* Adjust the font size as needed */
+  font-size: 4rem; /* Adjust the font size as needed */
   margin: 0;
 }
 
