@@ -16,6 +16,7 @@ import SalesDashboard from "./Pages/SalesDashboard/SalesDashboard";
 import ProductsHome from './Pages/Products/ProductsHome';
 import AddProduct from './Pages/Products/AddProduct';
 import Product from './Pages/Products/Product';
+import particlesConfig from './particlesjs-config.json';
 
 function App() {
     const [session, setSession] = useState(null);
@@ -68,26 +69,55 @@ function App() {
     }
 }
 
+// Modify the HomePage component to create a dashboard with large buttons
 const HomePage = () => {
+    useEffect(() => {
+        if (window.particlesJS) {
+            window.particlesJS('particles-js', particlesConfig);
+        }
+    }, []);
+
     return (
-        <div className="home-content">
-            <header className="App-header">
-                <h1>Welcome to GotoGro-MRM</h1>
-            </header>
-            <main>
-                <p className="description">
-                    Situated in the Hawthorn region, Goto Grocery operates as a member-centric grocery store
-                    facing challenges in meeting its members' expectations and satisfying their diverse grocery needs.
-                    We're excited to introduce our new digital Members Record Management System.
-                </p>
-                <div className='grouped-buttons'>
-                    <Link className="main-button home-button" to="/members-home">Go to Members Home</Link>
-                    <Link className="main-button home-button" to="/products-home">Go to Products Home</Link>
+        <div className="dashboard">
+            <div id="particles-js"></div>
+            <div className="button-container">
+                <div className="button-row">
+                    <Link className="dashboard-button button-members" to="/members-home">
+                        <div className="button-content">
+                            <h2>Members</h2>
+                        </div>
+                    </Link>
+                    <Link className="dashboard-button" to="/products-home">
+                        <div className="button-content">
+                            <h2>Products</h2>
+                        </div>
+                    </Link>
                 </div>
-                <Link className="main-button reporting-button" to="/reporting">Go to Reporting</Link>
-                <Link className="main-button dashboard-button" to="/products-dashboard">Go to Products Dashboard</Link>
-                <Link className="main-button dashboard-button" to="/sales-dashboard">Go to Sales Dashboard</Link>
-            </main>
+                <div className="button-row">
+                    <Link className="dashboard-button" to="/inventory-report">
+                        <div className="button-content">
+                            <h2>Sales Report</h2>
+                        </div>
+                    </Link>
+                    <Link className="dashboard-button" to="/sales-report">
+                        <div className="button-content">
+                            <h2>Inventory Report</h2>
+                        </div>
+                    </Link>
+                </div>
+                <div className="button-row">
+                    <Link className="dashboard-button" to="/products-dashboard">
+                        <div className="button-content">
+                            <h2>Products Dashboard</h2>
+                        </div>
+                    </Link>
+                    <Link className="dashboard-button button-sales-dashboard" to="/sales-dashboard">
+                        <div className="button-content">
+                            <h2>Sales Dashboard</h2>
+                        </div>
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }
