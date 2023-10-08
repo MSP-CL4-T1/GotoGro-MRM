@@ -154,8 +154,6 @@ const HotProducts = () => {
 
     return (
         <div className="sales-dashboard">
-            <h1>Sales Dashboard</h1>
-
             <div className="chart-container">
                 <h2>Top Selling Products</h2>
                 <Pie
