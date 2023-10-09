@@ -36,6 +36,11 @@ function SaleRecordsHome() {
         }
     };
 
+    const handleNavigation = (saleRecord) => {
+        localStorage.setItem('selectedSaleRecord', JSON.stringify(saleRecord));
+        navigate(`/sale-records/${saleRecord.sale_id}`);
+    }
+
     /**
      * Clears the search and sale records list.
      */
@@ -85,7 +90,7 @@ function SaleRecordsHome() {
                                 <td>{saleRecord.quantity}</td>
                                 <td>{saleRecord.total_amount}</td>
                                 <td>
-                                    <button onClick={() => navigate(`/sale-records/${saleRecord.sale_id}`)}>View</button>
+                                    <button onClick={() => handleNavigation(saleRecord)}>View</button>
 
                                 </td>
                             </tr>
