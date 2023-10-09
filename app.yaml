@@ -1,4 +1,5 @@
-runtime: nodejs20
+runtime: custom
+env: flex
 instance_class: F1
 automatic_scaling:
   target_cpu_utilization: 0.90

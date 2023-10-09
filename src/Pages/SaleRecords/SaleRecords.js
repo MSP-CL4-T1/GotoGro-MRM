@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { softDeleteSaleRecord, updateSaleRecord } from '../../Supabase/supabaseService';
+import React, {useEffect, useState} from 'react';
+import {fetchMembers, fetchProducts, softDeleteSaleRecord, updateSaleRecord} from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
 import TextInputWithValidation from '../../Components/TextInputWithValidation';
-
+import './SaleRecords.css';
 function SaleRecord() {
     const [saleRecord, setSaleRecord] = useState(JSON.parse(localStorage.getItem('selectedSaleRecord')));
     const [isEditing, setIsEditing] = useState(false);
@@ -11,6 +11,8 @@ function SaleRecord() {
     const [editedSaleDate, setEditedSaleDate] = useState(saleRecord.sale_date);
     const [editedQuantity, setEditedQuantity] = useState(saleRecord.quantity);
     const [editedTotalAmount, setEditedTotalAmount] = useState(saleRecord.total_amount);
+    const [members, setMembers] = useState([]);
+    const [products, setProducts] = useState([]);
 
     const navigate = useNavigate();
 
@@ -26,6 +28,21 @@ function SaleRecord() {
         setEditedQuantity(saleRecord.quantity);
         setEditedTotalAmount(saleRecord.total_amount);
     };
+
+    useEffect(() => {
+        const getMembersAndProducts = async () => {
+            try {
+                const fetchedMembers = await fetchMembers();
+                const fetchedProducts = await fetchProducts();
+                setMembers(fetchedMembers);
+                setProducts(fetchedProducts);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        getMembersAndProducts();
+    }, []);
 
     const handleSave = async () => {
         try {
@@ -64,25 +81,33 @@ function SaleRecord() {
                 <div>
                     <div className='form-container'>
                         <div className='label-input'>
-                            <strong>Member ID:</strong><span className="required-star"> *</span>
-                            <TextInputWithValidation
-                                required={true}
+                            <div className={"required-container"}> <strong>Member ID</strong><span className="required-star"> *</span> </div>
+                            <select
                                 value={editedMemberID}
-                                regex={/^(?!0)\d+$/}
-                                regexErrorMsg="Invalid Character"
-                            />
+                                onChange={(e) => setEditedMemberID(e.target.value)}
+                            >
+                                {members.map(member => (
+                                    <option key={member.member_id} value={member.member_id} className={"member-input"}>
+                                        {member.first_name} {member.last_name} ({member.member_id})
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className='label-input'>
-                            <strong>Product ID:</strong><span className="required-star"> *</span>
-                            <TextInputWithValidation
-                                required={true}
+                            <div className={"required-container"}> <strong>Product ID</strong><span className="required-star"> *</span> </div>
+                            <select
                                 value={editedProductID}
-                                regex={/^(?!0)\d+$/}
-                                regexErrorMsg="Invalid Character"
-                            />
+                                onChange={(e) => setEditedProductID(e.target.value)}
+                            >
+                                {products.map(product => (
+                                    <option key={product.product_id} value={product.product_id} className={"product-input"}>
+                                        {product.product_name} ({product.product_id})
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className='label-input'>
-                            <strong>Sale Date:</strong><span className="required-star"> *</span>
+                            <div className={"required-container"}><strong>Sale Date</strong><span className="required-star"> *</span></div>
                             <TextInputWithValidation
                                 regex={/^\d{4}-\d{2}-\d{2}$/}
                                 regexErrorMsg="Invalid Date"
@@ -91,7 +116,7 @@ function SaleRecord() {
                             />
                         </div>
                         <div className='label-input'>
-                            <strong>Quantity:</strong>
+                            <strong>Quantity</strong>
                             <TextInputWithValidation
                                 regex={/^(?!0)\d+$/}
                                 regexErrorMsg="Invalid Quantity"
@@ -100,7 +125,7 @@ function SaleRecord() {
                             />
                         </div>
                         <div className='label-input'>
-                            <strong>Total Amount:</strong>
+                            <strong>Total Amount</strong>
                             <TextInputWithValidation
                                 regex={/^(?!0)\d+$/}
                                 regexErrorMsg="Invalid Total Amount"
@@ -154,6 +179,7 @@ function SaleRecord() {
                         </div>
                     </div>
                     <div className='btn-container'>
+                        <button onClick={() => navigate('/sale-records-home')} data-testid="back-button">Back</button>
                         <button onClick={handleEdit} data-testid="edit-button">Edit</button>
                         <button onClick={handleDelete} data-testid="delete-button">Delete</button>
                     </div>

@@ -227,10 +227,20 @@ export const fetchSalesByDateRange = async (startDate, endDate) => {
  * @throws {Error} Throws an error if there is any issue with the database operation.
  */
 export async function fetchProducts() {
-    const { data, error } = await supabase.from('Products').select('*');
+    const { data, error } = await supabase
+        .from('Products')
+        .select('*');
 
     if (error) throw error;
+    return data;
+}
 
+export async function fetchMembers() {
+    const { data, error } = await supabase
+        .from('Members')
+        .select('*');
+
+    if (error) throw error;
     return data;
 }
 
@@ -251,15 +261,30 @@ export async function addRandomSaleRecords(productId) {
         .from('Products')
         .select('price')
         .eq('product_id', productId)
-        .single(); // Assuming product_id is unique and will return a single record
+        .single();
 
     if (productError) throw productError;
 
     const productPrice = productData.price;
 
+    // Fetch all member_ids
+    const { data: memberData, error: memberError } = await supabase
+        .from('Members')
+        .select('member_id');
+
+    if (memberError) throw memberError;
+
+    // Extract member_ids into an array for easy access
+    const memberIds = memberData.map(member => member.member_id);
+
     const randomSales = Array.from({ length: 50 }, () => {
         const quantity = Math.floor(Math.random() * 100) + 1;
+
+        // Select a random member_id
+        const member_id = memberIds[Math.floor(Math.random() * memberIds.length)];
+
         return {
+            member_id: member_id,
             product_id: productId,
             sale_date: new Date(new Date().getTime() - (Math.random() * 10000000000)).toISOString(),
             quantity: quantity,
