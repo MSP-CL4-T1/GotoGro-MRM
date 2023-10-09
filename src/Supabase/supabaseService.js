@@ -411,3 +411,102 @@ export async function softDeleteProduct(productToDelete) {
         throw error;
     }
 }
+
+
+
+export const searchSaleRecordsBySaleID = async (saleID) => {
+    try {
+        // Convert saleID to a number
+        const saleIDAsNumber = parseInt(saleID, 10);
+
+        let { data: SaleRecords, error } = await supabase
+            .from('SaleRecords')
+            .select('*');
+
+        if (error) throw error;
+
+        // If a valid number search term (saleID) is provided, filter by sale_ID
+        if (!isNaN(saleIDAsNumber)) {
+            SaleRecords = SaleRecords.filter(record => record.sale_id === saleIDAsNumber);
+        }
+
+        return SaleRecords;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+export const updateSaleRecord = async (updatedSaleRecord) => {
+    try {
+        const { error } = await supabase
+            .from('SaleRecords')
+            .update({
+                // Specify the fields you want to update
+                sale_date: updatedSaleRecord.sale_date,
+                quantity: updatedSaleRecord.quantity,
+                total_amount: updatedSaleRecord.total_amount,
+                // Add other fields as needed
+            })
+            .eq('sale_id', updatedSaleRecord.sale_id); // Update based on sale_id
+
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        throw error;
+    }
+};
+
+export async function softDeleteSaleRecord(saleRecordToDelete) {
+    try {
+        const { error } = await supabase
+            .from('SaleRecords')
+            .update({
+                deleted: true
+            })
+            .eq('sale_id', saleRecordToDelete.sale_id);
+
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const addSaleRecord = async (newSaleRecord) => {
+    try {
+        // Get the last sale_id from the 'SaleRecords' table
+        const { data: lastSaleRecord } = await supabase
+            .from('SaleRecords')
+            .select('sale_id')
+            .order('sale_id', { ascending: false })
+            .limit(1);
+
+        // Calculate the new sale_id by incrementing the last sale_id
+        const newSaleId = lastSaleRecord[0]?.sale_id + 1 || 1; // If no previous records, start from 1
+
+        // Insert the new sale record into the 'SaleRecords' table with the calculated sale_id
+        const { error } = await supabase
+            .from('SaleRecords')
+            .insert([
+                {
+                    sale_id: newSaleId,
+                    sale_date: newSaleRecord.sale_date,
+                    member_id: newSaleRecord.member_id,
+                    quantity: newSaleRecord.quantity,
+                    total_amount: newSaleRecord.total_amount
+                    // Add other fields as needed
+                },
+            ]);
+
+        // Check for errors
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        console.error('Error adding sale record:', error.message);
+        throw error;
+    }
+};
