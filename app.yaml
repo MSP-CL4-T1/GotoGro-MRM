@@ -1,13 +1,4 @@
-runtime: nodejs
-env: flex
+runtime: nodejs20
 instance_class: F1
-
-automatic_scaling:
-  cool_down_period_sec: 120
-  cpu_utilization:
-    target_utilization: 0.6
-  max_concurrent_requests: 10
-  max_idle_instances: 1
-  max_total_instances: 1
-  min_idle_instances: 1
-  min_total_instances: 1
+manual_scaling:
+  instances: 1
