@@ -442,11 +442,11 @@ export const updateSaleRecord = async (updatedSaleRecord) => {
         const { error } = await supabase
             .from('SaleRecords')
             .update({
-                // Specify the fields you want to update
+				member_id: updatedSaleRecord.member_id,
+				product_id: updatedSaleRecord.product_id,
                 sale_date: updatedSaleRecord.sale_date,
                 quantity: updatedSaleRecord.quantity,
                 total_amount: updatedSaleRecord.total_amount,
-                // Add other fields as needed
             })
             .eq('sale_id', updatedSaleRecord.sale_id); // Update based on sale_id
 

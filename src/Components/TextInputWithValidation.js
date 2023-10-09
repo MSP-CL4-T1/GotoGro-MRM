@@ -77,7 +77,6 @@ function TextInputWithValidation({
             setError("Required");
         }
     };
-    debugger;
 
     return (
         <div className={`input-with-validation ${error || customErrorMsg ? 'has-error' : ''}`}>

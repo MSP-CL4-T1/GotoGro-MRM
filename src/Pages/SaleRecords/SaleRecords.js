@@ -1,43 +1,41 @@
 import React, { useState } from 'react';
-import { softDeleteSaleRecord, updateSaleRecord } from '../../Supabase/supabaseService'; // Import your Supabase service functions
+import { softDeleteSaleRecord, updateSaleRecord } from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
-import TextInputWithValidation from '../../Components/TextInputWithValidation'; // You can create a custom input component for validation
+import TextInputWithValidation from '../../Components/TextInputWithValidation';
 
-/**
- * SaleRecord component for displaying sale record details and allowing edits.
- * @returns {JSX.Element} The rendered JSX element.
- */
-function SaleRecords() {
+function SaleRecord() {
     const [saleRecord, setSaleRecord] = useState(JSON.parse(localStorage.getItem('selectedSaleRecord')));
     const [isEditing, setIsEditing] = useState(false);
+    const [editedMemberID, setEditedMemberID] = useState(saleRecord.member_id);
+    const [editedProductID, setEditedProductID] = useState(saleRecord.product_id);
     const [editedSaleDate, setEditedSaleDate] = useState(saleRecord.sale_date);
     const [editedQuantity, setEditedQuantity] = useState(saleRecord.quantity);
     const [editedTotalAmount, setEditedTotalAmount] = useState(saleRecord.total_amount);
 
     const navigate = useNavigate();
 
-    // Turns the component into editing mode
     const handleEdit = () => {
         setIsEditing(true);
     };
 
-    // Cancels the changes and resets the values to original values
     const handleCancel = () => {
         setIsEditing(false);
+        setEditedMemberID(saleRecord.member_id);
+        setEditedProductID(saleRecord.product_id);
         setEditedSaleDate(saleRecord.sale_date);
         setEditedQuantity(saleRecord.quantity);
         setEditedTotalAmount(saleRecord.total_amount);
     };
 
-    // Saves the changes to the sale record by calling the updateSaleRecord function from supabaseService
     const handleSave = async () => {
         try {
             const updatedSaleRecord = {
-                sale_id: saleRecord.sale_id,
+                sale_id: saleRecord.sale_id, // Replace with the correct property for sale_id
+                member_id: editedMemberID,
+                product_id: editedProductID,
                 sale_date: editedSaleDate,
                 quantity: editedQuantity,
                 total_amount: editedTotalAmount
-                // Add other fields as needed
             };
 
             await updateSaleRecord(updatedSaleRecord);
@@ -49,12 +47,11 @@ function SaleRecords() {
         }
     };
 
-    // Soft deletes the sale record and redirects the user to the SaleRecordsHome screen
     const handleDelete = async () => {
         try {
             await softDeleteSaleRecord(saleRecord);
             localStorage.removeItem('selectedSaleRecord');
-            navigate('/sale-records-home'); // Replace with the correct route
+            navigate('/sale-records-home');
         } catch (error) {
             console.error(error);
         }
@@ -67,30 +64,50 @@ function SaleRecords() {
                 <div>
                     <div className='form-container'>
                         <div className='label-input'>
+                            <strong>Member ID:</strong><span className="required-star"> *</span>
+                            <TextInputWithValidation
+                                required={true}
+                                value={editedMemberID}
+                                regex={/^(?!0)\d+$/}
+                                regexErrorMsg="Invalid Character"
+                            />
+                        </div>
+                        <div className='label-input'>
+                            <strong>Product ID:</strong><span className="required-star"> *</span>
+                            <TextInputWithValidation
+                                required={true}
+                                value={editedProductID}
+                                regex={/^(?!0)\d+$/}
+                                regexErrorMsg="Invalid Character"
+                            />
+                        </div>
+                        <div className='label-input'>
                             <strong>Sale Date:</strong><span className="required-star"> *</span>
                             <TextInputWithValidation
-                                required={true}
+                                regex={/^\d{4}-\d{2}-\d{2}$/}
+                                regexErrorMsg="Invalid Date"
                                 value={editedSaleDate}
-                                // Add validation regex and error message as needed
+                                required={true}
                             />
                         </div>
                         <div className='label-input'>
-                            <strong>Quantity:</strong><span className="required-star"> *</span>
+                            <strong>Quantity:</strong>
                             <TextInputWithValidation
-                                required={true}
+                                regex={/^(?!0)\d+$/}
+                                regexErrorMsg="Invalid Quantity"
                                 value={editedQuantity}
-                                // Add validation regex and error message as needed
+                                required={true}
                             />
                         </div>
                         <div className='label-input'>
-                            <strong>Total Amount:</strong><span className="required-star"> *</span>
+                            <strong>Total Amount:</strong>
                             <TextInputWithValidation
-                                required={true}
+                                regex={/^(?!0)\d+$/}
+                                regexErrorMsg="Invalid Total Amount"
                                 value={editedTotalAmount}
-                                // Add validation regex and error message as needed
+                                required={true}
                             />
                         </div>
-                        {/* Add other fields as needed */}
                     </div>
                     <div className='btn-container'>
                         <button onClick={handleSave} data-testid="save-button">Save</button>
@@ -100,6 +117,20 @@ function SaleRecords() {
             ) : (
                 <div>
                     <div className='form-container'>
+                        <div className='label-input'>
+                            <strong>Member ID:</strong>
+                            <TextInputWithValidation
+                                value={saleRecord.member_id}
+                                readonly={true}
+                            />
+                        </div>
+                        <div className='label-input'>
+                            <strong>Product ID:</strong>
+                            <TextInputWithValidation
+                                value={saleRecord.product_id}
+                                readonly={true}
+                            />
+                        </div>
                         <div className='label-input'>
                             <strong>Sale Date:</strong>
                             <TextInputWithValidation
@@ -121,7 +152,6 @@ function SaleRecords() {
                                 readonly={true}
                             />
                         </div>
-                        {/* Display other fields as needed */}
                     </div>
                     <div className='btn-container'>
                         <button onClick={handleEdit} data-testid="edit-button">Edit</button>
@@ -133,4 +163,4 @@ function SaleRecords() {
     );
 }
 
-export default SaleRecords;
+export default SaleRecord;
