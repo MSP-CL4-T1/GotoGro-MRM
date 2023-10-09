@@ -16,7 +16,12 @@ import SalesDashboard from "./Pages/SalesDashboard/SalesDashboard";
 import ProductsHome from './Pages/Products/ProductsHome';
 import AddProduct from './Pages/Products/AddProduct';
 import Product from './Pages/Products/Product';
+import SaleRecordsHome from './Pages/SaleRecords/SaleRecordsHome';
+import SaleRecords from './Pages/SaleRecords/SaleRecords';
+import AddSaleRecords from './Pages/SaleRecords/AddSaleRecords';
+
 import particlesConfig from './particlesjs-config.json';
+
 
 function App() {
     const [session, setSession] = useState(null);
@@ -59,6 +64,9 @@ function App() {
                         <Route path="/products-home" element={<ProductsHome />} />
                         <Route path="/add-product" element={<AddProduct />} />
                         <Route path="/product" element={<Product />} />
+						<Route path="/sale-records-home" element={<SaleRecordsHome />} />
+						<Route path="/sale-records/:sale_id" element={<SaleRecords />} />
+						<Route path="/add-sale-record" element={<AddSaleRecords />} />
                     </Routes>
                     <footer>
                         <p>© 2023 Goto Grocery Inc. All rights reserved.</p>
@@ -114,6 +122,13 @@ const HomePage = () => {
                     <Link className="dashboard-button button-sales-dashboard" to="/sales-dashboard">
                         <div className="button-content">
                             <h2>Sales Dashboard</h2>
+                        </div>
+                    </Link>
+                </div>
+				<div className="button-row">
+                    <Link className="dashboard-button" to="/sale-records-home">
+                        <div className="button-content">
+                            <h2>Sale Records</h2>
                         </div>
                     </Link>
                 </div>

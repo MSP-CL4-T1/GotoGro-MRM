@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Bar, Line, Pie} from 'react-chartjs-2';
-import 'chartjs-adapter-date-fns';
+import {Line, Pie} from 'react-chartjs-2';
 import { LineElement, PointElement, Title, Tooltip, Legend, Chart } from 'chart.js';
 import './SalesDashboard.css';
 import {

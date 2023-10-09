@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { fetchProducts, updateProduct } from '../../Supabase/supabaseService';
 import { Bar, Doughnut, Pie } from 'react-chartjs-2';
 import './ProductsDashboard.css';
-import 'chartjs-adapter-date-fns';
 import {
     CategoryScale,
     LinearScale,

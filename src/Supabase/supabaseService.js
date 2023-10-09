@@ -227,10 +227,20 @@ export const fetchSalesByDateRange = async (startDate, endDate) => {
  * @throws {Error} Throws an error if there is any issue with the database operation.
  */
 export async function fetchProducts() {
-    const { data, error } = await supabase.from('Products').select('*');
+    const { data, error } = await supabase
+        .from('Products')
+        .select('*');
 
     if (error) throw error;
+    return data;
+}
 
+export async function fetchMembers() {
+    const { data, error } = await supabase
+        .from('Members')
+        .select('*');
+
+    if (error) throw error;
     return data;
 }
 
@@ -251,15 +261,30 @@ export async function addRandomSaleRecords(productId) {
         .from('Products')
         .select('price')
         .eq('product_id', productId)
-        .single(); // Assuming product_id is unique and will return a single record
+        .single();
 
     if (productError) throw productError;
 
     const productPrice = productData.price;
 
+    // Fetch all member_ids
+    const { data: memberData, error: memberError } = await supabase
+        .from('Members')
+        .select('member_id');
+
+    if (memberError) throw memberError;
+
+    // Extract member_ids into an array for easy access
+    const memberIds = memberData.map(member => member.member_id);
+
     const randomSales = Array.from({ length: 50 }, () => {
         const quantity = Math.floor(Math.random() * 100) + 1;
+
+        // Select a random member_id
+        const member_id = memberIds[Math.floor(Math.random() * memberIds.length)];
+
         return {
+            member_id: member_id,
             product_id: productId,
             sale_date: new Date(new Date().getTime() - (Math.random() * 10000000000)).toISOString(),
             quantity: quantity,
@@ -411,3 +436,102 @@ export async function softDeleteProduct(productToDelete) {
         throw error;
     }
 }
+
+
+
+export const searchSaleRecordsBySaleID = async (saleID) => {
+    try {
+        // Convert saleID to a number
+        const saleIDAsNumber = parseInt(saleID, 10);
+
+        let { data: SaleRecords, error } = await supabase
+            .from('SaleRecords')
+            .select('*');
+
+        if (error) throw error;
+
+        // If a valid number search term (saleID) is provided, filter by sale_ID
+        if (!isNaN(saleIDAsNumber)) {
+            SaleRecords = SaleRecords.filter(record => record.sale_id === saleIDAsNumber);
+        }
+
+        return SaleRecords;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+export const updateSaleRecord = async (updatedSaleRecord) => {
+    try {
+        const { error } = await supabase
+            .from('SaleRecords')
+            .update({
+				member_id: updatedSaleRecord.member_id,
+				product_id: updatedSaleRecord.product_id,
+                sale_date: updatedSaleRecord.sale_date,
+                quantity: updatedSaleRecord.quantity,
+                total_amount: updatedSaleRecord.total_amount,
+            })
+            .eq('sale_id', updatedSaleRecord.sale_id); // Update based on sale_id
+
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        throw error;
+    }
+};
+
+export async function softDeleteSaleRecord(saleRecordToDelete) {
+    try {
+        const { error } = await supabase
+            .from('SaleRecords')
+            .update({
+                deleted: true
+            })
+            .eq('sale_id', saleRecordToDelete.sale_id);
+
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const addSaleRecord = async (newSaleRecord) => {
+    try {
+        // Get the last sale_id from the 'SaleRecords' table
+        const { data: lastSaleRecord } = await supabase
+            .from('SaleRecords')
+            .select('sale_id')
+            .order('sale_id', { ascending: false })
+            .limit(1);
+
+        // Calculate the new sale_id by incrementing the last sale_id
+        const newSaleId = lastSaleRecord[0]?.sale_id + 1 || 1; // If no previous records, start from 1
+
+        // Insert the new sale record into the 'SaleRecords' table with the calculated sale_id
+        const { error } = await supabase
+            .from('SaleRecords')
+            .insert([
+                {
+                    sale_id: newSaleId,
+                    sale_date: newSaleRecord.sale_date,
+                    member_id: newSaleRecord.member_id,
+                    quantity: newSaleRecord.quantity,
+                    total_amount: newSaleRecord.total_amount
+                    // Add other fields as needed
+                },
+            ]);
+
+        // Check for errors
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        console.error('Error adding sale record:', error.message);
+        throw error;
+    }
+};
