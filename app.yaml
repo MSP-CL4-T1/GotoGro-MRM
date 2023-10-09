@@ -1,11 +1,13 @@
 runtime: nodejs
 env: flex
 instance_class: F1
+
 automatic_scaling:
-  target_cpu_utilization: 0.60
-  min_instances: 1
-  max_instances: 1
-resources:
-  cpu: 1
-  memory_gb: 0.5
-  disk_size_gb: 10
+  cool_down_period_sec: 120
+  cpu_utilization:
+    target_utilization: 0.6
+  max_concurrent_requests: 10
+  max_idle_instances: 1
+  max_total_instances: 1
+  min_idle_instances: 1
+  min_total_instances: 1
