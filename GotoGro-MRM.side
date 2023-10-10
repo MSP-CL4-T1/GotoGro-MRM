@@ -75,6 +75,18 @@
       ],
       "value": ""
     }, {
+      "id": "719a9f1f-ae5b-4aa4-9d04-8c86d633f01b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-logo > img",
+      "targets": [
+        ["css=.navbar-logo > img", "css:finder"],
+        ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
+        ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
       "id": "3a4b8b41-69b5-4169-b802-2e11c485384d",
       "comment": "",
       "command": "click",
@@ -184,6 +196,18 @@
         ["xpath=//button[@type='submit']", "xpath:attributes"],
         ["xpath=//form[@id='auth-sign-in']/div/button", "xpath:idRelative"],
         ["xpath=//form/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5e82525c-d628-4aaa-a4a8-bf4c74f1c307",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-logo > img",
+      "targets": [
+        ["css=.navbar-logo > img", "css:finder"],
+        ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
+        ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -417,6 +441,18 @@
         ["xpath=//button[@type='submit']", "xpath:attributes"],
         ["xpath=//form[@id='auth-sign-in']/div/button", "xpath:idRelative"],
         ["xpath=//form/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f7daef02-ff3b-40a5-ad70-cd0189f81ed5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-logo > img",
+      "targets": [
+        ["css=.navbar-logo > img", "css:finder"],
+        ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
+        ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -708,6 +744,18 @@
       ],
       "value": ""
     }, {
+      "id": "90af910c-a096-4f7c-8417-69ad5b393536",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-logo > img",
+      "targets": [
+        ["css=.navbar-logo > img", "css:finder"],
+        ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
+        ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
       "id": "c9d1c0cf-76c9-4ae0-8b7b-9d5663f2d7f8",
       "comment": "",
       "command": "click",
@@ -747,14 +795,7 @@
       "command": "type",
       "target": "css=.label-input:nth-child(1) .text-input-validation",
       "targets": [],
-      "value": "https://picsum.photos/200"
-    }, {
-      "id": "96516e2e-982b-45c8-b362-95eeab9b52d0",
-      "comment": "",
-      "command": "waitForElementPresent",
-      "target": "//img[src='https://picsum.photos/200']",
-      "targets": [],
-      "value": "30000"
+      "value": "https://static.vecteezy.com/system/resources/previews/002/725/310/original/cube-geometric-figure-isolated-icon-free-vector.jpg"
     }, {
       "id": "5b7b6898-376f-4559-894f-3b92160c2f15",
       "comment": "",
@@ -785,7 +826,7 @@
       "command": "executeScript",
       "target": "return Math.floor(Math.random() * 100);",
       "targets": [],
-      "value": "randomNumber"
+      "value": "randomPrice"
     }, {
       "id": "a9876a6d-d1ad-4112-b886-960522bbd63b",
       "comment": "",
@@ -797,14 +838,14 @@
         ["xpath=//div[@id='root']/div/div/form/div/div/div[4]/div/input", "xpath:idRelative"],
         ["xpath=//div[4]/div/input", "xpath:position"]
       ],
-      "value": "${randomNumber}"
+      "value": "${randomPrice}"
     }, {
       "id": "8c044c66-c1bb-4d0d-a7c4-f2037febf211",
       "comment": "",
       "command": "executeScript",
       "target": "return Math.floor(Math.random() * 100);",
       "targets": [],
-      "value": "randomNumber"
+      "value": "randomQuantity"
     }, {
       "id": "c8177d29-26a0-41db-a921-be540d7fccc8",
       "comment": "",
@@ -816,7 +857,7 @@
         ["xpath=//div[@id='root']/div/div/form/div/div/div[5]/div/input", "xpath:idRelative"],
         ["xpath=//div[5]/div/input", "xpath:position"]
       ],
-      "value": "${randomNumber}"
+      "value": "${randomQuantity}"
     }, {
       "id": "8568f1ee-3f10-4eac-b305-9d4e4b90502d",
       "comment": "",
@@ -843,32 +884,18 @@
       ],
       "value": ""
     }, {
-      "id": "1c68937a-6690-4234-b9c3-3b55d778375e",
+      "id": "d78ae9b2-090e-475d-8e27-802523bbf470",
       "comment": "",
       "command": "click",
-      "target": "css=.button-members > .button-content",
+      "target": "css=.button-row:nth-child(1) > .dashboard-button:nth-child(2) > .button-content",
       "targets": [
-        ["css=.button-members > .button-content", "css:finder"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div/a/div", "xpath:idRelative"],
-        ["xpath=//a/div", "xpath:position"]
+        ["css=.button-row:nth-child(1) > .dashboard-button:nth-child(2) > .button-content", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/a[2]/div", "xpath:idRelative"],
+        ["xpath=//a[2]/div", "xpath:position"]
       ],
       "value": ""
     }, {
-      "id": "13e96513-a739-49bf-aa1c-500bea3af05a",
-      "comment": "",
-      "command": "click",
-      "target": "linkText=Products",
-      "targets": [
-        ["linkText=Products", "linkText"],
-        ["css=.button-row:nth-child(1) > .dashboard-button:nth-child(2)", "css:finder"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div/a[2]", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/products-home')]", "xpath:href"],
-        ["xpath=//a[2]", "xpath:position"],
-        ["xpath=//a[contains(.,'Products')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "eaebb423-9608-49b0-afac-6c3cbeef4142",
+      "id": "1bd64940-1c48-4185-8bc3-8c5e4f79dd5f",
       "comment": "",
       "command": "click",
       "target": "css=.btn-container > button:nth-child(1)",
@@ -880,7 +907,21 @@
       ],
       "value": ""
     }, {
-      "id": "80985f4a-df54-4815-b9bf-63e39ac48ec5",
+      "id": "71436f94-db78-4f1c-ba16-999da359b70b",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "//p[@class='product-name' and contains(text(), 'Name${randomNumber}')]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "00273f4e-e6c0-4b3f-a1e0-946b0148f1e5",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "//p[@class='product-desc' and contains(text(), 'Description${randomNumber}')]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3a21bef7-bd40-4e8e-a673-b7d0eccf2ae0",
       "comment": "",
       "command": "click",
       "target": "css=.navbar-link",
