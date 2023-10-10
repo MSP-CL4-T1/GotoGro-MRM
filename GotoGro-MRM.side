@@ -2,7 +2,7 @@
   "id": "e222b10c-fb9d-4c7b-b533-4fdbcc2137d5",
   "version": "2.0",
   "name": "GotoGro-MRM",
-  "url": "https://msp-cl4-t1.ts.r.appspot.com/",
+  "url": "http://localhost:3000/",
   "tests": [{
     "id": "6869db90-159d-4020-bfa0-bbe2191e3438",
     "name": "Login/Logout",
@@ -72,6 +72,18 @@
         ["xpath=//button[@type='submit']", "xpath:attributes"],
         ["xpath=//form[@id='auth-sign-in']/div/button", "xpath:idRelative"],
         ["xpath=//form/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "719a9f1f-ae5b-4aa4-9d04-8c86d633f01b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-logo > img",
+      "targets": [
+        ["css=.navbar-logo > img", "css:finder"],
+        ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
+        ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -187,18 +199,27 @@
       ],
       "value": ""
     }, {
-      "id": "906dbfbe-0672-4760-9633-94b6d88ba92b",
+      "id": "5e82525c-d628-4aaa-a4a8-bf4c74f1c307",
       "comment": "",
       "command": "click",
-      "target": "linkText=Go to Members Home",
+      "target": "css=.navbar-logo > img",
       "targets": [
-        ["linkText=Go to Members Home", "linkText"],
-        ["css=.main-button:nth-child(2)", "css:finder"],
-        ["xpath=//a[contains(text(),'Go to Members Home')]", "xpath:link"],
-        ["xpath=//div[@id='root']/div/div/main/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/members-home')]", "xpath:href"],
-        ["xpath=//main/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Go to Members Home')]", "xpath:innerText"]
+        ["css=.navbar-logo > img", "css:finder"],
+        ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
+        ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "dde97102-af4e-4e64-80c2-745ac419ba1c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.button-members h2",
+      "targets": [
+        ["css=.button-members h2", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/a/div/h2", "xpath:idRelative"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Members')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -294,18 +315,15 @@
       ],
       "value": ""
     }, {
-      "id": "b5203671-bef6-4b4d-b112-d294b324714c",
+      "id": "e1bff82e-f8b6-4021-a508-efa7fdb4704f",
       "comment": "",
       "command": "click",
-      "target": "//*[@id=\"root\"]/div/div/main/a[1]",
+      "target": "css=.button-members h2",
       "targets": [
-        ["linkText=Go to Members Dashboard", "linkText"],
-        ["css=.home-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Go to Members Dashboard')]", "xpath:link"],
-        ["xpath=//div[@id='root']/div/div/main/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/members-home')]", "xpath:href"],
-        ["xpath=//main/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Go to Members Dashboard')]", "xpath:innerText"]
+        ["css=.c-bOcPnF-cmFMMs-color-primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form[@id='auth-sign-in']/div/button", "xpath:idRelative"],
+        ["xpath=//form/div/button", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -356,12 +374,12 @@
     }]
   }, {
     "id": "0cc85418-a663-4e80-939e-89b08c896c5c",
-    "name": "Inventory Filter",
+    "name": "Sales Report Filter",
     "commands": [{
       "id": "6f1b5b42-c825-4043-93ed-4e41353317eb",
       "comment": "",
       "command": "open",
-      "target": "https://msp-cl4-t1.ts.r.appspot.com/",
+      "target": "/",
       "targets": [],
       "value": ""
     }, {
@@ -426,37 +444,31 @@
       ],
       "value": ""
     }, {
-      "id": "92b4d032-8be9-4d4c-9d63-147c846018fd",
+      "id": "f7daef02-ff3b-40a5-ad70-cd0189f81ed5",
       "comment": "",
       "command": "click",
-      "target": "linkText=Go to Reporting",
+      "target": "css=.navbar-logo > img",
       "targets": [
-        ["linkText=Go to Reporting", "linkText"],
-        ["css=.reporting-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Go to Reporting')]", "xpath:link"],
-        ["xpath=//div[@id='root']/div/div/main/a[3]", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/reporting')]", "xpath:href"],
-        ["xpath=//a[3]", "xpath:position"],
-        ["xpath=//a[contains(.,'Go to Reporting')]", "xpath:innerText"]
+        ["css=.navbar-logo > img", "css:finder"],
+        ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
+        ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
       ],
       "value": ""
     }, {
-      "id": "19ae964d-2ae1-4e17-b636-e4967af3b3f1",
+      "id": "416771dc-4d06-42c8-97d6-9ad016c9c897",
       "comment": "",
       "command": "click",
-      "target": "linkText=Go to Inventory Report",
+      "target": "css=.button-row:nth-child(2) > .dashboard-button:nth-child(1) h2",
       "targets": [
-        ["linkText=Go to Inventory Report", "linkText"],
-        ["css=.inventory-report-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Go to Inventory Report')]", "xpath:link"],
-        ["xpath=//div[@id='root']/div/div/main/a[2]", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, '/inventory-report')]", "xpath:href"],
-        ["xpath=//a[2]", "xpath:position"],
-        ["xpath=//a[contains(.,'Go to Inventory Report')]", "xpath:innerText"]
+        ["css=.button-row:nth-child(2) > .dashboard-button:nth-child(1) h2", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div[2]/a/div/h2", "xpath:idRelative"],
+        ["xpath=//div[2]/a/div/h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Sales Report')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
-      "id": "f1c1955d-ff80-46d8-8b04-94a64f79427d",
+      "id": "6e75f2a4-0738-4b08-8e7d-9757be07437d",
       "comment": "",
       "command": "click",
       "target": "css=.btn-container > button:nth-child(1)",
@@ -469,7 +481,7 @@
       ],
       "value": ""
     }, {
-      "id": "05116260-faae-44b0-8269-ee3732c1666c",
+      "id": "2e0734e1-5d9f-4eb2-ba4e-2ce3a18e7eec",
       "comment": "",
       "command": "click",
       "target": "css=div:nth-child(4) > button:nth-child(1)",
@@ -482,7 +494,7 @@
       ],
       "value": ""
     }, {
-      "id": "2aff1a30-7a46-4965-afa7-2567a0efa1c4",
+      "id": "2082102b-3d88-418b-b9b6-2431290d2206",
       "comment": "",
       "command": "click",
       "target": "css=div:nth-child(4) > button:nth-child(2)",
@@ -621,6 +633,295 @@
       "value": ""
     }, {
       "id": "151c5ee5-c0e4-466c-b5ad-c2aeacb57ef0",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-link",
+      "targets": [
+        ["css=.navbar-link", "css:finder"],
+        ["xpath=//div[@id='root']/div/nav/ul/li[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Sign Out')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "af1b30b6-775c-4770-9df9-7a7ec541514f",
+    "name": "Create a new product",
+    "commands": [{
+      "id": "6bae44f7-cd7e-4c59-a83e-2148de7d6753",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1b049122-4379-4839-9478-446728c590ae",
+      "comment": "",
+      "command": "if",
+      "target": "document.querySelector('.navbar-link') !== null",
+      "targets": [],
+      "value": "true"
+    }, {
+      "id": "bd16413a-1ec8-4987-904b-1c9ddddfeecb",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-link",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "afdc0e5f-8ce5-4127-baa5-3bd53d96e066",
+      "comment": "",
+      "command": "end",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f07a4c0f-1389-404e-b6f0-00dbd295992b",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//form[@id='auth-sign-in']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "877c5fe2-ff2b-4d50-b027-cd44fc53607f",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//form[@id='auth-sign-in']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "aligoose.martin@gmail.com"
+    }, {
+      "id": "e80a3fac-5e8d-4071-81ee-c9309a5aeb4f",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='auth-sign-in']/div/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d1f730cb-8bd5-410b-b4ee-3e775e6b42a4",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='auth-sign-in']/div/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "locboc"
+    }, {
+      "id": "b3446ff5-1e8c-4e55-aa97-e4ba8aee92da",
+      "comment": "",
+      "command": "click",
+      "target": "css=.c-bOcPnF-cmFMMs-color-primary",
+      "targets": [
+        ["css=.c-bOcPnF-cmFMMs-color-primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form[@id='auth-sign-in']/div/button", "xpath:idRelative"],
+        ["xpath=//form/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "90af910c-a096-4f7c-8417-69ad5b393536",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-logo > img",
+      "targets": [
+        ["css=.navbar-logo > img", "css:finder"],
+        ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
+        ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c9d1c0cf-76c9-4ae0-8b7b-9d5663f2d7f8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.button-row:nth-child(1) > .dashboard-button:nth-child(2) h2",
+      "targets": [
+        ["css=.button-row:nth-child(1) > .dashboard-button:nth-child(2) h2", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/a[2]/div/h2", "xpath:idRelative"],
+        ["xpath=//a[2]/div/h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Products')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9563868a-5187-46d7-bdde-8b8ed11746d9",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add New Product",
+      "targets": [
+        ["linkText=Add New Product", "linkText"],
+        ["css=.link-btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Add New Product')]", "xpath:link"],
+        ["xpath=//div[@id='root']/div/div/div/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/add-product')]", "xpath:href"],
+        ["xpath=//div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add New Product')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "936150d5-10b9-4d9d-a4bf-9f4bbf6d723e",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return Math.floor(Math.random() * 1000);",
+      "targets": [],
+      "value": "randomNumber"
+    }, {
+      "id": "aa24f4aa-cca6-45f7-b17d-d42ade44ee1f",
+      "comment": "",
+      "command": "type",
+      "target": "css=.label-input:nth-child(1) .text-input-validation",
+      "targets": [],
+      "value": "https://static.vecteezy.com/system/resources/previews/002/725/310/original/cube-geometric-figure-isolated-icon-free-vector.jpg"
+    }, {
+      "id": "5b7b6898-376f-4559-894f-3b92160c2f15",
+      "comment": "",
+      "command": "type",
+      "target": "css=.label-input:nth-child(2) .text-input-validation",
+      "targets": [
+        ["css=.label-input:nth-child(2) .text-input-validation", "css:finder"],
+        ["xpath=//input[@value='test123']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/div/div/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Name${randomNumber}"
+    }, {
+      "id": "4e5825c8-1612-4c91-9b8a-5b5e46405209",
+      "comment": "",
+      "command": "type",
+      "target": "css=.label-input:nth-child(3) .text-input-validation",
+      "targets": [
+        ["css=.label-input:nth-child(3) .text-input-validation", "css:finder"],
+        ["xpath=//input[@value='test456']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/div/div/div[3]/div/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": "Description${randomNumber}"
+    }, {
+      "id": "c91b0d1f-d594-45ab-9cca-72d79d1d93cf",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return Math.floor(Math.random() * 100);",
+      "targets": [],
+      "value": "randomPrice"
+    }, {
+      "id": "a9876a6d-d1ad-4112-b886-960522bbd63b",
+      "comment": "",
+      "command": "type",
+      "target": "css=.label-input:nth-child(4) .text-input-validation",
+      "targets": [
+        ["css=.label-input:nth-child(4) .text-input-validation", "css:finder"],
+        ["xpath=//input[@value='0']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/div/div/div[4]/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/input", "xpath:position"]
+      ],
+      "value": "${randomPrice}"
+    }, {
+      "id": "8c044c66-c1bb-4d0d-a7c4-f2037febf211",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return Math.floor(Math.random() * 100);",
+      "targets": [],
+      "value": "randomQuantity"
+    }, {
+      "id": "c8177d29-26a0-41db-a921-be540d7fccc8",
+      "comment": "",
+      "command": "type",
+      "target": "css=.label-input:nth-child(5) .text-input-validation",
+      "targets": [
+        ["css=.label-input:nth-child(5) .text-input-validation", "css:finder"],
+        ["xpath=//input[@value='0']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/div/div/div[5]/div/input", "xpath:idRelative"],
+        ["xpath=//div[5]/div/input", "xpath:position"]
+      ],
+      "value": "${randomQuantity}"
+    }, {
+      "id": "8568f1ee-3f10-4eac-b305-9d4e4b90502d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-container > button:nth-child(1)",
+      "targets": [
+        ["css=.btn-container > button:nth-child(1)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1a486d39-e382-4b33-b18d-9f00c968fe9a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.navbar-logo > img",
+      "targets": [
+        ["css=.navbar-logo > img", "css:finder"],
+        ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
+        ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d78ae9b2-090e-475d-8e27-802523bbf470",
+      "comment": "",
+      "command": "click",
+      "target": "css=.button-row:nth-child(1) > .dashboard-button:nth-child(2) > .button-content",
+      "targets": [
+        ["css=.button-row:nth-child(1) > .dashboard-button:nth-child(2) > .button-content", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/a[2]/div", "xpath:idRelative"],
+        ["xpath=//a[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1bd64940-1c48-4185-8bc3-8c5e4f79dd5f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-container > button:nth-child(1)",
+      "targets": [
+        ["css=.btn-container > button:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Search')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "71436f94-db78-4f1c-ba16-999da359b70b",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "//p[@class='product-name' and contains(text(), 'Name${randomNumber}')]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "00273f4e-e6c0-4b3f-a1e0-946b0148f1e5",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "//p[@class='product-desc' and contains(text(), 'Description${randomNumber}')]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3a21bef7-bd40-4e8e-a673-b7d0eccf2ae0",
       "comment": "",
       "command": "click",
       "target": "css=.navbar-link",
