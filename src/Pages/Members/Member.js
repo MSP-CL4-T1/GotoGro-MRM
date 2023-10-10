@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Member.css';
 import { softDeleteMember, updateMember } from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
-import TextInputWithValidation from '../../Components/TextInputWithValidation';
+import { TextInputWithValidation, validateInput } from '../../Components/TextInputWithValidation';
 
 /**
  * Member component for displaying member details and allowing edits.
@@ -31,7 +31,17 @@ function Member() {
     };
 
     // saves the changes to the member by calling the updateMember function from supabaseService
-    const handleSave = async () => {
+    const handleSave = async (e) => {
+        e.preventDefault();
+
+        const firstNameError = validateInput(editedFirstName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, "Invalid Character");
+        const lastNameError = validateInput(editedLastName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, "Invalid Character");
+        const emailError = validateInput(editedEmail, true, /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, "Invalid Email");
+
+        if (firstNameError || lastNameError || emailError) {
+            return;
+        }
+
         try {
             const updatedMember = {
                 member_id: member.member_id,
@@ -76,6 +86,7 @@ function Member() {
                                 regexErrorMsg="Invalid Character"
                                 parentOnChange={setEditedFirstName}
                                 testid="first-name-input"
+                                showError={true}
                             />
                         </div>
                         <div className='label-input'>
@@ -87,6 +98,7 @@ function Member() {
                                 regexErrorMsg="Invalid Character"
                                 parentOnChange={setEditedLastName}
                                 testid="last-name-input"
+                                showError={true}
                             />
                         </div>
                         <div className='label-input'>
@@ -98,6 +110,7 @@ function Member() {
                                 parentOnChange={setEditedEmail}
                                 required={true}
                                 testid="email-input"
+                                showError={true}
                             />
                         </div>
                         <div className='label-input'>

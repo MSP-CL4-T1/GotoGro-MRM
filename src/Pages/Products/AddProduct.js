@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { addProduct } from "../../Supabase/supabaseService";
 import "./Product.css";
-import TextInputWithValidation from "../../Components/TextInputWithValidation";
+import { TextInputWithValidation } from "../../Components/TextInputWithValidation";
 import ProductCard from "./ProductCard";
 
 function AddProduct() {

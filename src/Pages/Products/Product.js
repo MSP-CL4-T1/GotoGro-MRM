@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { softDeleteProduct, updateProduct } from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
-import TextInputWithValidation from '../../Components/TextInputWithValidation';
+import { TextInputWithValidation } from '../../Components/TextInputWithValidation';
 import ProductCard from "./ProductCard";
 import './Product.css'
 

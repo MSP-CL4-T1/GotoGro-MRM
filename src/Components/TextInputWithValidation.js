@@ -95,4 +95,4 @@ function TextInputWithValidation({
     );
 }
 
-export default TextInputWithValidation;
+export { TextInputWithValidation, validateInput };
