@@ -74,7 +74,10 @@ test('isLoading is true after handleSearch', async () => {
 
     fireEvent.click(screen.getByText('Search'));
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    await waitFor(() => {
+        expect(screen.getByText('Loading...')).toBeInTheDocument();
+    });
+
 });
 
 test('saves selected member to local storage and navigates to the member page', async () => {
