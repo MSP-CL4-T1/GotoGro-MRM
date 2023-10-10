@@ -303,12 +303,19 @@
       ],
       "value": ""
     }, {
-      "id": "0c569d57-aa98-4946-a9ec-e8e3e1b82c73",
+      "id": "4faba181-1369-4884-821b-3433503d0550",
+      "comment": "",
+      "command": "pause",
+      "target": "5000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "623d18ce-da3a-45a6-b5b0-d7792d8fe809",
       "comment": "",
       "command": "click",
-      "target": "css=img",
+      "target": "css=.navbar-logo > img",
       "targets": [
-        ["css=img", "css:finder"],
+        ["css=.navbar-logo > img", "css:finder"],
         ["xpath=//img[@alt='GotoGro Logo']", "xpath:img"],
         ["xpath=//div[@id='root']/div/nav/ul/li/a/img", "xpath:idRelative"],
         ["xpath=//img", "xpath:position"]
@@ -886,6 +893,13 @@
       ],
       "value": ""
     }, {
+      "id": "e8bf655f-5dc0-4c0c-9ef6-93153f9942ce",
+      "comment": "",
+      "command": "pause",
+      "target": "5000",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "1a486d39-e382-4b33-b18d-9f00c968fe9a",
       "comment": "",
       "command": "click",
@@ -1357,7 +1371,7 @@
       "targets": [],
       "value": "https://static.vecteezy.com/system/resources/previews/002/725/310/original/cube-geometric-figure-isolated-icon-free-vector.jpg"
     }, {
-      "id": "1206cfe1-2243-4c13-8606-8377a84bf8bb",
+      "id": "f4becee8-6b17-43b3-816b-61111ee78910",
       "comment": "",
       "command": "pause",
       "target": "5000",
@@ -1444,6 +1458,13 @@
         ["xpath=//div[2]/button", "xpath:position"],
         ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
       ],
+      "value": ""
+    }, {
+      "id": "93d5c651-071c-4ce8-a3e0-4032865edf34",
+      "comment": "",
+      "command": "pause",
+      "target": "5000",
+      "targets": [],
       "value": ""
     }, {
       "id": "a0536cec-b1b2-4ef6-b479-68b649dd6d8d",
