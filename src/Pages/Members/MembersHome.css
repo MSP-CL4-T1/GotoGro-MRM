@@ -12,7 +12,7 @@
     color: white;
     padding: 10px;
     border-radius: 5px;
-    font-size: 10pt;
+    font-size: 12pt;
     transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 

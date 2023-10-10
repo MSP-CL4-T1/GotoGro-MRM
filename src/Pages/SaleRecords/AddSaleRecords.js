@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TextInputWithValidation from '../../Components/TextInputWithValidation';
+import { TextInputWithValidation } from '../../Components/TextInputWithValidation';
 import { addSaleRecord } from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
 

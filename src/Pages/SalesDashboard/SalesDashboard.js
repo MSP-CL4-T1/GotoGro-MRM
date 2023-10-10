@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Line, Pie} from 'react-chartjs-2';
+import { Line, Pie } from 'react-chartjs-2';
 import { LineElement, PointElement, Title, Tooltip, Legend, Chart } from 'chart.js';
 import './SalesDashboard.css';
 import {

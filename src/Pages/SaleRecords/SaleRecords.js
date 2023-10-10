@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {fetchMembers, fetchProducts, softDeleteSaleRecord, updateSaleRecord} from '../../Supabase/supabaseService';
+import React, { useEffect, useState } from 'react';
+import { fetchMembers, fetchProducts, softDeleteSaleRecord, updateSaleRecord } from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
-import TextInputWithValidation from '../../Components/TextInputWithValidation';
+import { TextInputWithValidation } from '../../Components/TextInputWithValidation';
 import './SaleRecords.css';
 function SaleRecord() {
     const [saleRecord, setSaleRecord] = useState(JSON.parse(localStorage.getItem('selectedSaleRecord')));
@@ -80,7 +80,7 @@ function SaleRecord() {
             {isEditing ? (
                 <div>
                     <div className='form-container'>
-                        <div className='label-input'>
+                        <div className='sales-label-input'>
                             <div className={"required-container"}> <strong>Member ID</strong><span className="required-star"> *</span> </div>
                             <select
                                 value={editedMemberID}

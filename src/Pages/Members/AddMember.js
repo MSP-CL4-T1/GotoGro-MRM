@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TextInputWithValidation from '../../Components/TextInputWithValidation';
+import { TextInputWithValidation, validateInput } from '../../Components/TextInputWithValidation';
 import { addMember } from '../../Supabase/supabaseService';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +17,11 @@ function AddMember() {
         e.preventDefault();
         setIsFormSubmitted(true);
 
-        if (!firstName || !lastName || !email) {
+        const firstNameError = validateInput(firstName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, "Invalid Character");
+        const lastNameError = validateInput(lastName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, "Invalid Character");
+        const emailError = validateInput(email, true, /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, "Invalid Email");
+
+        if (firstNameError || lastNameError || emailError) {
             return;
         }
 
