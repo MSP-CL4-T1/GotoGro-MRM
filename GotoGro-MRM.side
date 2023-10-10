@@ -940,7 +940,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["8fb1d2d1-2126-487c-bca0-f675f0833621", "6869db90-159d-4020-bfa0-bbe2191e3438", "0cc85418-a663-4e80-939e-89b08c896c5c"]
+    "tests": ["8fb1d2d1-2126-487c-bca0-f675f0833621", "6869db90-159d-4020-bfa0-bbe2191e3438", "0cc85418-a663-4e80-939e-89b08c896c5c", "af1b30b6-775c-4770-9df9-7a7ec541514f"]
   }],
   "urls": ["https://msp-cl4-t1.ts.r.appspot.com/", "http://localhost:3000/"],
   "plugins": []
