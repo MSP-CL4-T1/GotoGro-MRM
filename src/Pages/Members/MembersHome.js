@@ -29,7 +29,7 @@ function MembersHome() {
             setMembers(searchResults);
 
             // Show "No Members Found" if no results
-            setShowNoMembersFound(searchResults.length === 0);
+            setShowNoMembersFound(searchResults?.length === 0);
         } catch (error) {
             console.error(error);
         } finally {
@@ -84,7 +84,7 @@ function MembersHome() {
             </div>
             {isLoading ? (
                 <p>Loading...</p>
-            ) : members.length > 0 ? (
+            ) : members?.length > 0 ? (
                 <table className='search-results-table'>
                     <thead>
                         <tr>
