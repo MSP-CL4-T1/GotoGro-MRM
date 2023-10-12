@@ -1,5 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {fetchMembers, fetchProducts, softDeleteSaleRecord, updateSaleRecord} from '../../Supabase/supabaseService';
+import {
+	deleteSaleRecord,
+	fetchMembers,
+	fetchProducts,
+	updateSaleRecord,
+} from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
 import {TextInputWithValidation} from '../../Components/TextInputWithValidation';
 import './SaleRecords.css';
@@ -65,7 +70,7 @@ function SaleRecord() {
 
 	const handleDelete = async () => {
 		try {
-			await softDeleteSaleRecord(saleRecord);
+			await deleteSaleRecord(saleRecord);
 			localStorage.removeItem('selectedSaleRecord');
 			navigate('/sale-records-home');
 		} catch (error) {
