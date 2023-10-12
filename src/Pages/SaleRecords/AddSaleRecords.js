@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TextInputWithValidation} from '../../Components/TextInputWithValidation';
-import {addSaleRecord} from '../../Supabase/supabaseService';
+import {addSaleRecord, fetchProducts} from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
 
 function AddSaleRecords() {
@@ -8,6 +8,8 @@ function AddSaleRecords() {
 	const [saleDate, setSaleDate] = useState('');
 	const [memberId, setMemberId] = useState('');
 	const [quantity, setQuantity] = useState('');
+	const [productId, setProductId] = useState('');
+	const [products, setProducts] = useState([]);
 	const [totalAmount, setTotalAmount] = useState('');
 	const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
@@ -26,6 +28,7 @@ function AddSaleRecords() {
 				sale_date: saleDate,
 				member_id: memberId,
 				quantity,
+				product_id: productId,
 				total_amount: totalAmount,
 			};
 
@@ -35,6 +38,19 @@ function AddSaleRecords() {
 			console.error(error);
 		}
 	};
+
+	useEffect(() => {
+		const getProducts = async () => {
+			try {
+				const fetchedProducts = await fetchProducts();
+				setProducts(fetchedProducts);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		getProducts();
+	}, []);
 
 	const handleCancel = () => {
 		navigate('/sale-records-home');
@@ -54,6 +70,17 @@ function AddSaleRecords() {
 						showError={isFormSubmitted}
 						testid='sale-date-input'
 					/>
+				</div>
+				<div className='label-input'>
+					<strong>Product Name:</strong><span className='required-star'> *</span>
+					<select value={productId} onChange={e => setProductId(e.target.value)} data-testid='product-name-dropdown'>
+						<option value=''>Select a product</option>
+						{products && products.map(product => (
+							<option key={product.product_id} value={product.product_id}>
+								{product.product_name}
+							</option>
+						))}
+					</select>
 				</div>
 				<div className='label-input'>
 					<strong>Member ID:</strong><span className='required-star'> *</span>

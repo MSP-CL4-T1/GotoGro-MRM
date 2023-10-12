@@ -519,13 +519,11 @@ export const updateSaleRecord = async updatedSaleRecord => {
 	}
 };
 
-export async function softDeleteSaleRecord(saleRecordToDelete) {
+export async function deleteSaleRecord(saleRecordToDelete) {
 	try {
 		const {error} = await supabase
 			.from('SaleRecords')
-			.update({
-				deleted: true,
-			})
+			.delete()
 			.eq('sale_id', saleRecordToDelete.sale_id);
 
 		if (error) {
@@ -558,7 +556,7 @@ export const addSaleRecord = async newSaleRecord => {
 					member_id: newSaleRecord.member_id,
 					quantity: newSaleRecord.quantity,
 					total_amount: newSaleRecord.total_amount,
-					// Add other fields as needed
+					product_id: newSaleRecord.product_id,
 				},
 			]);
 
