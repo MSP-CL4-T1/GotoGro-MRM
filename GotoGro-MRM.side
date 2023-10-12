@@ -2425,6 +2425,13 @@
       ],
       "value": ""
     }, {
+      "id": "60fd3fb3-9765-4dfb-b08d-93ced9466684",
+      "comment": "",
+      "command": "storeText",
+      "target": "//table[@class='search-results-table']/tbody/tr[1]/td[1]",
+      "targets": [],
+      "value": "saleID"
+    }, {
       "id": "cd1eb187-3c29-4d18-a5a7-c7e1f376f3b8",
       "comment": "",
       "command": "click",
@@ -2464,14 +2471,7 @@
       "id": "152d7926-873d-4327-a0b1-20be4c7479f9",
       "comment": "",
       "command": "verifyElementNotPresent",
-      "target": "//td[contains(text(), '${randomQuantity}')]",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "c95c3aea-ce5c-4c6a-bc78-19096f0561d0",
-      "comment": "",
-      "command": "verifyElementNotPresent",
-      "target": "//td[contains(text(), '${randomPrice}')]",
+      "target": "//td[contains(text(), '${saleID}')][1]",
       "targets": [],
       "value": ""
     }, {
