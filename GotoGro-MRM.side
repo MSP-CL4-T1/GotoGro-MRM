@@ -1102,11 +1102,11 @@
       "id": "0075b78d-927a-40af-bf6a-8f676a5a202b",
       "comment": "",
       "command": "click",
-      "target": "css=.btn-container > button:nth-child(1)",
+      "target": "css=.secondary-btn",
       "targets": [
-        ["css=.btn-container > button:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='root']/div/div/div/div[2]/button", "xpath:idRelative"],
-        ["xpath=//div[2]/button", "xpath:position"],
+        ["css=.secondary-btn", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div/div[2]/button[2]", "xpath:idRelative"],
+        ["xpath=//button[2]", "xpath:position"],
         ["xpath=//button[contains(.,'Edit')]", "xpath:innerText"]
       ],
       "value": ""
@@ -1516,11 +1516,11 @@
       "id": "d4872aff-aa55-484a-aab6-220b988c7edc",
       "comment": "",
       "command": "click",
-      "target": "css=button:nth-child(2)",
+      "target": "css=.primary-btn:nth-child(3)",
       "targets": [
-        ["css=button:nth-child(2)", "css:finder"],
-        ["xpath=//div[@id='root']/div/div/div/div[2]/button[2]", "xpath:idRelative"],
-        ["xpath=//button[2]", "xpath:position"],
+        ["css=.primary-btn:nth-child(3)", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div/div[2]/button[3]", "xpath:idRelative"],
+        ["xpath=//button[3]", "xpath:position"],
         ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
       ],
       "value": ""
@@ -1528,9 +1528,9 @@
       "id": "dc388397-c57b-4e8c-bf94-374627f5b039",
       "comment": "",
       "command": "click",
-      "target": "css=.btn-container > button:nth-child(1)",
+      "target": "css=.btn-container > .primary-btn",
       "targets": [
-        ["css=.btn-container > button:nth-child(1)", "css:finder"],
+        ["css=.btn-container > .primary-btn", "css:finder"],
         ["xpath=//div[@id='root']/div/div/div/div/button", "xpath:idRelative"],
         ["xpath=//div/button", "xpath:position"],
         ["xpath=//button[contains(.,'Search')]", "xpath:innerText"]
@@ -2135,14 +2135,28 @@
       "targets": [],
       "value": "randomPrice"
     }, {
+      "id": "97b65a3b-9a3f-42b4-b19b-6d8c0e006595",
+      "comment": "",
+      "command": "executeScript",
+      "target": "const dropdown = document.querySelector('select[title=\"Select a Member\"]');   const options = dropdown.options;   const randomIndex = Math.floor(Math.random() * options.length);   dropdown.selectedIndex = randomIndex;   const event = new Event('change', { bubbles: true });   dropdown.dispatchEvent(event);",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d3a3e692-2247-41da-84fb-5172aa9bf5c8",
+      "comment": "",
+      "command": "executeScript",
+      "target": "const dropdown = document.querySelector('select[data-testid=\"product-name-dropdown\"]');   const options = dropdown.options;   const randomIndex = Math.floor(Math.random() * options.length);   dropdown.selectedIndex = randomIndex;   const event = new Event('change', { bubbles: true });   dropdown.dispatchEvent(event);",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "547c118b-53d0-463e-83e4-0afcddf0c96a",
       "comment": "",
       "command": "click",
-      "target": "css=.label-input:nth-child(1) .text-input-validation",
+      "target": "css=.label-input:nth-child(3) .text-input-validation",
       "targets": [
-        ["css=.label-input:nth-child(1) .text-input-validation", "css:finder"],
+        ["css=.label-input:nth-child(3) .text-input-validation", "css:finder"],
         ["xpath=//input[@value='']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[@id='root']/div/div/form/div[3]/div/input", "xpath:idRelative"],
         ["xpath=//input", "xpath:position"]
       ],
       "value": ""
@@ -2150,33 +2164,14 @@
       "id": "02ac3379-fee4-4505-b40d-7d5aebb9bf02",
       "comment": "",
       "command": "type",
-      "target": "css=.label-input:nth-child(1) .text-input-validation",
+      "target": "css=.label-input:nth-child(3) .text-input-validation",
       "targets": [
-        ["css=.label-input:nth-child(1) .text-input-validation", "css:finder"],
-        ["xpath=//input[@value='2023-10-12']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/form/div/div/input", "xpath:idRelative"],
+        ["css=.label-input:nth-child(3) .text-input-validation", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/div[3]/div/input", "xpath:idRelative"],
         ["xpath=//input", "xpath:position"]
       ],
       "value": "2023-10-12"
-    }, {
-      "id": "33248331-10ce-4dba-bcf9-27bb5256bbe9",
-      "comment": "",
-      "command": "executeScript",
-      "target": "const dropdown = document.querySelector('select[data-testid=\"product-name-dropdown\"]');   const options = dropdown.options;   const randomIndex = Math.floor(Math.random() * options.length);   dropdown.selectedIndex = randomIndex;   const event = new Event('change', { bubbles: true });   dropdown.dispatchEvent(event);",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "3464c59f-6bc2-427b-b1f2-329119c897db",
-      "comment": "",
-      "command": "type",
-      "target": "css=.label-input:nth-child(3) .text-input-validation",
-      "targets": [
-        ["css=.label-input:nth-child(2) .text-input-validation", "css:finder"],
-        ["xpath=//input[@value='']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/form/div[2]/div/input", "xpath:idRelative"],
-        ["xpath=//div[2]/div/input", "xpath:position"]
-      ],
-      "value": "${randomID}"
     }, {
       "id": "b693a424-8925-401d-ba5a-4f802f082a8c",
       "comment": "",
@@ -2221,6 +2216,18 @@
       "target": "css=.btn-container > button:nth-child(1)",
       "targets": [
         ["css=.btn-container > button:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Search')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a6627493-9299-4383-b24f-cfccaea396f2",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-container > .primary-btn",
+      "targets": [
+        ["css=.btn-container > .primary-btn", "css:finder"],
         ["xpath=//div[@id='root']/div/div/div/div/button", "xpath:idRelative"],
         ["xpath=//div/button", "xpath:position"],
         ["xpath=//button[contains(.,'Search')]", "xpath:innerText"]
