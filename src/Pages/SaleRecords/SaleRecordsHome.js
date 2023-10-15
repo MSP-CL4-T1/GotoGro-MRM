@@ -62,9 +62,9 @@ function SaleRecordsHome() {
 					onChange={e => setSearchSaleID(e.target.value)}
 				/>
 				<div className='btn-container'>
-					<button onClick={handleSearch}>Search</button>
-					<button onClick={handleClear}>Clear</button>
-					<Link className='link-btn' to='/add-sale-record'>Add New Sale Record</Link>
+					<button className='primary-btn' onClick={handleSearch}>Search</button>
+					<button className='tertiary-btn' onClick={handleClear}>Clear</button>
+					<Link className='link-btn secondary-btn' to='/add-sale-record'>Add New Sale Record</Link>
 				</div>
 			</div>
 			{isLoading ? (
@@ -90,8 +90,7 @@ function SaleRecordsHome() {
 								<td>{saleRecord.quantity}</td>
 								<td>{saleRecord.total_amount}</td>
 								<td>
-									<button onClick={() => handleNavigation(saleRecord)}>View</button>
-
+									<button className='secondary-btn' onClick={() => handleNavigation(saleRecord)}>View</button>
 								</td>
 							</tr>
 						))}

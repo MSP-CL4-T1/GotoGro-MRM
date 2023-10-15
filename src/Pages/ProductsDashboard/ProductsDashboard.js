@@ -143,7 +143,7 @@ const ProductsDashboard = () => {
 						{lowStockProducts.map(p => (
 							<li key={p.product_id}>
 								{p.product_name} - Only {p.stock_quantity} left in stock!
-								<button onClick={async () => {
+								<button className='secondary-btn' onClick={async () => {
 									await reorderStock(p);
 									await getProducts();
 								}}>Reorder {p.product_name}</button>
@@ -151,7 +151,7 @@ const ProductsDashboard = () => {
 						))}
 					</ul>
 					{lowStockProducts.length > 1 && ( // Conditionally render the "Reorder All Low Stock" button
-						<button onClick={handleReorderStockClick}>Reorder All Low Stock</button>
+						<button className='secondary-btn' onClick={handleReorderStockClick}>Reorder All Low Stock</button>
 					)}
 				</section>
 			)}

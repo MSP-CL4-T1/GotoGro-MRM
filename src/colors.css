@@ -1,10 +1,11 @@
 /* colors.css */
 :root {
     --primary-color: #313232;
+    --dark-primary-color: #959595;
     --secondary-color: #fe791b;
     --dark-secondary-color: #bf5d17;
-    --tertiary-color: #007BFF;
-    --dark-tertiary-color: #0056b3;
+    --tertiary-color: #4CAF50;
+    --dark-tertiary-color: #45a049;
     --dark-shade: #484848;
     --light-shade: #8c8c8c;
     --lighter-shade: #e1e6e1;
@@ -12,4 +13,5 @@
     --text-color: #000000;
     --info-color: #17a2b8;
     --warning-color: #ffc107;
+    --disabled: #ddd;
 }

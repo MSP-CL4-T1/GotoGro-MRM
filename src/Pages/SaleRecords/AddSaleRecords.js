@@ -116,8 +116,8 @@ function AddSaleRecords() {
 					/>
 				</div>
 				<div className='btn-container'>
-					<button type='submit' data-testid='add-button'>Add Sale Record</button>
-					<button type='cancel' data-testid='cancel-button' onClick={handleCancel}>Cancel</button>
+					<button className='secondary-btn' type='submit' data-testid='add-button'>Add Sale Record</button>
+					<button className='tertiary-btn' type='cancel' data-testid='cancel-button' onClick={handleCancel}>Cancel</button>
 				</div>
 			</form>
 		</div>

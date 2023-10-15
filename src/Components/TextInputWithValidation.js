@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import './TextInputWithValidation.css';
+import './Input.css';
 
 /**
  * Validates input value based on required and regex pattern

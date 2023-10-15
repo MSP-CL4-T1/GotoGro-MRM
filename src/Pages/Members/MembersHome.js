@@ -77,9 +77,9 @@ function MembersHome() {
 					onChange={e => setSearchTerm(e.target.value)}
 				/>
 				<div className='btn-container'>
-					<button onClick={handleSearch}>Search</button>
-					<button onClick={handleClear}>Clear</button>
-					<Link className='link-btn' to='/add-member'>Add New Member</Link>
+					<button className='primary-btn' onClick={handleSearch}>Search</button>
+					<button className='tertiary-btn' onClick={handleClear}>Clear</button>
+					<Link className='link-btn secondary-btn' to='/add-member'>Add New Member</Link>
 				</div>
 			</div>
 			{isLoading ? (
@@ -107,7 +107,7 @@ function MembersHome() {
 										? (<button onClick={() => {
 											handleRetrieve(member);
 										}}>Retrieve</button>)
-										: (<button onClick={() => saveSelectedMemberToLocalStorage(member)}>View</button>)
+										: (<button className='secondary-btn' onClick={() => saveSelectedMemberToLocalStorage(member)}>View</button>)
 									}
 								</td>
 							</tr>

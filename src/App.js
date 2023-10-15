@@ -100,14 +100,19 @@ const HomePage = () => {
 							<h2>Products</h2>
 						</div>
 					</Link>
+					<Link className='dashboard-button' to='/sale-records-home'>
+						<div className='button-content'>
+							<h2>Sale Records</h2>
+						</div>
+					</Link>
 				</div>
 				<div className='button-row'>
-					<Link className='dashboard-button' to='/inventory-report'>
+					<Link className='dashboard-button' to='/sales-report'>
 						<div className='button-content'>
 							<h2>Sales Report</h2>
 						</div>
 					</Link>
-					<Link className='dashboard-button' to='/sales-report'>
+					<Link className='dashboard-button' to='/inventory-report'>
 						<div className='button-content'>
 							<h2>Inventory Report</h2>
 						</div>
@@ -122,13 +127,6 @@ const HomePage = () => {
 					<Link className='dashboard-button button-sales-dashboard' to='/sales-dashboard'>
 						<div className='button-content'>
 							<h2>Sales Dashboard</h2>
-						</div>
-					</Link>
-				</div>
-				<div className='button-row'>
-					<Link className='dashboard-button' to='/sale-records-home'>
-						<div className='button-content'>
-							<h2>Sale Records</h2>
 						</div>
 					</Link>
 				</div>

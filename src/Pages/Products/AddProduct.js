@@ -167,8 +167,8 @@ function AddProduct() {
 					<ProductCard product={newProduct} disabled={true} className='preview' />
 				</div>
 				<div className='btn-container'>
-					<button type='submit' data-testid='save-button'>Save</button>
-					<button type='cancel' data-testid='cancel-button' onClick={handleCancel}>Cancel</button>
+					<button className='secondary-btn' type='submit' data-testid='save-button'>Save</button>
+					<button className='tertiary-btn' type='cancel' data-testid='cancel-button' onClick={handleCancel}>Cancel</button>
 				</div>
 				{formErrorMessage && (
 					<span className='error-message'>{formErrorMessage}</span>

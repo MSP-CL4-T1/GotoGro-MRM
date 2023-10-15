@@ -259,9 +259,9 @@ function SalesReport() {
 					</label>
 				</div>
 				<div className='btn-container'>
-					<button type='submit'>Submit</button>
-					<button type='button' onClick={clearAll}>Clear</button>
-					<button type='button' onClick={handleExportToCSV}>Export</button>
+					<button className='primary-btn' type='submit'>Submit</button>
+					<button className='tertiary-btn' onClick={clearAll}>Clear</button>
+					<button className='secondary-btn' onClick={handleExportToCSV}>Export</button>
 				</div>
 			</form>
 
@@ -313,10 +313,10 @@ function SalesTable({
 	return (
 		<div>
 			<div className='table-top-controls'>
-				<button type='button' onClick={() => setShowFilterMenu(prev => !prev)}>
+				<button className='primary-btn' onClick={() => setShowFilterMenu(prev => !prev)}>
                     Toggle Filter Menu
 				</button>
-				<button type='button' onClick={resetFilters}>
+				<button className='tertiary-btn' onClick={resetFilters}>
                     Reset Filters
 				</button>
 			</div>
@@ -405,8 +405,8 @@ function EditModal({
 					/>
 				</label>
 				<div>
-					<button type='submit'>Save</button>
-					<button type='button' onClick={() => setShowModal(false)}>Cancel</button>
+					<button className='secondary-btn' type='submit'>Save</button>
+					<button className='tertiary-btn' onClick={() => setShowModal(false)}>Cancel</button>
 				</div>
 			</form>
 		</div>
@@ -487,7 +487,7 @@ function FilterMenu({filters, setFilters, onApplyFilters}) {
 						</div>
 					);
 				})}
-				<button type='button' onClick={onApplyFilters}>
+				<button className='secondary-btn' onClick={onApplyFilters}>
                     Apply Filters
 				</button>
 			</form>

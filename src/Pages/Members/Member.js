@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import './Member.css';
 import {softDeleteMember, updateMember} from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
 import {TextInputWithValidation, validateInput} from '../../Components/TextInputWithValidation';
@@ -122,8 +121,8 @@ function Member() {
 						</div>
 					</div>
 					<div className='btn-container'>
-						<button onClick={handleSave} data-testid='save-button'>Save</button>
-						<button onClick={handleCancel} data-testid='cancel-button'>Cancel</button>
+						<button className='secondary-btn' onClick={handleSave} data-testid='save-button'>Save</button>
+						<button className='tertiary-btn' onClick={handleCancel} data-testid='cancel-button'>Cancel</button>
 					</div>
 				</div>
 			) : (
@@ -160,8 +159,8 @@ function Member() {
 						</div>
 					</div>
 					<div className='btn-container'>
-						<button onClick={handleEdit} data-testid='edit-button'>Edit</button>
-						<button onClick={handleDelete} data-testid='delete-button'>Delete</button>
+						<button className='secondary-btn' onClick={handleEdit} data-testid='edit-button'>Edit</button>
+						<button className='primary-btn' onClick={handleDelete} data-testid='delete-button'>Delete</button>
 					</div>
 				</div>
 			)}

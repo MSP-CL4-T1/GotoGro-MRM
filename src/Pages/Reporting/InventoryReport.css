@@ -32,7 +32,6 @@
 
 .bulk-save {
     margin-top: 20px;
-    background-color: #007BFF;
 }
 
 
@@ -151,16 +150,6 @@
     border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
-}
-
-.edit-modal__save-btn {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.edit-modal__cancel-btn {
-    background-color: #f44336;
-    color: white;
 }
 
 /* Optional: Overlay to darken the rest of the page when modal is open */
