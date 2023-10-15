@@ -14,7 +14,7 @@ function Navbar() {
 				</li>
 				{/* Add sign-out button */}
 				<li className='navbar-item'>
-					<button onClick={signOut} className='navbar-link'>
+					<button onClick={signOut} className='navbar-link primary-btn'>
                         Sign Out
 					</button>
 				</li>

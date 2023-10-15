@@ -8,6 +8,7 @@ import {
 import {useNavigate} from 'react-router-dom';
 import {TextInputWithValidation} from '../../Components/TextInputWithValidation';
 import './SaleRecords.css';
+
 function SaleRecord() {
 	const [saleRecord, setSaleRecord] = useState(JSON.parse(localStorage.getItem('selectedSaleRecord')));
 	const [isEditing, setIsEditing] = useState(false);
@@ -60,6 +61,8 @@ function SaleRecord() {
 				total_amount: editedTotalAmount,
 			};
 
+			console.log(editedQuantity);
+
 			await updateSaleRecord(updatedSaleRecord);
 			setSaleRecord(updatedSaleRecord);
 			setIsEditing(false);
@@ -84,38 +87,44 @@ function SaleRecord() {
 			{isEditing ? (
 				<div>
 					<div className='form-container'>
-						<div className='sales-label-input'>
-							<div className={'required-container'}> <strong>Member ID</strong><span className='required-star'> *</span> </div>
-							<select
-								value={editedMemberID}
-								onChange={e => setEditedMemberID(e.target.value)}
-							>
-								{members.map(member => (
-									<option key={member.member_id} value={member.member_id} className={'member-input'}>
-										{member.first_name} {member.last_name} ({member.member_id})
-									</option>
-								))}
-							</select>
+						<div className='label-input'>
+							<strong>Member ID</strong><span className='required-star'> *</span>
+							<div className='input-with-validation'>
+								<select
+									value={editedMemberID}
+									onChange={e => setEditedMemberID(e.target.value)}
+									title='Select a Member'
+								>
+									{members.map(member => (
+										<option key={member.member_id} value={member.member_id} className={'member-input'}>
+											{member.first_name} {member.last_name} ({member.member_id})
+										</option>
+									))}
+								</select>
+							</div>
 						</div>
 						<div className='label-input'>
-							<div className={'required-container'}> <strong>Product ID</strong><span className='required-star'> *</span> </div>
-							<select
-								value={editedProductID}
-								onChange={e => setEditedProductID(e.target.value)}
-							>
-								{products.map(product => (
-									<option key={product.product_id} value={product.product_id} className={'product-input'}>
-										{product.product_name} ({product.product_id})
-									</option>
-								))}
-							</select>
+							<strong>Product ID</strong><span className='required-star'> *</span>
+							<div className='input-with-validation'>
+								<select
+									value={editedProductID}
+									onChange={e => setEditedProductID(e.target.value)}
+								>
+									{products.map(product => (
+										<option key={product.product_id} value={product.product_id} className={'product-input'}>
+											{product.product_name} ({product.product_id})
+										</option>
+									))}
+								</select>
+							</div>
 						</div>
 						<div className='label-input'>
-							<div className={'required-container'}><strong>Sale Date</strong><span className='required-star'> *</span></div>
+							<strong>Sale Date</strong><span className='required-star'> *</span>
 							<TextInputWithValidation
 								regex={/^\d{4}-\d{2}-\d{2}$/}
 								regexErrorMsg='Invalid Date'
 								value={editedSaleDate}
+								parentOnChange={setEditedSaleDate}
 								required={true}
 							/>
 						</div>
@@ -125,6 +134,7 @@ function SaleRecord() {
 								regex={/^(?!0)\d+$/}
 								regexErrorMsg='Invalid Quantity'
 								value={editedQuantity}
+								parentOnChange={setEditedQuantity}
 								required={true}
 							/>
 						</div>
@@ -134,13 +144,14 @@ function SaleRecord() {
 								regex={/^(?!0)\d+$/}
 								regexErrorMsg='Invalid Total Amount'
 								value={editedTotalAmount}
+								parentOnChange={setEditedTotalAmount}
 								required={true}
 							/>
 						</div>
 					</div>
 					<div className='btn-container'>
-						<button onClick={handleSave} data-testid='save-button'>Save</button>
-						<button onClick={handleCancel} data-testid='cancel-button'>Cancel</button>
+						<button className='secondary-btn' onClick={handleSave} data-testid='save-button'>Save</button>
+						<button className='tertiary-btn' onClick={handleCancel} data-testid='cancel-button'>Cancel</button>
 					</div>
 				</div>
 			) : (
@@ -183,9 +194,9 @@ function SaleRecord() {
 						</div>
 					</div>
 					<div className='btn-container'>
-						<button onClick={() => navigate('/sale-records-home')} data-testid='back-button'>Back</button>
-						<button onClick={handleEdit} data-testid='edit-button'>Edit</button>
-						<button onClick={handleDelete} data-testid='delete-button'>Delete</button>
+						<button className='tertiary-btn' onClick={() => navigate('/sale-records-home')} data-testid='back-button'>Back</button>
+						<button className='secondary-btn' onClick={handleEdit} data-testid='edit-button'>Edit</button>
+						<button className='primary-btn' onClick={handleDelete} data-testid='delete-button'>Delete</button>
 					</div>
 				</div>
 			)}

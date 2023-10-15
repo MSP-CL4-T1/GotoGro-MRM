@@ -109,7 +109,7 @@ const SalesDashboard = () => {
 					<Line data={data} />
 				)
 			)}
-			<button onClick={handleAddRandomSales} disabled={isAdding}>
+			<button className='secondary-btn' onClick={handleAddRandomSales} disabled={isAdding}>
 				{isAdding ? 'Adding Records...' : 'Add Random Sale Records'}
 			</button>
 			<HotProducts />

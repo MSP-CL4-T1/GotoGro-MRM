@@ -206,8 +206,8 @@ function InventoryReport() {
 			<ToastContainer />
 			<h2>Inventory Report</h2>
 			<div className='btn-container'>
-				<button type='button' onClick={fetchInventory}>Load Inventory</button>
-				<button type='button' onClick={handleExportToCSV}>Export</button>
+				<button className='primary-btn' type='button' onClick={fetchInventory}>Load Inventory</button>
+				<button className='secondary-btn' type='button' onClick={handleExportToCSV}>Export</button>
 			</div>
 
 			{uiState.isLoading ? <p>Loading...</p> : null}
@@ -227,7 +227,7 @@ function InventoryReport() {
 						searchTerm={searchTerm}
 						setSearchTerm={setSearchTerm}
 					/>
-					<button type='button' onClick={handleBulkSave} className={'bulk-save'}>Bulk Save</button>
+					<button onClick={handleBulkSave} className='bulk-save secondary-btn'>Bulk Save</button>
 				</>
 			) : uiState.showNoProductsFound ? (
 				<p>No Products Found</p>
@@ -265,10 +265,10 @@ function ProductsTable({
 }) {
 	return (
 		<div>
-			<button type='button' onClick={() => setShowFilterMenu(prev => !prev)}>
+			<button onClick={() => setShowFilterMenu(prev => !prev)}>
                 Toggle Filter Menu
 			</button>
-			<button type='button' onClick={resetFilters}>
+			<button className='tertiary-btn' onClick={resetFilters}>
                 Reset Filters
 			</button>
 			{uiState.showFilterMenu ? (
@@ -367,8 +367,8 @@ function EditModal({
 					</label>
 				))}
 				<div className='edit-modal__actions'>
-					<button className='edit-modal__save-btn' type='submit'>Save</button>
-					<button className='edit-modal__cancel-btn' type='button' onClick={closeModal}>Cancel</button>
+					<button className='edit-modal__save-btn secondary-btn' type='submit'>Save</button>
+					<button className='edit-modal__cancel-btn tertiary-btn' type='button' onClick={closeModal}>Cancel</button>
 				</div>
 			</form>
 		</div>

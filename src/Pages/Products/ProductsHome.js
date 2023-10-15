@@ -44,9 +44,9 @@ function ProductsHome() {
 					onChange={e => setSearchTerm(e.target.value)}
 				/>
 				<div className='btn-container'>
-					<button onClick={handleSearch}>Search</button>
-					<button onClick={handleClear}>Clear</button>
-					<Link className='link-btn' to='/add-product'>Add New Product</Link>
+					<button className='primary-btn' onClick={handleSearch}>Search</button>
+					<button className='tertiary-btn' onClick={handleClear}>Clear</button>
+					<Link className='link-btn secondary-btn' to='/add-product'>Add New Product</Link>
 				</div>
 			</div>
 			{isLoading ? (

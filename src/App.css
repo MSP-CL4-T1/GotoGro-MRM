@@ -83,32 +83,67 @@ footer {
 
 .btn-container {
   margin: 20px;
+  gap: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-button {
-  background-color: var(--secondary-color);
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
+button, .link-btn {
+  color: white;
   border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 12pt;
+  transition: background-color 0.3s ease;
+  background-color: var(--secondary-color); /* Default/fallback color */
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: none;
 }
 
-button:hover {
+.link-btn {
+  text-decoration: none;
+}
+
+.primary-btn {
+  background-color: var(--secondary-color);
+}
+
+.primary-btn:hover {
   background-color: var(--dark-secondary-color);
+}
+
+.secondary-btn {
+  background-color: var(--tertiary-color);
+}
+
+.secondary-btn:hover {
+  background-color: var(--dark-tertiary-color);
+}
+
+.tertiary-btn {
+  background-color: var(--primary-color);
+}
+
+.tertiary-btn:hover {
+  background-color: var(--dark-primary-color);
+}
+
+button:hover, .link-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled, .link-btn:disabled {
+  background-color: var(--disabled);
+  color: black;
+  cursor: not-allowed;
 }
 
 .card {
   width: 75%;
   text-align: center;
   background-color: var(--lightest-shade);
-  padding: 2rem;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease-in-out;
@@ -159,6 +194,22 @@ tbody td {
 
 tbody tr:hover td {
   background-color: var(--lighter-shade);
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.label-input {
+  display: flex;
+  align-items: baseline;
+}
+
+.required-star {
+  color: red
 }
 
 /* Media queries for responsiveness */
