@@ -17,8 +17,8 @@ import ProductsHome from './Pages/Products/ProductsHome';
 import AddProduct from './Pages/Products/AddProduct';
 import Product from './Pages/Products/Product';
 import SaleRecordsHome from './Pages/SaleRecords/SaleRecordsHome';
-import SaleRecords from './Pages/SaleRecords/SaleRecords';
-import AddSaleRecords from './Pages/SaleRecords/AddSaleRecords';
+import SaleRecord from './Pages/SaleRecords/SaleRecord';
+import AddSaleRecord from './Pages/SaleRecords/AddSaleRecord';
 
 import particlesConfig from './particlesjs-config.json';
 
@@ -65,8 +65,8 @@ function App() {
 					<Route path='/add-product' element={<AddProduct />} />
 					<Route path='/product' element={<Product />} />
 					<Route path='/sale-records-home' element={<SaleRecordsHome />} />
-					<Route path='/sale-records/:sale_id' element={<SaleRecords />} />
-					<Route path='/add-sale-record' element={<AddSaleRecords />} />
+					<Route path='/sale-records' element={<SaleRecord />} />
+					<Route path='/add-sale-record' element={<AddSaleRecord />} />
 				</Routes>
 				<footer>
 					<p>© 2023 Goto Grocery Inc. All rights reserved.</p>

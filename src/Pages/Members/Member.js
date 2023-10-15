@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {softDeleteMember, updateMember} from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
-import {TextInputWithValidation, validateInput} from '../../Components/TextInputWithValidation';
+import TextInputWithValidation from '../../Components/TextInputWithValidation';
+import {validateInput} from '../../utils';
 
 /**
  * Member component for displaying member details and allowing edits.
@@ -13,6 +14,10 @@ function Member() {
 	const [editedFirstName, setEditedFirstName] = useState(member.first_name);
 	const [editedLastName, setEditedLastName] = useState(member.last_name);
 	const [editedEmail, setEditedEmail] = useState(member.email);
+
+	const [firstNameError, setFirstNameError] = useState(validateInput(editedFirstName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character'));
+	const [lastNameError, setLastNameError] = useState(validateInput(editedLastName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character'));
+	const [emailError, setEmailError] = useState(validateInput(editedEmail, true, /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, 'Invalid Email'));
 
 	const navigate = useNavigate();
 
@@ -32,10 +37,6 @@ function Member() {
 	// Saves the changes to the member by calling the updateMember function from supabaseService
 	const handleSave = async e => {
 		e.preventDefault();
-
-		const firstNameError = validateInput(editedFirstName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character');
-		const lastNameError = validateInput(editedLastName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character');
-		const emailError = validateInput(editedEmail, true, /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, 'Invalid Email');
 
 		if (firstNameError || lastNameError || emailError) {
 			return;
@@ -69,56 +70,61 @@ function Member() {
 		}
 	};
 
+	// Use useEffect to calculate validation errors as the inputs change
+	useEffect(() => {
+		setFirstNameError(
+			validateInput(editedFirstName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character'),
+		);
+	}, [editedFirstName]);
+
+	useEffect(() => {
+		setLastNameError(
+			validateInput(editedLastName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character'),
+		);
+	}, [editedLastName]);
+
+	useEffect(() => {
+		setEmailError(
+			validateInput(editedEmail, true, /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, 'Invalid Email'),
+		);
+	}, [editedEmail]);
+
 	return (
 		<div className='card'>
 			<h2>Member Details</h2>
 			{isEditing ? (
 				<div>
 					<div className='form-container'>
-						<div className='label-input'>
-							<strong>First Name:</strong><span className='required-star'> *</span>
-							<TextInputWithValidation
-								required={true}
-								value={editedFirstName}
-								regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
-								regexErrorMsg='Invalid Character'
-								parentOnChange={setEditedFirstName}
-								testid='first-name-input'
-								showError={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Last Name:</strong><span className='required-star'> *</span>
-							<TextInputWithValidation
-								required={true}
-								value={editedLastName}
-								regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
-								regexErrorMsg='Invalid Character'
-								parentOnChange={setEditedLastName}
-								testid='last-name-input'
-								showError={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Email:</strong><span className='required-star'> *</span>
-							<TextInputWithValidation
-								regex={/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}
-								regexErrorMsg='Invalid Email'
-								value={editedEmail}
-								parentOnChange={setEditedEmail}
-								required={true}
-								testid='email-input'
-								showError={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Date Joined:</strong>
-							<TextInputWithValidation
-								value={member.date_joined}
-								readonly={true}
-								testid='date-joined-input'
-							/>
-						</div>
+						<TextInputWithValidation
+							label='First Name:'
+							value={editedFirstName}
+							onChange={setEditedFirstName}
+							required={true}
+							error={firstNameError}
+							testid='first-name-input'
+						/>
+						<TextInputWithValidation
+							label='Last Name:'
+							value={editedLastName}
+							onChange={setEditedLastName}
+							required={true}
+							error={lastNameError}
+							testid='last-name-input'
+						/>
+						<TextInputWithValidation
+							label='Email:'
+							value={editedEmail}
+							onChange={setEditedEmail}
+							required={true}
+							error={emailError}
+							testid='email-input'
+						/>
+						<TextInputWithValidation
+							label='Date Joined:'
+							value={member.date_joined}
+							readonly={true}
+							testid='date-joined-input'
+						/>
 					</div>
 					<div className='btn-container'>
 						<button className='secondary-btn' onClick={handleSave} data-testid='save-button'>Save</button>
@@ -128,37 +134,29 @@ function Member() {
 			) : (
 				<div>
 					<div className='form-container'>
-						<div className='label-input'>
-							<strong>First Name:</strong>
-							<TextInputWithValidation
-								value={member.first_name}
-								readonly={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Last Name:</strong>
-							<TextInputWithValidation
-								value={member.last_name}
-								readonly={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Email:</strong>
-							<TextInputWithValidation
-								value={member.email}
-								readonly={true}
-
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Date Joined:</strong>
-							<TextInputWithValidation
-								value={member.date_joined}
-								readonly={true}
-							/>
-						</div>
+						<TextInputWithValidation
+							label='First Name:'
+							value={member.first_name}
+							readonly={true}
+						/>
+						<TextInputWithValidation
+							label='Last Name:'
+							value={member.last_name}
+							readonly={true}
+						/>
+						<TextInputWithValidation
+							label='Email:'
+							value={member.email}
+							readonly={true}
+						/>
+						<TextInputWithValidation
+							label='Date Joined:'
+							value={member.date_joined}
+							readonly={true}
+						/>
 					</div>
 					<div className='btn-container'>
+						<button className='tertiary-btn' onClick={() => navigate('/members-home')} data-testid='back-button'>Back</button>
 						<button className='secondary-btn' onClick={handleEdit} data-testid='edit-button'>Edit</button>
 						<button className='primary-btn' onClick={handleDelete} data-testid='delete-button'>Delete</button>
 					</div>

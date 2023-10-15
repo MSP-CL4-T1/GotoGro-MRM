@@ -38,7 +38,7 @@ function SaleRecordsHome() {
 
 	const handleNavigation = saleRecord => {
 		localStorage.setItem('selectedSaleRecord', JSON.stringify(saleRecord));
-		navigate(`/sale-records/${saleRecord.sale_id}`);
+		navigate('/sale-records');
 	};
 
 	/**

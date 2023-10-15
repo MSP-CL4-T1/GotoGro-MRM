@@ -59,7 +59,7 @@ function InventoryReport() {
 			toast.success('All edited products updated successfully!');
 		} catch (e) {
 			toast.error('Failed to bulk update products.');
-			console.log(e);
+			console.error(e);
 		}
 	};
 
