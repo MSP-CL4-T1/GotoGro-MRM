@@ -9,13 +9,13 @@ function Navbar() {
 			<ul className='navbar-list'>
 				<li className='navbar-item logo'>
 					<Link to='/' className='navbar-logo'>
-						<img src='images/logo.png' alt='GotoGro Logo' />
+						<img src='/images/logo.png' alt='GotoGro Logo' />
 					</Link>
 				</li>
 				{/* Add sign-out button */}
 				<li className='navbar-item'>
 					<button onClick={signOut} className='navbar-link primary-btn'>
-                        Sign Out
+						Sign Out
 					</button>
 				</li>
 			</ul>

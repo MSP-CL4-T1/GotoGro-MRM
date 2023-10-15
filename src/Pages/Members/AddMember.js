@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
-import {TextInputWithValidation, validateInput} from '../../Components/TextInputWithValidation';
+import React, {useState, useEffect} from 'react';
+import TextInputWithValidation from '../../Components/TextInputWithValidation';
 import {addMember} from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
+import {validateInput} from '../../utils';
 
 function AddMember() {
 	// State variables to store member information
@@ -9,17 +10,15 @@ function AddMember() {
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const [dateJoined, setDateJoined] = useState('');
-	const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+	const [firstNameError, setFirstNameError] = useState(validateInput(firstName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character'));
+	const [lastNameError, setLastNameError] = useState(validateInput(lastName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character'));
+	const [emailError, setEmailError] = useState(validateInput(email, true, /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, 'Invalid Email'));
 
 	const navigate = useNavigate();
 
 	const handleSave = async e => {
 		e.preventDefault();
-		setIsFormSubmitted(true);
-
-		const firstNameError = validateInput(firstName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character');
-		const lastNameError = validateInput(lastName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character');
-		const emailError = validateInput(email, true, /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, 'Invalid Email');
 
 		if (firstNameError || lastNameError || emailError) {
 			return;
@@ -35,8 +34,8 @@ function AddMember() {
 				date_joined: dateJoined ? dateJoined : currentDate,
 			};
 
-			await addMember(newMember);
-			localStorage.setItem('selectedMember', JSON.stringify(newMember));
+			const newId = await addMember(newMember);
+			localStorage.setItem('selectedMember', JSON.stringify({member_id: newId, ...newMember}));
 			navigate('/member');
 		} catch (error) {
 			console.error(error);
@@ -47,55 +46,60 @@ function AddMember() {
 		navigate('/members-home');
 	};
 
+	// Use useEffect to calculate validation errors as the inputs change
+	useEffect(() => {
+		setFirstNameError(
+			validateInput(firstName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character'),
+		);
+	}, [firstName]);
+
+	useEffect(() => {
+		setLastNameError(
+			validateInput(lastName, true, /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/, 'Invalid Character'),
+		);
+	}, [lastName]);
+
+	useEffect(() => {
+		setEmailError(
+			validateInput(email, true, /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, 'Invalid Email'),
+		);
+	}, [email]);
+
 	return (
 		<div className='card'>
 			<h2>Add Member</h2>
 			<form onSubmit={handleSave} className='form-container'>
-				<div className='label-input'>
-					<strong>First Name:</strong><span className='required-star'> *</span>
-					<TextInputWithValidation
-						value={firstName}
-						parentOnChange={setFirstName}
-						required={true}
-						regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
-						regexErrorMsg='Invalid Character'
-						showError={isFormSubmitted}
-						testid='first-name-input'
-					/>
-				</div>
-				<div className='label-input'>
-					<strong>Last Name:</strong><span className='required-star'> *</span>
-					<TextInputWithValidation
-						value={lastName}
-						parentOnChange={setLastName}
-						required={true}
-						regex={/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/}
-						regexErrorMsg='Invalid Character'
-						showError={isFormSubmitted}
-						testid='last-name-input'
-					/>
-				</div>
-				<div className='label-input'>
-					<strong>Email:</strong><span className='required-star'> *</span>
-					<TextInputWithValidation
-						value={email}
-						parentOnChange={setEmail}
-						required={true}
-						regex={/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}
-						regexErrorMsg='Invalid Email'
-						showError={isFormSubmitted}
-						testid='email-input'
-					/>
-				</div>
-				<div className='label-input'>
-					<strong>Date Joined:</strong>
-					<TextInputWithValidation
-						type='date'
-						value={dateJoined}
-						parentOnChange={setDateJoined}
-						testid='date-joined-input'
-					/>
-				</div>
+				<TextInputWithValidation
+					label='First Name:'
+					value={firstName}
+					onChange={setFirstName}
+					required={true}
+					error={firstNameError}
+					testid='first-name-input'
+				/>
+				<TextInputWithValidation
+					label='Last Name:'
+					value={lastName}
+					onChange={setLastName}
+					required={true}
+					error={lastNameError}
+					testid='last-name-input'
+				/>
+				<TextInputWithValidation
+					label='Email:'
+					value={email}
+					onChange={setEmail}
+					required={true}
+					error={emailError}
+					testid='email-input'
+				/>
+				<TextInputWithValidation
+					type='date'
+					label='Date Joined:'
+					value={dateJoined}
+					onChange={setDateJoined}
+					testid='date-joined-input'
+				/>
 				<div className='btn-container'>
 					<button className='primary-btn' type='submit' data-testid='add-button'>Add Member</button>
 					<button className='tertiary-btn' type='cancel' data-testid='cancel-button' onClick={handleCancel}>Cancel</button>

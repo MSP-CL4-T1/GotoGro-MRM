@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Papa from 'papaparse';
-import {fetchSalesByDateRange} from '../../Supabase/supabaseService';
+import {fetchSalesByDateRange, fetchTop100Sales} from '../../Supabase/supabaseService';
 import './SalesReport.css';
+import TextInputWithValidation from '../../Components/TextInputWithValidation';
+import {validateInput} from '../../utils';
 
 function SalesReport() {
 	const [sales, setSales] = useState([]);
@@ -35,28 +37,39 @@ function SalesReport() {
 	const [month, setMonth] = useState('');
 	const [year, setYear] = useState('');
 
+	const [yearError, setYearError] = useState(validateInput(year, false, /^(.|\n){0,4}$/, 'Invalid Year - Should be a Max of 4 Digits'));
+
+	useEffect(() => {
+		setYearError(
+			validateInput(year, false, /^(.|\n){0,4}$/, 'Invalid Year - Should be a Max of 4 Digits'),
+		);
+	}, [year]);
+
 	const toggleFilterMenu = () => {
 		setUiState(prev => ({...prev, showFilterMenu: !prev.showFilterMenu}));
 	};
 
 	const fetchSalesForMonth = async (month, year) => {
 		let searchResults;
-		console.log('month: ', month, ', year: ', year);
-		if (month === '00' && year.trim() === '') {
-			searchResults = await fetchSalesByDateRange();
-			console.log('all records');
-		} else {
-			year = new Date().getFullYear().toString();
-			setStartDate(`${year}-${month}-01`);
-			setEndDate(new Date(year, parseInt(month, 10), 1).toISOString().split('T')[0]); // Gets the last day of the month
-			console.log('start: ', startDate, ', end: ', endDate);
-			searchResults = await fetchSalesByDateRange(startDate, endDate);
-		}
+		try {
+			if (!month) {
+				// Handle the case when 'month' is '00' (all records)
+				searchResults = await fetchTop100Sales();
+			} else if (month) {
+				year = new Date().getFullYear().toString();
+				setStartDate(`${year}-${month}-01`);
+				const lastDay = new Date(year, parseInt(month, 10), 0).getDate(); // Get the last day of the selected month
+				setEndDate(`${year}-${month}-${lastDay}`);
+				searchResults = await fetchSalesByDateRange(startDate, endDate);
+			}
 
-		setSales(searchResults);
+			setSales(searchResults);
 
-		if (searchResults.length === 0) {
-			setUiState(prev => ({...prev, showNoSalesFound: true}));
+			if (searchResults.length === 0) {
+				setUiState(prev => ({...prev, showNoSalesFound: true}));
+			}
+		} catch (error) {
+			console.error('Error fetching sales: ', error);
 		}
 	};
 
@@ -227,40 +240,39 @@ function SalesReport() {
 				e.preventDefault();
 				fetchSalesForMonth(month, year);
 			}}>
-				<div>
-					<label>
-                        Month
-						<select style={{marginBottom: '10px'}} className={'selectDate'} value={month} onChange={e => setMonth(e.target.value)}>
-							<option value='00'>Select...</option>
-							<option value='01'>January</option>
-							<option value='02'>February</option>
-							<option value='03'>March</option>
-							<option value='04'>April</option>
-							<option value='05'>May</option>
-							<option value='06'>June</option>
-							<option value='07'>July</option>
-							<option value='08'>August</option>
-							<option value='09'>September</option>
-							<option value='10'>October</option>
-							<option value='11'>November</option>
-							<option value='12'>December</option>
-						</select>
-					</label>
-					<label>
-                        Year:
-						<input
-							className={'selectDate'}
-							type='number'
-							value={year}
-							placeholder='YYYY'
-							onChange={e => setYear(e.target.value)}
-							maxLength={4}
-						/>
-					</label>
+				<div className='form-container'>
+					<div className='label-input'>
+						<strong>Month:</strong>
+						<div className='input-with-validation'>
+							<select value={month} onChange={e => setMonth(e.target.value)}>
+								<option value='00'>Select...</option>
+								<option value='01'>January</option>
+								<option value='02'>February</option>
+								<option value='03'>March</option>
+								<option value='04'>April</option>
+								<option value='05'>May</option>
+								<option value='06'>June</option>
+								<option value='07'>July</option>
+								<option value='08'>August</option>
+								<option value='09'>September</option>
+								<option value='10'>October</option>
+								<option value='11'>November</option>
+								<option value='12'>December</option>
+							</select>
+						</div>
+					</div>
+					<TextInputWithValidation
+						label='Year:'
+						value={year}
+						onChange={setYear}
+						error={yearError}
+						testid='first-name-input'
+						type='number'
+					/>
 				</div>
 				<div className='btn-container'>
-					<button className='primary-btn' type='submit'>Submit</button>
-					<button className='tertiary-btn' onClick={clearAll}>Clear</button>
+					<button type='submit' className='primary-btn'>Submit</button>
+					<button type='reset' className='tertiary-btn' onClick={clearAll}>Clear</button>
 					<button className='secondary-btn' onClick={handleExportToCSV}>Export</button>
 				</div>
 			</form>
@@ -312,12 +324,12 @@ function SalesTable({
 }) {
 	return (
 		<div>
-			<div className='table-top-controls'>
+			<div className='btn-container'>
 				<button className='primary-btn' onClick={() => setShowFilterMenu(prev => !prev)}>
-                    Toggle Filter Menu
+										Toggle Filter Menu
 				</button>
 				<button className='tertiary-btn' onClick={resetFilters}>
-                    Reset Filters
+										Reset Filters
 				</button>
 			</div>
 			{uiState.showFilterMenu ? (
@@ -331,28 +343,28 @@ function SalesTable({
 								toggleSortDirection(); // Toggle sort direction when Sale ID header is clicked
 							}}
 							className={columnVisibility.saleId ? '' : 'inactive-header'}>
-                            Sale ID
+														Sale ID
 							{sortDirection === 'asc' ? ' 🔼' : ' 🔽'}
 						</th>
 						<th onClick={() => toggleColumnVisibility('memberId')}
 							className={columnVisibility.memberId ? '' : 'inactive-header'}>
-                            Member ID
+														Member ID
 						</th>
 						<th onClick={() => toggleColumnVisibility('productId')}
 							className={columnVisibility.productId ? '' : 'inactive-header'}>
-                            Product ID
+														Product ID
 						</th>
 						<th onClick={() => toggleColumnVisibility('saleDate')}
 							className={columnVisibility.saleDate ? '' : 'inactive-header'}>
-                            Sale Date
+														Sale Date
 						</th>
 						<th onClick={() => toggleColumnVisibility('quantity')}
 							className={columnVisibility.quantity ? '' : 'inactive-header'}>
-                            Quantity
+														Quantity
 						</th>
 						<th onClick={() => toggleColumnVisibility('totalAmount')}
 							className={columnVisibility.totalAmount ? '' : 'inactive-header'}>
-                            Total Amount
+														Total Amount
 						</th>
 					</tr>
 				</thead>
@@ -429,7 +441,6 @@ function FilterMenu({filters, setFilters, onApplyFilters}) {
 			newFilters[field].value = value;
 		}
 
-		console.log(newFilters[field].value);
 		setFilters(newFilters);
 	};
 
@@ -442,7 +453,7 @@ function FilterMenu({filters, setFilters, onApplyFilters}) {
 					return (
 						<div key={field}>
 							<label>
-                                Filter by {field}:
+																Filter by {field}:
 								<select
 									value={filters[field].type}
 									onChange={e => {
@@ -488,7 +499,7 @@ function FilterMenu({filters, setFilters, onApplyFilters}) {
 					);
 				})}
 				<button className='secondary-btn' onClick={onApplyFilters}>
-                    Apply Filters
+										Apply Filters
 				</button>
 			</form>
 		</div>

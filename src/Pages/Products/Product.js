@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {softDeleteProduct, updateProduct} from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
-import {TextInputWithValidation} from '../../Components/TextInputWithValidation';
+import TextInputWithValidation from '../../Components/TextInputWithValidation';
 import ProductCard from './ProductCard';
+import {validateInput} from '../../utils';
 import './Product.css';
 
 function Product() {
@@ -14,6 +15,12 @@ function Product() {
 	const [editedPrice, setEditedPrice] = useState(product.price);
 	const [editedStockQuantity, setEditedStockQuantity] = useState(product.stock_quantity);
 	const [editedImage, setEditedImage] = useState(product.image);
+
+	const [productNameError, setProductNameError] = useState(validateInput(editedProductName, true));
+	const [descriptionError, setDescriptionError] = useState(validateInput(editedDescription, true));
+	const [priceError, setPriceError] = useState(validateInput(editedPrice, true));
+	const [stockQuantityError, setStockQuantityError] = useState(validateInput(editedStockQuantity, true));
+	const [imageError, setImageError] = useState(validateInput(editedImage, true));
 
 	const navigate = useNavigate();
 
@@ -44,7 +51,13 @@ function Product() {
 	};
 
 	// Saves the changes to the product by calling the updateProduct function from supabaseService
-	const handleSave = async () => {
+	const handleSave = async e => {
+		e.preventDefault();
+
+		if (productNameError || descriptionError || priceError || stockQuantityError || imageError) {
+			return;
+		}
+
 		try {
 			const updatedProduct = {
 				product_id: product.product_id,
@@ -74,6 +87,37 @@ function Product() {
 		}
 	};
 
+	// Use useEffect to calculate validation errors as the inputs change
+	useEffect(() => {
+		setProductNameError(
+			validateInput(editedProductName, true),
+		);
+	}, [editedProductName]);
+
+	useEffect(() => {
+		setDescriptionError(
+			validateInput(editedDescription, true),
+		);
+	}, [editedDescription]);
+
+	useEffect(() => {
+		setPriceError(
+			validateInput(editedPrice, true),
+		);
+	}, [editedPrice]);
+
+	useEffect(() => {
+		setStockQuantityError(
+			validateInput(editedStockQuantity, true),
+		);
+	}, [editedStockQuantity]);
+
+	useEffect(() => {
+		setImageError(
+			validateInput(editedImage, true),
+		);
+	}, [editedImage]);
+
 	return (
 		<div className='card'>
 			<h2>Product Details</h2>
@@ -81,53 +125,48 @@ function Product() {
 				<div>
 					<div className='data-preview'>
 						<div>
-							<div className='label-input'>
-								<strong>Image Path/URL:</strong><span className='required-star'> *</span>
-								<TextInputWithValidation
-									required={true}
-									value={editedImage}
-									parentOnChange={setEditedImage}
-									testid='image-input'
-								/>
-							</div>
-							<div className='label-input'>
-								<strong>Product Name:</strong><span className='required-star'> *</span>
-								<TextInputWithValidation
-									required={true}
-									value={editedProductName}
-									parentOnChange={setEditedProductName}
-									testid='product-name-input'
-								/>
-							</div>
-							<div className='label-input'>
-								<strong>Description:</strong><span className='required-star'> *</span>
-								<TextInputWithValidation
-									required={true}
-									value={editedDescription}
-									parentOnChange={setEditedDescription}
-									testid='description-input'
-								/>
-							</div>
-							<div className='label-input'>
-								<strong>Price:</strong><span className='required-star'> *</span>
-								<TextInputWithValidation
-									value={editedPrice}
-									parentOnChange={setEditedPrice}
-									required={true}
-									testid='price-input'
-									type='number'
-								/>
-							</div>
-							<div className='label-input'>
-								<strong>Stock Quantity:</strong><span className='required-star'> *</span>
-								<TextInputWithValidation
-									value={editedStockQuantity}
-									required={true}
-									type='number'
-									testid='stock-quantity-input'
-									parentOnChange={setEditedStockQuantity}
-								/>
-							</div>
+							<TextInputWithValidation
+								label='Image URL/Path:'
+								value={editedImage}
+								onChange={setEditedImage}
+								required={true}
+								error={imageError}
+								testid='image-input'
+							/>
+							<TextInputWithValidation
+								label='Product Name:'
+								value={editedProductName}
+								onChange={setEditedProductName}
+								required={true}
+								error={productNameError}
+								testid='product-name-input'
+							/>
+							<TextInputWithValidation
+								label='Description:'
+								value={editedDescription}
+								onChange={setEditedDescription}
+								required={true}
+								error={descriptionError}
+								testid='description-input'
+							/>
+							<TextInputWithValidation
+								label='Price:'
+								value={editedPrice}
+								onChange={setEditedPrice}
+								required={true}
+								error={priceError}
+								testid='price-input'
+								type='number'
+							/>
+							<TextInputWithValidation
+								label='Stock Level:'
+								value={editedStockQuantity}
+								onChange={setEditedStockQuantity}
+								required={true}
+								error={stockQuantityError}
+								type='number'
+								testid='stock-quantity-input'
+							/>
 						</div>
 						<ProductCard product={product} disabled={true} className='preview' />
 					</div>
@@ -140,46 +179,36 @@ function Product() {
 				<div>
 					<div className='data-preview'>
 						<div>
-							<div className='label-input'>
-								<strong>Image Path/URL:</strong>
-								<TextInputWithValidation
-									value={product.image}
-									readonly={true}
-								/>
-							</div>
-							<div className='label-input'>
-								<strong>Product Name:</strong>
-								<TextInputWithValidation
-									value={product.product_name}
-									readonly={true}
-								/>
-							</div>
-							<div className='label-input'>
-								<strong>Description:</strong>
-								<TextInputWithValidation
-									value={product.description}
-									readonly={true}
-								/>
-							</div>
-							<div className='label-input'>
-								<strong>Price:</strong>
-								<TextInputWithValidation
-									value={product.price}
-									readonly={true}
-
-								/>
-							</div>
-							<div className='label-input'>
-								<strong>Stock Quantity:</strong>
-								<TextInputWithValidation
-									value={product.stock_quantity}
-									readonly={true}
-								/>
-							</div>
+							<TextInputWithValidation
+								label='Image URL/Path:'
+								value={product.image}
+								readonly={true}
+							/>
+							<TextInputWithValidation
+								label='Product Name:'
+								value={product.product_name}
+								readonly={true}
+							/>
+							<TextInputWithValidation
+								label='Description:'
+								value={product.description}
+								readonly={true}
+							/>
+							<TextInputWithValidation
+								label='Price:'
+								value={product.price}
+								readonly={true}
+							/>
+							<TextInputWithValidation
+								label='Stock Level:'
+								value={product.stock_quantity}
+								readonly={true}
+							/>
 						</div>
 						<ProductCard product={product} disabled={true} className='preview' />
 					</div>
 					<div className='btn-container'>
+						<button className='tertiary-btn' onClick={() => navigate('/products-home')} data-testid='back-button'>Back</button>
 						<button className='secondary-btn' onClick={handleEdit} data-testid='edit-button'>Edit</button>
 						<button className='primary-btn' onClick={handleDelete} data-testid='delete-button'>Delete</button>
 					</div>

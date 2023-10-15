@@ -194,9 +194,32 @@ export const addMember = async newMember => {
 		if (error) {
 			throw error;
 		}
+
+		return newId;
 	} catch (error) {
 		console.error('Error adding member:', error.message);
 		throw error;
+	}
+};
+
+export const fetchTop100Sales = async () => {
+	try {
+		const query = supabase
+			.from('SaleRecords')
+			.select('*')
+			.order('sale_date', {ascending: false})
+			.limit(100);
+
+		const {data, error} = await query;
+
+		if (error) {
+			throw error;
+		}
+
+		return data;
+	} catch (error) {
+		console.error('Error fetching top 100 sales: ', error);
+		return [];
 	}
 };
 
@@ -210,16 +233,13 @@ export const addMember = async newMember => {
  */
 export const fetchSalesByDateRange = async (startDate, endDate) => {
 	try {
-		let query = supabase.from('SaleRecords').select('*');
-		// If startDate is provided, add condition for dates greater than or equal to startDate
-		if (startDate && startDate.trim() !== '') {
-			query = query.gte('sale_date', startDate);
-		}
-
-		// If endDate is provided, add condition for dates less than or equal to endDate
-		if (endDate && endDate.trim() !== '') {
-			query = query.lte('sale_date', endDate);
-		}
+		const query = supabase
+			.from('SaleRecords')
+			.select('*')
+			.gte('sale_date', startDate)
+			.lte('sale_date', endDate)
+			.order('sale_date', {ascending: false})
+			.limit(100); // Limit to the top 100 records
 
 		const {data, error} = await query;
 
@@ -452,6 +472,8 @@ export async function addProduct(newProduct) {
 		if (error) {
 			throw error;
 		}
+
+		return newId;
 	} catch (error) {
 		console.error('Error adding product:', error.message);
 		throw error;
@@ -564,6 +586,8 @@ export const addSaleRecord = async newSaleRecord => {
 		if (error) {
 			throw error;
 		}
+
+		return newSaleId;
 	} catch (error) {
 		console.error('Error adding sale record:', error.message);
 		throw error;

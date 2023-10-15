@@ -6,8 +6,9 @@ import {
 	updateSaleRecord,
 } from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
-import {TextInputWithValidation} from '../../Components/TextInputWithValidation';
-import './SaleRecords.css';
+import TextInputWithValidation from '../../Components/TextInputWithValidation';
+import {validateInput} from '../../utils';
+import './SaleRecord.css';
 
 function SaleRecord() {
 	const [saleRecord, setSaleRecord] = useState(JSON.parse(localStorage.getItem('selectedSaleRecord')));
@@ -19,6 +20,12 @@ function SaleRecord() {
 	const [editedTotalAmount, setEditedTotalAmount] = useState(saleRecord.total_amount);
 	const [members, setMembers] = useState([]);
 	const [products, setProducts] = useState([]);
+
+	const [memberIdError, setMemberIdError] = useState(validateInput(editedMemberID, true));
+	const [productIdError, setProductIdError] = useState(validateInput(editedProductID, true));
+	const [saleDateError, setSaleDateError] = useState(validateInput(editedSaleDate, true));
+	const [quantityError, setQuantityError] = useState(validateInput(editedQuantity, true));
+	const [totalAmountError, setTotalAmountError] = useState(validateInput(editedTotalAmount, true));
 
 	const navigate = useNavigate();
 
@@ -50,18 +57,22 @@ function SaleRecord() {
 		getMembersAndProducts();
 	}, []);
 
-	const handleSave = async () => {
+	const handleSave = async e => {
+		e.preventDefault();
+
+		if (memberIdError || productIdError || saleDateError || quantityError || totalAmountError) {
+			return;
+		}
+
 		try {
 			const updatedSaleRecord = {
-				sale_id: saleRecord.sale_id, // Replace with the correct property for sale_id
+				sale_id: saleRecord.sale_id,
 				member_id: editedMemberID,
 				product_id: editedProductID,
 				sale_date: editedSaleDate,
 				quantity: editedQuantity,
 				total_amount: editedTotalAmount,
 			};
-
-			console.log(editedQuantity);
 
 			await updateSaleRecord(updatedSaleRecord);
 			setSaleRecord(updatedSaleRecord);
@@ -81,6 +92,37 @@ function SaleRecord() {
 		}
 	};
 
+	// Use useEffect to calculate validation errors as the inputs change
+	useEffect(() => {
+		setMemberIdError(
+			validateInput(editedMemberID, true),
+		);
+	}, [editedMemberID]);
+
+	useEffect(() => {
+		setProductIdError(
+			validateInput(editedProductID, true),
+		);
+	}, [editedProductID]);
+
+	useEffect(() => {
+		setSaleDateError(
+			validateInput(editedSaleDate, true),
+		);
+	}, [editedSaleDate]);
+
+	useEffect(() => {
+		setQuantityError(
+			validateInput(editedQuantity, true),
+		);
+	}, [editedQuantity]);
+
+	useEffect(() => {
+		setTotalAmountError(
+			validateInput(editedTotalAmount, true),
+		);
+	}, [editedTotalAmount]);
+
 	return (
 		<div className='card'>
 			<h2>Sale Record Details</h2>
@@ -88,8 +130,8 @@ function SaleRecord() {
 				<div>
 					<div className='form-container'>
 						<div className='label-input'>
-							<strong>Member ID</strong><span className='required-star'> *</span>
-							<div className='input-with-validation'>
+							<strong>Member ID:</strong><span className='required-star'> *</span>
+							<div className={`input-with-validation ${memberIdError ? 'has-error' : ''}`}>
 								<select
 									value={editedMemberID}
 									onChange={e => setEditedMemberID(e.target.value)}
@@ -101,11 +143,12 @@ function SaleRecord() {
 										</option>
 									))}
 								</select>
+								{(memberIdError) && <span className='error-message'>{memberIdError}</span>}
 							</div>
 						</div>
 						<div className='label-input'>
-							<strong>Product ID</strong><span className='required-star'> *</span>
-							<div className='input-with-validation'>
+							<strong>Product ID:</strong><span className='required-star'> *</span>
+							<div className={`input-with-validation ${productIdError ? 'has-error' : ''}`}>
 								<select
 									value={editedProductID}
 									onChange={e => setEditedProductID(e.target.value)}
@@ -116,38 +159,33 @@ function SaleRecord() {
 										</option>
 									))}
 								</select>
+								{(productIdError) && <span className='error-message'>{productIdError}</span>}
 							</div>
 						</div>
-						<div className='label-input'>
-							<strong>Sale Date</strong><span className='required-star'> *</span>
-							<TextInputWithValidation
-								regex={/^\d{4}-\d{2}-\d{2}$/}
-								regexErrorMsg='Invalid Date'
-								value={editedSaleDate}
-								parentOnChange={setEditedSaleDate}
-								required={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Quantity</strong>
-							<TextInputWithValidation
-								regex={/^(?!0)\d+$/}
-								regexErrorMsg='Invalid Quantity'
-								value={editedQuantity}
-								parentOnChange={setEditedQuantity}
-								required={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Total Amount</strong>
-							<TextInputWithValidation
-								regex={/^(?!0)\d+$/}
-								regexErrorMsg='Invalid Total Amount'
-								value={editedTotalAmount}
-								parentOnChange={setEditedTotalAmount}
-								required={true}
-							/>
-						</div>
+						<TextInputWithValidation
+							label='Sale Date:'
+							value={editedSaleDate}
+							onChange={setEditedSaleDate}
+							required={true}
+							error={saleDateError}
+							type='date'
+						/>
+						<TextInputWithValidation
+							label='Quantity:'
+							value={editedQuantity}
+							onChange={setEditedQuantity}
+							required={true}
+							error={quantityError}
+							type='number'
+						/>
+						<TextInputWithValidation
+							label='Total Amount:'
+							value={editedTotalAmount}
+							onChange={setEditedTotalAmount}
+							required={true}
+							error={quantityError}
+							type='number'
+						/>
 					</div>
 					<div className='btn-container'>
 						<button className='secondary-btn' onClick={handleSave} data-testid='save-button'>Save</button>
@@ -157,41 +195,34 @@ function SaleRecord() {
 			) : (
 				<div>
 					<div className='form-container'>
-						<div className='label-input'>
-							<strong>Member ID:</strong>
-							<TextInputWithValidation
-								value={saleRecord.member_id}
-								readonly={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Product ID:</strong>
-							<TextInputWithValidation
-								value={saleRecord.product_id}
-								readonly={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Sale Date:</strong>
-							<TextInputWithValidation
-								value={saleRecord.sale_date}
-								readonly={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Quantity:</strong>
-							<TextInputWithValidation
-								value={saleRecord.quantity}
-								readonly={true}
-							/>
-						</div>
-						<div className='label-input'>
-							<strong>Total Amount:</strong>
-							<TextInputWithValidation
-								value={saleRecord.total_amount}
-								readonly={true}
-							/>
-						</div>
+						<TextInputWithValidation
+							label='Member ID:'
+							value={saleRecord.member_id}
+							readonly={true}
+						/>
+						<TextInputWithValidation
+							label='Product ID:'
+							value={saleRecord.product_id}
+							readonly={true}
+						/>
+						<TextInputWithValidation
+							label='Sale Date:'
+							value={saleRecord.sale_date}
+							type='date'
+							readonly={true}
+						/>
+						<TextInputWithValidation
+							label='Quantity:'
+							value={saleRecord.quantity}
+							type='number'
+							readonly={true}
+						/>
+						<TextInputWithValidation
+							label='Total Amount:'
+							value={saleRecord.total_amount}
+							type='number'
+							readonly={true}
+						/>
 					</div>
 					<div className='btn-container'>
 						<button className='tertiary-btn' onClick={() => navigate('/sale-records-home')} data-testid='back-button'>Back</button>
