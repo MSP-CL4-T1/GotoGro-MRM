@@ -2,7 +2,7 @@
   "id": "e222b10c-fb9d-4c7b-b533-4fdbcc2137d5",
   "version": "2.0",
   "name": "GotoGro-MRM",
-  "url": "http://localhost:3000",
+  "url": "https://msp-cl4-t1.ts.r.appspot.com/",
   "tests": [{
     "id": "6869db90-159d-4020-bfa0-bbe2191e3438",
     "name": "Login/Logout",
