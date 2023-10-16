@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {softDeleteMember, updateMember} from '../../Supabase/supabaseService';
+import {updateMember} from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
 import TextInputWithValidation from '../../Components/TextInputWithValidation';
 import {validateInput} from '../../utils';
@@ -10,7 +10,7 @@ import {validateInput} from '../../utils';
  */
 function Member() {
 	const [member, setMember] = useState(JSON.parse(localStorage.getItem('selectedMember')));
-	const [isEditing, setIsEditing] = useState(false);
+	const [isEditing, setIsEditing] = useState(JSON.parse(localStorage.getItem('editingMember')));
 	const [editedFirstName, setEditedFirstName] = useState(member.first_name);
 	const [editedLastName, setEditedLastName] = useState(member.last_name);
 	const [editedEmail, setEditedEmail] = useState(member.email);
@@ -54,17 +54,6 @@ function Member() {
 			await updateMember(updatedMember);
 			setMember(updatedMember);
 			setIsEditing(false);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	// Soft deletes the member and redirects the user to the MembersHome screen
-	const handleDelete = async () => {
-		try {
-			await softDeleteMember(member);
-			localStorage.removeItem('selectedMember');
-			navigate('/members-home');
 		} catch (error) {
 			console.error(error);
 		}
@@ -158,7 +147,6 @@ function Member() {
 					<div className='btn-container'>
 						<button className='tertiary-btn' onClick={() => navigate('/members-home')} data-testid='back-button'>Back</button>
 						<button className='secondary-btn' onClick={handleEdit} data-testid='edit-button'>Edit</button>
-						<button className='primary-btn' onClick={handleDelete} data-testid='delete-button'>Delete</button>
 					</div>
 				</div>
 			)}

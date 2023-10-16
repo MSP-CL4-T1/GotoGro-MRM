@@ -1,13 +1,12 @@
 import React from 'react';
 import Member from './Member';
-import {searchMembersByName, softDeleteMember, updateMember} from '../../Supabase/supabaseService';
+import {searchMembersByName, updateMember} from '../../Supabase/supabaseService';
 import {MemoryRouter} from 'react-router-dom';
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import {act} from 'react-dom/test-utils';
 import MembersHome from './MembersHome';
 
 jest.mock('../../Supabase/supabaseService', () => ({
-	softDeleteMember: jest.fn(),
 	updateMember: jest.fn(),
 	searchMembersByName: jest.fn(),
 }));
@@ -45,10 +44,10 @@ beforeEach(async () => {
 	});
 
 	await waitFor(() => {
-		const viewButtons = screen.getAllByText(/View/i);
-		const viewButton = viewButtons[0];
+		const editButtons = screen.getAllByText(/Edit/i);
+		const editButton = editButtons[0];
 
-		fireEvent.click(viewButton);
+		fireEvent.click(editButton);
 	});
 });
 
@@ -68,19 +67,14 @@ test('renders Member component', () => {
 	expect(emailValue).toBeInTheDocument();
 	const dateJoinedValue = screen.getByText('2015-08-12');
 	expect(dateJoinedValue).toBeInTheDocument();
-	const editButton = screen.getByTestId('edit-button');
-	expect(editButton).toBeInTheDocument();
-	const deleteButton = screen.getByTestId('delete-button');
-	expect(deleteButton).toBeInTheDocument();
+	const saveButton = screen.getByTestId('save-button');
+	expect(saveButton).toBeInTheDocument();
+	const cancelButton = screen.getByTestId('cancel-button');
+	expect(cancelButton).toBeInTheDocument();
 });
 
 test('edit member details', async () => {
 	render(<MemoryRouter><Member /></MemoryRouter>);
-
-	await act(async () => {
-		const editButton = screen.getByTestId('edit-button');
-		fireEvent.click(editButton);
-	});
 
 	await waitFor(() => {
 		const firstNameInput = screen.getByTestId('first-name-input');
@@ -97,21 +91,3 @@ test('edit member details', async () => {
 		date_joined: '2015-08-12',
 	});
 });
-
-test('soft delete member', async () => {
-	render(<MemoryRouter><Member /></MemoryRouter>);
-
-	await act(async () => {
-		const deleteButton = screen.getByTestId('delete-button');
-		fireEvent.click(deleteButton);
-	});
-
-	expect(softDeleteMember).toHaveBeenCalledWith({
-		member_id: 1,
-		first_name: 'John',
-		last_name: 'Doe',
-		email: 'john.doe@example.com',
-		date_joined: '2015-08-12',
-	});
-});
-

@@ -5,6 +5,7 @@ import './InventoryReport.css';
 import Fuse from 'fuse.js';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TextInputWithValidation from '../../Components/TextInputWithValidation';
 
 function InventoryReport() {
 	const [products, setProducts] = useState([]);
@@ -265,12 +266,14 @@ function ProductsTable({
 }) {
 	return (
 		<div>
-			<button onClick={() => setShowFilterMenu(prev => !prev)}>
-                Toggle Filter Menu
-			</button>
-			<button className='tertiary-btn' onClick={resetFilters}>
-                Reset Filters
-			</button>
+			<div className='action-btn'>
+				<button onClick={() => setShowFilterMenu(prev => !prev)}>
+					Toggle Filter Menu
+				</button>
+				<button className='tertiary-btn' onClick={resetFilters}>
+					Reset Filters
+				</button>
+			</div>
 			{uiState.showFilterMenu ? (
 				<div className='search-bar-container'>
 					<input
@@ -320,7 +323,7 @@ function ProductsTable({
 								{columnVisibility.description ? product.description : null}
 							</td>
 							<td onClick={() => handleRowClick(product)}>
-								{columnVisibility.price ? product.price : null}
+								{columnVisibility.price ? ('$' + product.price) : null}
 							</td>
 							<td onClick={() => handleRowClick(product)}>
 								{columnVisibility.stockQuantity ? product.stock_quantity : null}
@@ -356,15 +359,12 @@ function EditModal({
 			<h3 className='edit-modal__title'>Edit Product</h3>
 			<form className='edit-modal__form' onSubmit={handleEditSubmit}>
 				{Object.keys(selectedProduct).map(attribute => (
-					<label className='edit-modal__label' key={attribute}>
-						{formatAttribute(attribute)}:
-						<input
-							className='edit-modal__input'
-							type='text'
-							value={selectedProduct[attribute]}
-							onChange={e => handleValueChange(attribute, e.target.value)}
-						/>
-					</label>
+					<TextInputWithValidation
+						key={attribute}
+						label={formatAttribute(attribute)}
+						value={selectedProduct[attribute]}
+						onChange={handleValueChange}
+					/>
 				))}
 				<div className='edit-modal__actions'>
 					<button className='edit-modal__save-btn secondary-btn' type='submit'>Save</button>

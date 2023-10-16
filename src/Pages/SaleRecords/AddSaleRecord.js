@@ -9,23 +9,23 @@ function AddSaleRecords() {
 	const [memberId, setMemberId] = useState('');
 	const [productId, setProductId] = useState('');
 	const [saleDate, setSaleDate] = useState('');
-	const [quantity, setQuantity] = useState('');
-	const [totalAmount, setTotalAmount] = useState('');
+	const [quantity, setQuantity] = useState(0);
+	const [totalAmount, setTotalAmount] = useState(0);
 	const [members, setMembers] = useState([]);
 	const [products, setProducts] = useState([]);
+	const [productPrice, setProductPrice] = useState(0);
 
 	const [memberIdError, setMemberIdError] = useState(validateInput(memberId, true));
 	const [productIdError, setProductIdError] = useState(validateInput(productId, true));
 	const [saleDateError, setSaleDateError] = useState(validateInput(saleDate, true));
 	const [quantityError, setQuantityError] = useState(validateInput(quantity, true));
-	const [totalAmountError, setTotalAmountError] = useState(validateInput(totalAmount, true));
 
 	const navigate = useNavigate();
 
 	const handleSave = async e => {
 		e.preventDefault();
 
-		if (memberIdError || productIdError || saleDateError || quantityError || totalAmountError) {
+		if (memberIdError || productIdError || saleDateError || quantityError) {
 			return;
 		}
 
@@ -61,6 +61,20 @@ function AddSaleRecords() {
 		getMembersAndProducts();
 	}, []);
 
+	useEffect(() => {
+		if (productId) {
+			const selectedProductId = parseInt(productId, 10); // Convert productId to a number
+			const selectedProduct = products.find(product => product.product_id === selectedProductId);
+			if (selectedProduct) {
+				setProductPrice(selectedProduct.price);
+			} else {
+				setProductPrice(0); // Reset price if the product is not found
+			}
+		} else {
+			setProductPrice(0); // Reset price when no product is selected
+		}
+	}, [productId, products]);
+
 	const handleCancel = () => {
 		navigate('/sale-records-home');
 	};
@@ -91,10 +105,9 @@ function AddSaleRecords() {
 	}, [quantity]);
 
 	useEffect(() => {
-		setTotalAmountError(
-			validateInput(totalAmount, true),
-		);
-	}, [totalAmount]);
+		const newTotalAmount = quantity * productPrice;
+		setTotalAmount(newTotalAmount);
+	}, [quantity, productPrice]);
 
 	return (
 		<div className='card'>
@@ -152,11 +165,8 @@ function AddSaleRecords() {
 				/>
 				<TextInputWithValidation
 					label='Total Amount:'
-					value={totalAmount}
-					onChange={setTotalAmount}
-					required={true}
-					error={totalAmountError}
-					type='number'
+					value={'$' + totalAmount}
+					readonly={true}
 					testid='total-amount-input'
 				/>
 				<div className='btn-container'>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
-import {searchMembersByName, retrieveDeletedMember} from '../../Supabase/supabaseService';
+import {searchMembersByName, retrieveDeletedMember, softDeleteMember} from '../../Supabase/supabaseService';
 import {MemoryRouter} from 'react-router-dom';
 import MembersHome from './MembersHome';
 import {act} from 'react-dom/test-utils';
@@ -9,6 +9,7 @@ import Member from './Member';
 jest.mock('../../Supabase/supabaseService', () => ({
 	searchMembersByName: jest.fn(),
 	retrieveDeletedMember: jest.fn(),
+	softDeleteMember: jest.fn(),
 }));
 
 afterEach(() => {
@@ -111,10 +112,10 @@ test('saves selected member to local storage and navigates to the member page', 
 	});
 
 	await waitFor(() => {
-		const viewButtons = screen.getAllByText(/View/i);
-		const viewButton = viewButtons[0];
+		const editButtons = screen.getAllByText(/Edit/i);
+		const editButton = editButtons[0];
 
-		fireEvent.click(viewButton);
+		fireEvent.click(editButton);
 	});
 
 	render(
@@ -130,6 +131,53 @@ test('saves selected member to local storage and navigates to the member page', 
 	expect(lastNameValue).toBeInTheDocument();
 	const emailValue = screen.getByText('john.doe@example.com');
 	expect(emailValue).toBeInTheDocument();
+});
+
+
+test('soft delete member', async () => {
+	const searchResults = [
+		{
+			member_id: 1,
+			first_name: 'John',
+			last_name: 'Doe',
+			email: 'john.doe@example.com',
+			date_joined: '2015-08-12',
+		},
+		{
+			member_id: 2,
+			first_name: 'Jane',
+			last_name: 'Smith',
+			email: 'jane.smith@example.com',
+		},
+	];
+	searchMembersByName.mockResolvedValue(searchResults);
+
+	render(
+		<MemoryRouter>
+			<MembersHome />
+		</MemoryRouter>,
+	);
+
+	await act(async () => {
+		const input = screen.getByPlaceholderText('Search members...');
+		const searchButton = screen.getByText('Search');
+
+		fireEvent.change(input, {target: {value: ''}});
+		fireEvent.click(searchButton);
+	});
+
+	await waitFor(async () => {
+		const deleteButton = screen.getAllByTestId('delete-button')[0];
+		fireEvent.click(deleteButton);
+	});
+
+	expect(softDeleteMember).toHaveBeenCalledWith({
+		member_id: 1,
+		first_name: 'John',
+		last_name: 'Doe',
+		email: 'john.doe@example.com',
+		date_joined: '2015-08-12',
+	});
 });
 
 test('retrieve recently deleted member (before 24 hours have passed)', async () => {

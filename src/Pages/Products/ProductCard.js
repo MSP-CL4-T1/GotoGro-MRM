@@ -5,6 +5,7 @@ import './Product.css';
 function ProductCard({product, disabled}) {
 	const saveSelectedProductToLocalStorage = async product => {
 		localStorage.setItem('selectedProduct', JSON.stringify(product));
+		localStorage.setItem('editingProduct', JSON.stringify(true));
 	};
 
 	// Conditionally render the Link based on the "disabled" prop
