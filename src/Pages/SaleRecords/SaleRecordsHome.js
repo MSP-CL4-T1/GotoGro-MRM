@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import {searchSaleRecordsBySaleID} from '../../Supabase/supabaseService';
+import {searchSaleRecordsBySaleID, deleteSaleRecord} from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
 
 /**
@@ -38,6 +38,7 @@ function SaleRecordsHome() {
 
 	const handleNavigation = saleRecord => {
 		localStorage.setItem('selectedSaleRecord', JSON.stringify(saleRecord));
+		localStorage.setItem('editingSaleRecord', JSON.stringify(true));
 		navigate('/sale-records');
 	};
 
@@ -48,6 +49,16 @@ function SaleRecordsHome() {
 		setSearchSaleID('');
 		setSaleRecords([]);
 		setShowNoSaleRecordsFound(false); // Hide "No Sale Records Found" on clear
+	};
+
+	const handleDelete = async saleRecord => {
+		try {
+			await deleteSaleRecord(saleRecord);
+			localStorage.removeItem('selectedSaleRecord');
+			navigate('/sale-records-home');
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -88,9 +99,12 @@ function SaleRecordsHome() {
 								<td>{saleRecord.member_id}</td>
 								<td>{saleRecord.sale_date}</td>
 								<td>{saleRecord.quantity}</td>
-								<td>{saleRecord.total_amount}</td>
+								<td>{'$' + saleRecord.total_amount}</td>
 								<td>
-									<button className='secondary-btn' onClick={() => handleNavigation(saleRecord)}>View</button>
+									<div className='action-btn'>
+										<button className='secondary-btn' onClick={() => handleNavigation(saleRecord)}>Edit</button>
+										<button className='primary-btn' onClick={() => handleDelete(saleRecord)} data-testid='delete-button'>Delete</button>
+									</div>
 								</td>
 							</tr>
 						))}

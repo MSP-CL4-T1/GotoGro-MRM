@@ -89,6 +89,12 @@ footer {
   align-items: center;
 }
 
+.action-btn {
+  gap: 20px;
+  display: flex;
+  justify-content: center;
+}
+
 button, .link-btn {
   color: white;
   border-radius: 5px;

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-	deleteSaleRecord,
 	fetchMembers,
 	fetchProducts,
 	updateSaleRecord,
@@ -12,7 +11,7 @@ import './SaleRecord.css';
 
 function SaleRecord() {
 	const [saleRecord, setSaleRecord] = useState(JSON.parse(localStorage.getItem('selectedSaleRecord')));
-	const [isEditing, setIsEditing] = useState(false);
+	const [isEditing, setIsEditing] = useState(JSON.parse(localStorage.getItem('editingSaleRecord')));
 	const [editedMemberID, setEditedMemberID] = useState(saleRecord.member_id);
 	const [editedProductID, setEditedProductID] = useState(saleRecord.product_id);
 	const [editedSaleDate, setEditedSaleDate] = useState(saleRecord.sale_date);
@@ -20,12 +19,12 @@ function SaleRecord() {
 	const [editedTotalAmount, setEditedTotalAmount] = useState(saleRecord.total_amount);
 	const [members, setMembers] = useState([]);
 	const [products, setProducts] = useState([]);
+	const [productPrice, setProductPrice] = useState(0);
 
 	const [memberIdError, setMemberIdError] = useState(validateInput(editedMemberID, true));
 	const [productIdError, setProductIdError] = useState(validateInput(editedProductID, true));
 	const [saleDateError, setSaleDateError] = useState(validateInput(editedSaleDate, true));
 	const [quantityError, setQuantityError] = useState(validateInput(editedQuantity, true));
-	const [totalAmountError, setTotalAmountError] = useState(validateInput(editedTotalAmount, true));
 
 	const navigate = useNavigate();
 
@@ -57,10 +56,24 @@ function SaleRecord() {
 		getMembersAndProducts();
 	}, []);
 
+	useEffect(() => {
+		if (editedProductID) {
+			const selectedProductId = parseInt(editedProductID, 10); // Convert productId to a number
+			const selectedProduct = products.find(product => product.product_id === selectedProductId);
+			if (selectedProduct) {
+				setProductPrice(selectedProduct.price);
+			} else {
+				setProductPrice(0); // Reset price if the product is not found
+			}
+		} else {
+			setProductPrice(0); // Reset price when no product is selected
+		}
+	}, [editedProductID, products]);
+
 	const handleSave = async e => {
 		e.preventDefault();
 
-		if (memberIdError || productIdError || saleDateError || quantityError || totalAmountError) {
+		if (memberIdError || productIdError || saleDateError || quantityError) {
 			return;
 		}
 
@@ -77,16 +90,6 @@ function SaleRecord() {
 			await updateSaleRecord(updatedSaleRecord);
 			setSaleRecord(updatedSaleRecord);
 			setIsEditing(false);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	const handleDelete = async () => {
-		try {
-			await deleteSaleRecord(saleRecord);
-			localStorage.removeItem('selectedSaleRecord');
-			navigate('/sale-records-home');
 		} catch (error) {
 			console.error(error);
 		}
@@ -118,10 +121,9 @@ function SaleRecord() {
 	}, [editedQuantity]);
 
 	useEffect(() => {
-		setTotalAmountError(
-			validateInput(editedTotalAmount, true),
-		);
-	}, [editedTotalAmount]);
+		const newTotalAmount = editedQuantity * productPrice;
+		setEditedTotalAmount(newTotalAmount);
+	}, [editedQuantity, productPrice]);
 
 	return (
 		<div className='card'>
@@ -180,11 +182,8 @@ function SaleRecord() {
 						/>
 						<TextInputWithValidation
 							label='Total Amount:'
-							value={editedTotalAmount}
-							onChange={setEditedTotalAmount}
-							required={true}
-							error={quantityError}
-							type='number'
+							value={'$' + editedTotalAmount}
+							readonly={true}
 						/>
 					</div>
 					<div className='btn-container'>
@@ -219,15 +218,13 @@ function SaleRecord() {
 						/>
 						<TextInputWithValidation
 							label='Total Amount:'
-							value={saleRecord.total_amount}
-							type='number'
+							value={'$' + saleRecord.total_amount}
 							readonly={true}
 						/>
 					</div>
 					<div className='btn-container'>
 						<button className='tertiary-btn' onClick={() => navigate('/sale-records-home')} data-testid='back-button'>Back</button>
 						<button className='secondary-btn' onClick={handleEdit} data-testid='edit-button'>Edit</button>
-						<button className='primary-btn' onClick={handleDelete} data-testid='delete-button'>Delete</button>
 					</div>
 				</div>
 			)}

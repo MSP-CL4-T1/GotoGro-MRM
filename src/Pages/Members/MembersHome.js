@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import {searchMembersByName, retrieveDeletedMember} from '../../Supabase/supabaseService';
+import {searchMembersByName, retrieveDeletedMember, softDeleteMember} from '../../Supabase/supabaseService';
 import {useNavigate} from 'react-router-dom';
 import './MembersHome.css';
 
@@ -43,6 +43,7 @@ function MembersHome() {
      */
 	const saveSelectedMemberToLocalStorage = async member => {
 		localStorage.setItem('selectedMember', JSON.stringify(member));
+		localStorage.setItem('editingMember', JSON.stringify(true));
 		navigate('/member');
 	};
 
@@ -60,6 +61,15 @@ function MembersHome() {
 			await retrieveDeletedMember(member);
 			localStorage.setItem('selectedMember', JSON.stringify(member));
 			navigate('/member');
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleDelete = async member => {
+		try {
+			await softDeleteMember(member);
+			await handleClear();
 		} catch (error) {
 			console.error(error);
 		}
@@ -104,10 +114,13 @@ function MembersHome() {
 								<td>{member.date_joined}</td>
 								<td>
 									{member.deleted
-										? (<button onClick={() => {
+										? (<button className='secondary-btn' onClick={() => {
 											handleRetrieve(member);
 										}}>Retrieve</button>)
-										: (<button className='secondary-btn' onClick={() => saveSelectedMemberToLocalStorage(member)}>View</button>)
+										: (<div className='action-btn'>
+											<button className='secondary-btn' onClick={() => saveSelectedMemberToLocalStorage(member)}>Edit</button>
+											<button className='primary-btn' data-testid='delete-button' onClick={() => handleDelete(member)}>Delete</button>
+										</div>)
 									}
 								</td>
 							</tr>

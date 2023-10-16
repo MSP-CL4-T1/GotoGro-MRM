@@ -9,7 +9,7 @@ import './Product.css';
 function Product() {
 	const initialProductData = JSON.parse(localStorage.getItem('selectedProduct'));
 	const [product, setProduct] = useState(initialProductData);
-	const [isEditing, setIsEditing] = useState(false);
+	const [isEditing, setIsEditing] = useState(JSON.parse(localStorage.getItem('editingProduct')));
 	const [editedProductName, setEditedProductName] = useState(product.product_name);
 	const [editedDescription, setEditedDescription] = useState(product.description);
 	const [editedPrice, setEditedPrice] = useState(product.price);
@@ -173,6 +173,7 @@ function Product() {
 					<div className='btn-container'>
 						<button className='secondary-btn' onClick={handleSave} data-testid='save-button'>Save</button>
 						<button className='tertiary-btn' onClick={handleCancel} data-testid='cancel-button'>Cancel</button>
+						<button className='primary-btn' onClick={handleDelete} data-testid='delete-button'>Delete</button>
 					</div>
 				</div>
 			) : (
