@@ -77,6 +77,11 @@ function SaleRecord() {
 			return;
 		}
 
+		if (quantityError || editedQuantity <= 0) {
+			setQuantityError('Quantity must be a positive number');
+			return;
+		}
+
 		try {
 			const updatedSaleRecord = {
 				sale_id: saleRecord.sale_id,
@@ -123,6 +128,12 @@ function SaleRecord() {
 	useEffect(() => {
 		const newTotalAmount = editedQuantity * productPrice;
 		setEditedTotalAmount(newTotalAmount);
+
+		if (editedQuantity <= 0) {
+			setQuantityError('Quantity must be a positive number');
+		} else {
+			setQuantityError(validateInput(editedQuantity, true));
+		}
 	}, [editedQuantity, productPrice]);
 
 	return (
